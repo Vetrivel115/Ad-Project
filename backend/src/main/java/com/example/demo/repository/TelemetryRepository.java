@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
-public class TelemetryRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TelemetryRepository extends JpaRepository{
 
     
 }
