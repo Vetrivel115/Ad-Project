@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -9,7 +12,11 @@ import jakarta.persistence.Table;
 public class Vehicle {
 
     @Id
-    @Genera
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column(unique = true,nullable = false,length = 17)
+    private String vin;
+
     
 }
