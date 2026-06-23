@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -19,7 +20,7 @@ public class Driver {
     private Long id;
 
     @OneToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "user_id",nullable = false)
     private SystemUser user;
     
     @Column(nullable = false,unique = true)
