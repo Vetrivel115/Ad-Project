@@ -34,5 +34,7 @@ public class Trip {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @Enumerated(EnumType.)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TripStatus status;
 }
