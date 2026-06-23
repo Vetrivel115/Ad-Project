@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,5 +28,6 @@ public class MaintenanceLog {
     @JoinColumn(name = "user_id",nullable = false)
     private SystemUser systemUser;
 
-    @Column
+    @Column(nullable = false)
+    private LocalDate serviceDate;
 }
