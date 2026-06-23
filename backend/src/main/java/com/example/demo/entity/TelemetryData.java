@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +38,25 @@ public class TelemetryData {
     private Double engineTemp;
 
     @Column(nullable = false)
-    @LocalDateTime
+    private LocalDateTime recordedAt;
+
+    public TelemetryData() {
+    }
+
+    public TelemetryData(Long id, Vehicle vehicle, Double latitude, Double longitude, Double speed, Double fuelLevel,
+            Double engineTemp, LocalDateTime recordedAt) {
+        this.id = id;
+        this.vehicle = vehicle;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.speed = speed;
+        this.fuelLevel = fuelLevel;
+        this.engineTemp = engineTemp;
+        this.recordedAt = recordedAt;
+    }
+
+    
+
 
     
 }
