@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class SystemUser {
 
     @Id
-    @GeneratedValue(GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true,nullable = false)
