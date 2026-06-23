@@ -30,4 +30,6 @@ public class MaintenanceLog {
 
     @Column(nullable = false)
     private LocalDate serviceDate;
+
+    
 }
