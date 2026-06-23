@@ -21,5 +21,6 @@ public class MaintenanceLog {
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(,nullable = false)
+    @JoinColumn(name = "user_id",nullable = false)
+    private 
 }
