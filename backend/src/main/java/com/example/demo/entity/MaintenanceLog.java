@@ -4,8 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table("ma")
+@Table(name = "maintenance_logs")
 public class MaintenanceLog {
-
+    
     
 }
