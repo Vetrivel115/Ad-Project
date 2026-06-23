@@ -21,5 +21,7 @@ public class Driver {
     private SystemUser user;
     
     @Column(nullable = false,unique = true)
-    private String 
+    private String licenseNumber;
+
+    private DriverStatus 
 }

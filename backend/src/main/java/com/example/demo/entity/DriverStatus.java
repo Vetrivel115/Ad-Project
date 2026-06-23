@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-public class DriverStatus {
-
-    
+public enum DriverStatus {
+    AVAILABLE,ON_TRIP,OFF_DUTY
 }
