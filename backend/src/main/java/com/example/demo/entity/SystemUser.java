@@ -20,4 +20,7 @@ public class SystemUser {
 
     @Column(unique = true,nullable = false)
     private String email;
+
+    @Column(nullable=false)
+    private UserRole role;
 }
