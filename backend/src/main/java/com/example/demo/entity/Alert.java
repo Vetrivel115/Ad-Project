@@ -10,5 +10,8 @@ import jakarta.persistence.Table;
 public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    
     
 }
