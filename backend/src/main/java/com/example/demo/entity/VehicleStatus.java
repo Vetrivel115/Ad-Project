@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-public class VehicleStatus {
-
+public enum VehicleStatus {
+    
     
 }
