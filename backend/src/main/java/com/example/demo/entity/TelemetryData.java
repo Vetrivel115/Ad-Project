@@ -16,8 +16,10 @@ public class TelemetryData {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(nullable= false)
+    @JoinColumn(name = "vehicle_id",nullable= false)
     private Vehicle vehicle;
+
+    
 
     
 }
