@@ -29,7 +29,7 @@ public class Alert {
     @Column(nullable = false)
     private String message;
 
-    @Column()
+    @Column
     private Boolean isResolved;
     
 }
