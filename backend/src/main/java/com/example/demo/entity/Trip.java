@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,4 +20,10 @@ public class Trip {
     @ManyToOne
     @JoinColumn(name = "vehicle_id",nullable = false)
     private Vehicle vehicle;
+
+    @ManyToOne
+    @JoinColumn(name = "driver_id",nullable = false)
+    private Driver driver;
+
+    private LocalDateTime starTime
 }
