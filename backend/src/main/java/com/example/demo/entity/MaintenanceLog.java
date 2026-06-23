@@ -30,7 +30,11 @@ public class MaintenanceLog {
     @Column(nullable = false)
     private LocalDate serviceDate;
 
-    
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private Double cost;
 
 
 }
