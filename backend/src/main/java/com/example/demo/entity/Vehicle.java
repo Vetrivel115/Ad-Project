@@ -18,5 +18,7 @@ public class Vehicle {
     @Column(unique = true,nullable = false,length = 17)
     private String vin;
 
+    @Column(name = "license_plate",unique = true,nullable = false)
+    private String licensePlate;
     
 }
