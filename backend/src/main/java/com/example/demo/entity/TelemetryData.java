@@ -118,6 +118,4 @@ public class TelemetryData {
     public void setRecordedAt(LocalDateTime recordedAt) {
         this.recordedAt = recordedAt;
     }
-
-    
 }
