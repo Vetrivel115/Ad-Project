@@ -33,7 +33,10 @@ public class TelemetryData {
     private Double fuelLevel;
 
     @Column(nullable = false)
-    
+    private Double engineTemp;
+
+    @Column(nullable = false)
+    @LocalDateTime
 
     
 }
