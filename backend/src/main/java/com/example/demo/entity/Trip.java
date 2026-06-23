@@ -37,4 +37,6 @@ public class Trip {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TripStatus status;
+
+    private Double distanceCovered;
 }
