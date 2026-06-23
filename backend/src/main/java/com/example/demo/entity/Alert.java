@@ -24,6 +24,12 @@ public class Alert {
     private String type;
 
     @Column(nullable = false)
-    private String severity
+    private String severity;
+
+    @Column(nullable = false)
+    private String message;
+
+    @Column()
+    private Boolean isResolved;
     
 }
