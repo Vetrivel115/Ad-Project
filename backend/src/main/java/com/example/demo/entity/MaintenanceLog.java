@@ -18,5 +18,8 @@ public class MaintenanceLog {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id",nullable = false)
-    
+    private Vehicle vehicle;
+
+    @ManyToOne
+    @JoinColumn(,nullable = false)
 }
