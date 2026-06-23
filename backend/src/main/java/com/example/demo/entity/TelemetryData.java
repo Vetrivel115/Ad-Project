@@ -29,6 +29,10 @@ public class TelemetryData {
     @Column(nullable = false)
     private Double speed;
 
+    @Column(nullable = false)
+    private Double fuelLevel;
+
+    @Column(nullable = false)
     
 
     
