@@ -26,7 +26,7 @@ public class TelemetryData {
     private Double latitude;
 
     @Column(nullable = false)
-    private Double longitude;
+    private Double longitude; 
 
     @Column(nullable = false)
     private Double speed;
