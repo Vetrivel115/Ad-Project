@@ -28,4 +28,7 @@ public class Vehicle {
     @Enumerated
     @Column(nullable = false)
     private VehicleStatus status;
+
+    @Column(name = "")
+    private Double currentMileage;
 }
