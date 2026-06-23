@@ -20,5 +20,10 @@ public class Vehicle {
 
     @Column(name = "license_plate",unique = true,nullable = false)
     private String licensePlate;
-    
+
+    @Column(nullable = false)
+    private String model;
+
+    @Column(nullable = false)
+    private 
 }
