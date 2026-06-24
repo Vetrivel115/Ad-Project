@@ -11,5 +11,4 @@ import com.example.demo.entity.DriverStatus;
 @Repository
 public interface DriverRepository extends JpaRepository<Driver,Long>{
     List<Driver> findByStatus(DriverStatus status);
-    
 }
