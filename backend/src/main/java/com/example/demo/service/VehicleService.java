@@ -13,7 +13,6 @@ public class VehicleService {
     public VehicleService(){
     }
 
-
     public VehicleService(VehicleRepository vehicleRepo) {
         this.vehicleRepo = vehicleRepo;
     }
@@ -21,6 +20,5 @@ public class VehicleService {
     public Vehicle getVehicleById(Long id){
         return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
     }
-    
     
 }
