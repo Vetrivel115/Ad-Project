@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Vehicle;
@@ -17,7 +19,8 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleById(Long id){
-        return 
+        Optional vehicleRepo.findById(id);
+        
     }
     
     
