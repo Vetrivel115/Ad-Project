@@ -19,7 +19,7 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleById(Long id){
-        Optional vehicleRepo.findById(id);
+        Optional<Vehicle> vehicleRepo.findById(id);
         
     }
     
