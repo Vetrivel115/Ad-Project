@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-public interface VehicleRepository{
+import org.springframework.stereotype.Repository;
 
-    
-}
+@Repository
+public interface VehicleRepository extends J
