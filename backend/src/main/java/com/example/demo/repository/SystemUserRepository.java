@@ -1,7 +1,9 @@
 package com.example.demo.repository;
 
+import org.springframework.stereotype.Repository;
 
-public interface SystemUserRepository {
+@Repository
+public interface SystemUserRepository extends Jpa{
 
     
 }
