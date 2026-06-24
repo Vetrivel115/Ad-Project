@@ -11,5 +11,5 @@ import com.example.demo.entity.Vehicle;
 @Repository
 public interface AlertRepository extends JpaRepository<Alert,Long>{
     List<Alert> findByVehicle(Vehicle vehicle);
-    void deleteByVehicle
+    void deleteByVehicle(Vehicle vehicle);
 } 
