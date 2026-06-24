@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Vehicle;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.VehicleRepository;
 
 @Service
@@ -19,7 +20,7 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleById(Long id){
-        return vehicleRepo.find
+        return vehicleRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
     }
     
     
