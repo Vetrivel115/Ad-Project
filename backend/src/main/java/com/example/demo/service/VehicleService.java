@@ -10,7 +10,7 @@ import com.example.demo.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
-    private VehicleRepository vehicleRepo;
+    private final VehicleRepository vehicleRepo;
 
     public VehicleService() {
     }
@@ -20,7 +20,7 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleById(Long id){
-        return vehicleRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
+        return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
     }
     
     
