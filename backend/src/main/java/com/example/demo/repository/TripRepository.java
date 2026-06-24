@@ -7,10 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Trip;
 import com.example.demo.entity.TripStatus;
+import com.example.demo.entity.Vehicle;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip,Long>{
     List<Trip> findAllByStatus(TripStatus status);
-    
+    List<Trip> findByDriverIdAndStatus(Long driverId,TripStatus status);
+    void deleteByVehicle(Vehicle );
     
 }
