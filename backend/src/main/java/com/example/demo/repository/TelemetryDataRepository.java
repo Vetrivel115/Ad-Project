@@ -11,7 +11,5 @@ import com.example.demo.entity.Vehicle;
 @Repository
 public interface TelemetryDataRepository extends JpaRepository<TelemetryData,Long>{
     List<TelemetryData> findByVehicleOrderByRecordedAtDesc(Vehicle vehicle);
-    void deleteByVehicle(Vehicle vehicle)
-
-    
+    void deleteByVehicle(Vehicle vehicle);
 }
