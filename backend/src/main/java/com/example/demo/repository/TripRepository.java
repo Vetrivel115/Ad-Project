@@ -13,6 +13,5 @@ import com.example.demo.entity.Vehicle;
 public interface TripRepository extends JpaRepository<Trip,Long>{
     List<Trip> findAllByStatus(TripStatus status);
     List<Trip> findByDriverIdAndStatus(Long driverId,TripStatus status);
-    void deleteByVehicle(Vehicle );
-    
+    void deleteByVehicle(Vehicle vehicle);
 }
