@@ -12,4 +12,4 @@ import com.example.demo.entity.Vehicle;
 public interface AlertRepository extends JpaRepository<Alert,Long>{
     List<Alert> findByVehicle(Vehicle vehicle);
     void deleteByVehicle(Vehicle vehicle);
-} 
+}
