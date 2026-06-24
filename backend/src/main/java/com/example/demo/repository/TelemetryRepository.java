@@ -9,5 +9,5 @@ import com.example.demo.entity.TelemetryData;
 
 @Repository
 public interface TelemetryRepository extends JpaRepository<TelemetryData,Long>{
-    Optional<TelemetryData> findTopByVehicleId
+    Optional<TelemetryData> findTopByVehicleIdOrderByRecordedAtDesc(Long vehicleId);
 }
