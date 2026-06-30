@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Vehicle;
@@ -21,4 +24,11 @@ public class VehicleService {
         return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
     }
     
+    public Page<Vehicle> getAllVehicles(Pageable pageable){
+        return vehicleRepo.findAll(pageable);
+    }
+
+    // public Vehicle createVehicle(Vehicle vehicle){
+
+    // }
 }
