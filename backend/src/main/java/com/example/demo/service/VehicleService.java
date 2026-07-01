@@ -28,7 +28,26 @@ public class VehicleService {
         return vehicleRepo.findAll(pageable);
     }
 
-    // public Vehicle createVehicle(Vehicle vehicle){
+    public Vehicle createVehicle(Vehicle vehicle){
+        if(vehicle.getCurrentMileage() == null){
+            vehicle.setCurrentMileage(0.0);
+        }
+        return vehicleRepo.save(vehicle);
+    }
 
-    // }
+    public Vehicle updateVehicle(Long id,Vehicle vehicleDetails){
+        Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new RuntimeException("Vehicle Not Found"));
+        vehicle.setLicensePlate(vehicleDetails.getLicensePlate());
+        vehicle.setCurrentMileage(vehicleDetails.getCurrentMileage());
+        vehicle.setModel(vehicleDetails.getModel());
+        vehicle.setStatus(vehicleDetails.getStatus());
+        vehicle.setVin(vehicleDetails.getVin());
+        vehicle.setId(id);
+        return vehicleRepo.save(vehicle);
+    }
+
+    public void deleteVehicle(Long id){
+        Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new RuntimeException("Vehicle Not Found"));
+        vehicleRepo.delete(vehicle);
+    }
 }
