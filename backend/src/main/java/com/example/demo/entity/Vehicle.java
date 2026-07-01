@@ -28,7 +28,7 @@ public class Vehicle {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private VehicleStatus status;
+    private VehicleStatus status=VehicleStatus.AVAILABE;
 
     @Column(name = "current_mileage")
     private Double currentMileage;
