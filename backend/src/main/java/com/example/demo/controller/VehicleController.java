@@ -25,5 +25,7 @@ public class VehicleController {
         Page<Vehicle> vehicles =vehicleService.getAllVehicles(pageable);
         return ResponseEntity.status(200).body(vehicles);
     }
+
+    
     
 }
