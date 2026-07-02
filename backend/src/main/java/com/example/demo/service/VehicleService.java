@@ -24,7 +24,7 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleById(Long id){
-        return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
+        return vehicleRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Vehicle Not Found"));
     }
     
     public Page<Vehicle> getAllVehicles(Pageable pageable){
@@ -43,7 +43,7 @@ public class VehicleService {
     }
 
     public Vehicle updateVehicle(Long id,Vehicle vehicleDetails){
-        Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new RuntimeException("Vehicle Not Found"));
+        Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
         vehicle.setLicensePlate(vehicleDetails.getLicensePlate());
         vehicle.setCurrentMileage(vehicleDetails.getCurrentMileage());
         vehicle.setModel(vehicleDetails.getModel());
@@ -54,7 +54,7 @@ public class VehicleService {
     }
 
     public void deleteVehicle(Long id){
-        Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new RuntimeException("Vehicle Not Found"));
+        Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
         vehicleRepo.delete(vehicle);
     }
 
