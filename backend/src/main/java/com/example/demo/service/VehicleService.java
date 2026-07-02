@@ -15,10 +15,14 @@ import com.example.demo.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
-    @Autowired
     private VehicleRepository vehicleRepo;
 
-    
+    public VehicleService(){
+    }
+
+    public VehicleService(VehicleRepository vehicleRepo) {
+        this.vehicleRepo = vehicleRepo;
+    }
 
     public Vehicle getVehicleById(Long id){
         return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
