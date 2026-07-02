@@ -42,7 +42,9 @@ public class VehicleController {
         return ResponseEntity.status(200).body(vehicle);
     }
 
-    @PostMapping()
-    public 
+    @PostMapping
+    public ResponseEntity<Vehicle> createVehicle{
+        
+    }
     
 }
