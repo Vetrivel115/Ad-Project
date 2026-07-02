@@ -4,6 +4,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,10 @@ import com.example.demo.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
+    @Autowired
     private VehicleRepository vehicleRepo;
 
-    public VehicleService(){
-    }
-
-    public VehicleService(VehicleRepository vehicleRepo) {
-        this.vehicleRepo = vehicleRepo;
-    }
+    
 
     public Vehicle getVehicleById(Long id){
         return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
