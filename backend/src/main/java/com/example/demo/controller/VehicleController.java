@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +23,11 @@ import com.example.demo.service.VehicleService;
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {
-    @Autowired
     private VehicleService vehicleService;
 
-    
+    public VehicleController(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
+    }
     
     @GetMapping
     public ResponseEntity<Page<Vehicle>> getAllVehicles(Pageable pageable){
