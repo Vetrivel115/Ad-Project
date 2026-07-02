@@ -28,8 +28,12 @@ public class VehicleService {
         return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
     }
     
-    public Page<Vehicle> getAllVehicles(Pageable pageable){
-        return vehicleRepo.findAll(pageable);
+    // public Page<Vehicle> getAllVehicles(Pageable pageable){
+    //     return vehicleRepo.findAll(pageable);
+    // }
+
+    public List<Vehicle> getAllVehicles() {
+        return vehicleRepo.findAll();
     }
 
     public Vehicle createVehicle(Vehicle vehicle){
