@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,9 @@ public class VehicleController {
     }
 
     @GetMapping("available")
-    public ResponseEntity<> 
+    public ResponseEntity<List<Vehicle>> getAvailableVehicles(){
+        List<Vehicle> vehicles = 
+    } 
 
     
 }

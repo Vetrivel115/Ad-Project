@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Vehicle;
+import com.example.demo.entity.VehicleStatus;
 import com.example.demo.repository.VehicleRepository;
 
 @Service
@@ -54,6 +55,6 @@ public class VehicleService {
     }
 
     public List<Vehicle> getAvailabeVehicles(){
-        return vehicleRepo.findByStatus(S)
+        return vehicleRepo.findByStatus(VehicleStatus.AVAILABE);
     }
 }
