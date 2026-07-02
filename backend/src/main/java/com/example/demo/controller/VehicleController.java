@@ -42,7 +42,7 @@ public class VehicleController {
     } 
 
     @GetMapping("{id}")
-    public ResponseEntity<Vehicle> getVehicleByID(@PathVariable Long id){
+    public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id){
         Vehicle vehicle = vehicleService.getVehicleById(id);
         return ResponseEntity.status(200).body(vehicle);
     }
