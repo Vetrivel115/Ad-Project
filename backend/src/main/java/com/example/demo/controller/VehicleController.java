@@ -50,19 +50,19 @@ public class VehicleController {
     @PostMapping
     public ResponseEntity<?> createVehicle(@RequestBody Vehicle v){
         Vehicle vehicle = vehicleService.createVehicle(v);
-        return ResponseEntity.status(201).body("Vehicle created successfully");
+        return ResponseEntity.status(201).body("Vehicle created successfully.");
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v){
+    public ResponseEntity<?> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v){
         Vehicle vehicle = vehicleService.updateVehicle(id,v);
-        return ResponseEntity.status(200).body(vehicle);
+        return ResponseEntity.status(200).body("Vehicle updated successfully.");
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteVehicle(@PathVariable Long id){
         vehicleService.deleteVehicle(id);
-        return ResponseEntity.status(200).body("Vehicle deleted Successfully");
+        return ResponseEntity.status(200).body("Vehicle deleted Successfully.");
     }
     
 }
