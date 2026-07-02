@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,9 @@ public class VehicleService {
     public void deleteVehicle(Long id){
         Vehicle vehicle = vehicleRepo.findById(id).orElseThrow(()-> new RuntimeException("Vehicle Not Found"));
         vehicleRepo.delete(vehicle);
+    }
+
+    public List<Vehicle> getAvailabeVehicles(){
+        return vehicleRepo.findByStatus(S)
     }
 }
