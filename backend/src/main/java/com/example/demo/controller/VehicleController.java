@@ -38,7 +38,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> getAvailableVehicles(){
         List<Vehicle> vehicles = vehicleService.getAvailabeVehicles();
         return ResponseEntity.status(200).body(vehicles);
-    } 
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id){
