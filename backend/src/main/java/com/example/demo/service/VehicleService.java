@@ -4,7 +4,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.entity.VehicleStatus;
 import com.example.demo.repository.VehicleRepository;
+
+import com.example.demo.exception.ResourceNotFoundException;
 
 @Service
 public class VehicleService {
