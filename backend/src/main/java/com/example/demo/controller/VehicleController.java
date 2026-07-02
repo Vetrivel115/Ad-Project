@@ -31,8 +31,8 @@ public class VehicleController {
     
     @GetMapping
     public ResponseEntity<?> getAllVehicles(){
-        Page<Vehicle> vehicles =vehicleService.getAllVehicles(pageable);
-        return ResponseEntity.status(200).body(vehicles);
+        
+        return ResponseEntity.status(200).body("Hi");
     }
 
     @GetMapping("available")
