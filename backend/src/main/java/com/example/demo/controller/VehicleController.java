@@ -20,12 +20,12 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
     
-    @GetMapping("/api/vehicles")
+    @GetMapping
     public ResponseEntity<Page<Vehicle>> getAllVehicles(Pageable pageable){
         Page<Vehicle> vehicles =vehicleService.getAllVehicles(pageable);
         return ResponseEntity.status(200).body(vehicles);
     }
 
-    
+
     
 }
