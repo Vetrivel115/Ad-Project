@@ -62,7 +62,7 @@ public class VehicleController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteVehicle(@PathVariable Long id){
         vehicleService.deleteVehicle(id);
-        return ResponseEntity.status(200).body("Vehicle deleted Successfully.");
+        return ResponseEntity.status(200).body("Vehicle deleted successfully.");
     }
     
 }
