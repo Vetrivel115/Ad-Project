@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.service.VehicleService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -43,8 +45,8 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<Vehicle> createVehicle{
-        
+    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle v){
+        Vehicle vvehicleService.
     }
     
 }
