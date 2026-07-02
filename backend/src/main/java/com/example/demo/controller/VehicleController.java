@@ -34,5 +34,7 @@ public class VehicleController {
         return ResponseEntity.status(200).body(vehicles);
     } 
 
+    @GetMapping("{id")
+    public 
     
 }
