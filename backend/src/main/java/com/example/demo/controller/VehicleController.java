@@ -51,7 +51,9 @@ public class VehicleController {
         return ResponseEntity.status(201).body(vehicle);
     }
 
-    @PutMapping
-    public 
+    @PutMapping("{id}")
+    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id,@RequestBody Vehicle vehicle){
+        return Res
+    }
     
 }
