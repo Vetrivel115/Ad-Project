@@ -48,9 +48,9 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle v){
+    public ResponseEntity<?> createVehicle(@RequestBody Vehicle v){
         Vehicle vehicle = vehicleService.createVehicle(v);
-        return ResponseEntity.status(201).body(vehicle);
+        return ResponseEntity.status(201).body("Vehicle created successfully");
     }
 
     @PutMapping("{id}")
