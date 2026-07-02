@@ -17,8 +17,7 @@ import com.example.demo.repository.VehicleRepository;
 public class VehicleService {
     private VehicleRepository vehicleRepo;
 
-    public VehicleService(){
-    }
+    
 
     public VehicleService(VehicleRepository vehicleRepo) {
         this.vehicleRepo = vehicleRepo;
@@ -28,9 +27,9 @@ public class VehicleService {
         return vehicleRepo.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not Found"));
     }
     
-    // public Page<Vehicle> getAllVehicles(Pageable pageable){
-    //     return vehicleRepo.findAll(pageable);
-    // }
+    public Page<Vehicle> getAllVehicles(Pageable pageable){
+        return vehicleRepo.findAll(pageable);
+    }
 
     public List<Vehicle> getAllVehicles() {
         return vehicleRepo.findAll();
