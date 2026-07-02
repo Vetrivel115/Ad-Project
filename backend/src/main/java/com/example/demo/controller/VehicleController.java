@@ -30,7 +30,7 @@ public class VehicleController {
     }
     
     @GetMapping
-    public ResponseEntity<Page<Vehicle>> getAllVehicles(Pageable pageable){
+    public ResponseEntity<?> getAllVehicles(){
         Page<Vehicle> vehicles =vehicleService.getAllVehicles(pageable);
         return ResponseEntity.status(200).body(vehicles);
     }
