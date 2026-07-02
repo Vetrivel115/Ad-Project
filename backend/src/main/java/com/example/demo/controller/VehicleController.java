@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +56,11 @@ public class VehicleController {
     public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v){
         Vehicle vehicle = vehicleService.updateVehicle(id,v);
         return ResponseEntity.status(200).body(vehicle);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteVehicle(@PathVariable Long id){
+        return ResponseEntity.status(200)
     }
     
 }
