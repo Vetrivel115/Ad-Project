@@ -53,7 +53,7 @@ public class VehicleController {
 
     @PutMapping("{id}")
     public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v){
-        Vehicle vehicle = vehicleService.updateVehicle(id,vehicle);
+        Vehicle vehicle = vehicleService.updateVehicle(id,v);
         return ResponseEntity.status(200).body(vehicle);
     }
     
