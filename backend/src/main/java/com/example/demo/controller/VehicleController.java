@@ -31,7 +31,7 @@ public class VehicleController {
     
     @GetMapping
     public ResponseEntity<List<Vehicle>> getAllMethod(){
-        return ResponseEntity.status(200).body(vehicleService.getAllVehicles());
+        return ResponseEntity.status(Htt).body(vehicleService.getAllVehicles());
     }
 
     @GetMapping("available")
