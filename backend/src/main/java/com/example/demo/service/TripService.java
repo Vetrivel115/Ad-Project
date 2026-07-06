@@ -18,8 +18,4 @@ public class TripService {
     public List<Trip> getAllTrips(){
         return tripRepo.findAll();
     }
-
-    // public Trip startTrip(Long vehicleId,Long driverId){
-
-    // }
 }
