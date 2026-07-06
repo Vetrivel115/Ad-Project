@@ -30,7 +30,7 @@ public class VehicleController {
     }
     
     @GetMapping
-    public ResponseEntity<List<Vehicle>> getAllVehicles(){
+    public ResponseEntity<List<Vehicle>> getAllMethod(){
         return ResponseEntity.status(200).body(vehicleService.getAllVehicles());
     }
 
