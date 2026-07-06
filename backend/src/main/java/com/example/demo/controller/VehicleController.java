@@ -26,8 +26,8 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     public VehicleController(VehicleService vehicleService) {
-    this.vehicleService = vehicleService;
-}
+        this.vehicleService = vehicleService;
+    }
     public VehicleController(VehicleService vehicleService,String v) {
         this.vehicleService = vehicleService;
     }
