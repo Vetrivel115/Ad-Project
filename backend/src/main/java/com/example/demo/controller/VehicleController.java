@@ -63,5 +63,5 @@ public class VehicleController {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.status(200).body("Vehicle deleted successfully.");
     }
-    
+
 }
