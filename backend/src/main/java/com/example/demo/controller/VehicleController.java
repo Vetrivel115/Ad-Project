@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Vehicle;
+import com.example.demo.service.TripService;
 import com.example.demo.service.VehicleService;
 
 
@@ -24,9 +25,11 @@ import com.example.demo.service.VehicleService;
 @RequestMapping("/api/vehicles")
 public class VehicleController {
     private VehicleService vehicleService;
+    private TripService tripService;
 
-    public VehicleController(VehicleService vehicleService,String v) {
+    public VehicleController(VehicleService vehicleService,TripService tripService) {
         this.vehicleService = vehicleService;
+        this.tripService = tripService;
     }
     
     @GetMapping
