@@ -20,5 +20,6 @@ public class TripService {
     }
     public Trip startTrip(Long driverId){
         
+
     }
 }
