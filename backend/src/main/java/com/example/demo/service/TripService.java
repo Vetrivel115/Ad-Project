@@ -56,6 +56,12 @@ public class TripService {
     public Trip endTrip(Long TripId,Double distance){
         Trip trip = tripRepo.findById(TripId).orElseThrow(()-> new ResourceNotFoundException("Trip Not Found"));
         Vehicle vehicle = trip.getVehicle();
+        Driver driver = trip.getDriver();
+        driver.setStatus(DriverStatus.AVAILABLE);
+        vehicle.setStatus(VehicleStatus.AVAILABE);
+        if(vehicle.getCurrentMileage()==null){
+            vehicle.setCurrentMileage(0.0);
+        }
 
     }
 }
