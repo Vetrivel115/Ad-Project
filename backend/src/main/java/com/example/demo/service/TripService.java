@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
+import java.sql.Driver;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Trip;
 import com.example.demo.entity.Vehicle;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.DriverRepository;
 import com.example.demo.repository.TripRepository;
 import com.example.demo.repository.VehicleRepository;
@@ -28,7 +30,7 @@ public class TripService {
     }
     public Trip startTrip(Long vehicleID,Long driverId){
         
-        Vehicle vehicle = vehicleRepo.findById(vehicleID).orElseThrow(()-> );
-
+        Vehicle vehicle = vehicleRepo.findById(vehicleID).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
+        Driver driver = driverRepo.findById(driverId).orElseThrow(()-> new ResourceNotFoundException("Driver Not Found"));
     }
 }
