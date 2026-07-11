@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Vehicle;
 import com.example.demo.repository.TelemetryRepository;
 import com.example.demo.repository.VehicleRepository;
 
@@ -19,6 +21,10 @@ public class MonitoringService {
     }
     
     public List<Map<String,Object>> getLiveFleetStatus(){
-        List<Map
+        List<Map<String,Object>> fleetStatus = new ArrayList<>();
+        List<Vehicle> vehicles = vehicleRepo.findAll();
+        for(Vehicle vehicle : vehicles){
+            Map<String,Object> 
+        }
     }
 }
