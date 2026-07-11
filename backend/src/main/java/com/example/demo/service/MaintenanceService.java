@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.MaintenanceLog;
+import com.example.demo.entity.Vehicle;
 import com.example.demo.repository.MaintenanceLogRepository;
 import com.example.demo.repository.VehicleRepository;
 
@@ -22,6 +23,8 @@ public class MaintenanceService {
         return maintenanceLogRepo.findAll();
     }
     
-    public MaintenanceLog logMaintenance
+    public MaintenanceLog logMaintenance(MaintenanceLog log){
+        Vehicle vehicle = vehicleRepo.findById(log.getId())
+    }
 
 }
