@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(BusinessValidationException.class)
+    public ResponseEntity<String> handleBusinessValidationException(BusinessValidationException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }
