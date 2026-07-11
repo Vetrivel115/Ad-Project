@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,14 @@ public class MonitoringService {
         List<Map<String,Object>> fleetStatus = new ArrayList<>();
         List<Vehicle> vehicles = vehicleRepo.findAll();
         for(Vehicle vehicle : vehicles){
-            Map<String,Object> 
+            Map<String,Object> map = new HashMap<>();
+            map.put("vehicleId", vehicle.getId());
+            map.put("vin", vehicle.getVin());
+            map.put("licensePlate", vehicle.getLicensePlate());
+            map.put("model", vehicle.getModel());
+            map.put("vehicleId", vehicle.getId());
+            map.put("vehicleId", vehicle.getId());
+
         }
     }
 }
