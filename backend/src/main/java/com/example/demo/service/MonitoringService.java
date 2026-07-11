@@ -44,5 +44,6 @@ public class MonitoringService {
 
             fleetStatus.add(map)
         }
+        return fleetStatus;
     }
 }
