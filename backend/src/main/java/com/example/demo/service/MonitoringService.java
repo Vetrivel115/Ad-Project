@@ -30,9 +30,19 @@ public class MonitoringService {
             map.put("vin", vehicle.getVin());
             map.put("licensePlate", vehicle.getLicensePlate());
             map.put("model", vehicle.getModel());
-            map.put("vehicleId", vehicle.getId());
-            map.put("vehicleId", vehicle.getId());
+            map.put("currentMileage", vehicle.getCurrentMileage());
+            map.put("status", vehicle.getStatus());
+            
+            Telemetry telemetry = telemetryRepo.findTopByVehicleIdOrderByTimestampDesc(vehicle.getId());
 
+            if (telemetry != null) {
+                map.put("latitude", telemetry.getLatitude());
+                map.put("longitude", telemetry.getLongitude());
+                map.put("speed", telemetry.getSpeed());
+                map.put("fuelLevel", telemetry.getFuelLevel());
+            }
+
+            fleetStatus.add(map)
         }
     }
 }
