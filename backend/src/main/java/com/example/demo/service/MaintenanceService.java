@@ -31,5 +31,4 @@ public class MaintenanceService {
         vehicleRepo.save(vehicle);
         return maintenanceLogRepo.save(log);
     }
-
 }
