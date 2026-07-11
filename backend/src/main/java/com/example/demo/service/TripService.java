@@ -62,6 +62,10 @@ public class TripService {
         if(vehicle.getCurrentMileage()==null){
             vehicle.setCurrentMileage(0.0);
         }
+        vehicle.setCurrentMileage(vehicle.getCurrentMileage()+distance);
+        trip.setStatus(TripStatus.COMPLETED);
+        vehicleRepo.save(vehicle);
+        return tripRepo.save(null)
 
     }
 }
