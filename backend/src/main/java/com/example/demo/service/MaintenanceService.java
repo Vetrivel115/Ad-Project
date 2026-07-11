@@ -1,7 +1,10 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.MaintenanceLog;
 import com.example.demo.repository.MaintenanceLogRepository;
 import com.example.demo.repository.VehicleRepository;
 
@@ -15,7 +18,10 @@ public class MaintenanceService {
         this.vehicleRepo = vehicleRepo;
     }
 
-    public List<>
+    public List<MaintenanceLog> getAllLogs(){
+        return maintenanceLogRepo.findAll();
+    }
     
+    public MaintenanceLog logMaintenance
 
 }
