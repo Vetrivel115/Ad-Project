@@ -28,7 +28,8 @@ public class MaintenanceService {
     public MaintenanceLog logMaintenance(MaintenanceLog log){
         Vehicle vehicle = vehicleRepo.findById(log.getVehicle().getId()).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
         vehicle.setStatus(VehicleStatus.AVAILABLE);
-        return maintenanceLogRepo.save()
+        vehicleRepo.save(vehicle);
+        return maintenanceLogRepo.save(log);
     }
 
 }
