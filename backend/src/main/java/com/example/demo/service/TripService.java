@@ -53,5 +53,7 @@ public class TripService {
         return tripRepo.save(trip);
     }
 
-    public Trip endTrip(Long TripId)
+    public Trip endTrip(Long TripId,Double distance){
+        Trip trip = tripRepo.findById(TripId).orElseThrow(()-> throw );
+    }
 }
