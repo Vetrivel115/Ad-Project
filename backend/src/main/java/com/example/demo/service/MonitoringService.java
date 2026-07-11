@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,7 @@ public class MonitoringService {
         this.telemetryRepo = telemetryRepo;
     }
     
-    List<Map<>> 
+    public List<Map<String,Object>> getLiveFleetStatus(){
+        List<Map
+    }
 }
