@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.DriverStatus;
 import com.example.demo.entity.Trip;
+import com.example.demo.entity.TripStatus;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.entity.VehicleStatus;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -43,6 +44,7 @@ public class TripService {
 
         vehicle.setStatus(VehicleStatus.ON_TRIP);
         driver.setStatus(DriverStatus.ON_TRIP);
-        
+        Trip trip = new Trip();
+        trip.setStatus(TripStatus.ACTIVE);
     }
 }
