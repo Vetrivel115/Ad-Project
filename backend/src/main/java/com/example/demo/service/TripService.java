@@ -38,7 +38,7 @@ public class TripService {
         Vehicle vehicle = vehicleRepo.findById(vehicleID).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
         Driver driver = driverRepo.findById(driverId).orElseThrow(()-> new ResourceNotFoundException("Driver Not Found"));
         
-        if(vehicle.getStatus()!=VehicleStatus.AVAILABE || driver.getStatus()!=DriverStatus.AVAILABLE){
+        if(vehicle.getStatus()!=VehicleStatus.AVAILABLE || driver.getStatus()!=DriverStatus.AVAILABLE){
             throw new IllegalStateException("Not Available");
         }
 
@@ -58,7 +58,7 @@ public class TripService {
         Vehicle vehicle = trip.getVehicle();
         Driver driver = trip.getDriver();
         driver.setStatus(DriverStatus.AVAILABLE);
-        vehicle.setStatus(VehicleStatus.AVAILABE);
+        vehicle.setStatus(VehicleStatus.AVAILABLE);
         if(vehicle.getCurrentMileage()==null){
             vehicle.setCurrentMileage(0.0);
         }

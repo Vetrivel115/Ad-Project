@@ -61,6 +61,6 @@ public class VehicleService {
     }
 
     public List<Vehicle> getAvailabeVehicles(){
-        return vehicleRepo.findByStatus(VehicleStatus.AVAILABE);
+        return vehicleRepo.findByStatus(VehicleStatus.AVAILABLE);
     }
 }
