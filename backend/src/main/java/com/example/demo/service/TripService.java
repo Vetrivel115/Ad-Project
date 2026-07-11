@@ -45,6 +45,9 @@ public class TripService {
         vehicle.setStatus(VehicleStatus.ON_TRIP);
         driver.setStatus(DriverStatus.ON_TRIP);
         Trip trip = new Trip();
+        trip.setDriver(driver);
+        trip.setVehicle(vehicle);
         trip.setStatus(TripStatus.ACTIVE);
+        
     }
 }
