@@ -44,10 +44,14 @@ public class TripService {
 
         vehicle.setStatus(VehicleStatus.ON_TRIP);
         driver.setStatus(DriverStatus.ON_TRIP);
+        vehicleRepo.save(vehicle);
+        driverRepo.save(driver);
         Trip trip = new Trip();
         trip.setDriver(driver);
         trip.setVehicle(vehicle);
         trip.setStatus(TripStatus.ACTIVE);
-        
+        return tripRepo.save(trip);
     }
+
+    public Trip endTrip(Long TripId)
 }
