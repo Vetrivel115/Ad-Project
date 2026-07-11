@@ -19,6 +19,6 @@ public class TripService {
         return tripRepo.findAll();
     }
     public Trip startTrip(Long driverId){
-
+        
     }
 }
