@@ -79,7 +79,7 @@ public class TripService {
 
         if (vehicle.getStatus() != VehicleStatus.AVAILABLE ||
             driver.getStatus() != DriverStatus.AVAILABLE) {
-            throw new Resour("Vehicle or Driver is not available");
+            throw new ResourceNotFoundException("Vehicle or Driver is not available");
         }
 
         vehicle.setStatus(VehicleStatus.ON_TRIP);
@@ -95,4 +95,6 @@ public class TripService {
 
         return tripRepo.save(trip);
     }
+
+    
 }
