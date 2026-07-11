@@ -38,7 +38,11 @@ public class TripService {
         Driver driver = driverRepo.findById(driverId).orElseThrow(()-> new ResourceNotFoundException("Driver Not Found"));
         
         if(vehicle.getStatus()!=VehicleStatus.AVAILABE || driver.getStatus()!=DriverStatus.AVAILABLE){
-            throw new IllegalStateException("");
+            throw new IllegalStateException("Not Available");
         }
+
+        vehicle.setStatus(VehicleStatus.ON_TRIP);
+        driver.setStatus(DriverStatus.ON_TRIP);
+        
     }
 }
