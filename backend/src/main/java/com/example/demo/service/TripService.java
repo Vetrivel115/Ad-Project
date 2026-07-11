@@ -5,20 +5,22 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Trip;
+import com.example.demo.repository.DriverRepository;
 import com.example.demo.repository.TripRepository;
+import com.example.demo.repository.VehicleRepository;
 
 @Service
 public class TripService {
     private TripRepository tripRepo;
+    private VehicleRepository vehicleRepo;
+    private DriverRepository driverRepo;
 
-    public TripService(TripRepository tripRepo) {
-        this.tripRepo = tripRepo;
-    }
+    
     
     public List<Trip> getAllTrips(){
         return tripRepo.findAll();
     }
-    public Trip startTrip(LongLong driverId){
+    public Trip startTrip(Long vehicleID,Long driverId){
 
 
     }
