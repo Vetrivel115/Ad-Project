@@ -68,4 +68,31 @@ public class TripService {
         driverRepo.save(driver);
         return tripRepo.save(trip);
     }
+
+    public Trip createTrip(Long vehicleId, Long driverId) {
+
+        Vehicle vehicle = vehicleRepo.findById(vehicleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle Not Found"));
+
+        Driver driver = driverRepo.findById(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver Not Found"));
+
+        if (vehicle.getStatus() != VehicleStatus.AVAILABLE ||
+            driver.getStatus() != DriverStatus.AVAILABLE) {
+            throw new Resour("Vehicle or Driver is not available");
+        }
+
+        vehicle.setStatus(VehicleStatus.ON_TRIP);
+        driver.setStatus(DriverStatus.ON_TRIP);
+
+        vehicleRepo.save(vehicle);
+        driverRepo.save(driver);
+
+        Trip trip = new Trip();
+        trip.setVehicle(vehicle);
+        trip.setDriver(driver);
+        trip.setStatus(TripStatus.ACTIVE);
+
+        return tripRepo.save(trip);
+    }
 }
