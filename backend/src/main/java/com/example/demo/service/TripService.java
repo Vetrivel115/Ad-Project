@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Trip;
+import com.example.demo.entity.Vehicle;
 import com.example.demo.repository.DriverRepository;
 import com.example.demo.repository.TripRepository;
 import com.example.demo.repository.VehicleRepository;
@@ -16,12 +17,18 @@ public class TripService {
     private DriverRepository driverRepo;
 
     
-    
+    public TripService(TripRepository tripRepo, VehicleRepository vehicleRepo, DriverRepository driverRepo) {
+        this.tripRepo = tripRepo;
+        this.vehicleRepo = vehicleRepo;
+        this.driverRepo = driverRepo;
+    }
+
     public List<Trip> getAllTrips(){
         return tripRepo.findAll();
     }
     public Trip startTrip(Long vehicleID,Long driverId){
-
+        
+        Vehicle vehicle = vehicleRepo.findById(vehicleID).orElseThrow(()-> );
 
     }
 }
