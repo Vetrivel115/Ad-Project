@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.MaintenanceLog;
 import com.example.demo.entity.Vehicle;
+import com.example.demo.entity.VehicleStatus;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.MaintenanceLogRepository;
 import com.example.demo.repository.VehicleRepository;
 
@@ -24,7 +26,9 @@ public class MaintenanceService {
     }
     
     public MaintenanceLog logMaintenance(MaintenanceLog log){
-        Vehicle vehicle = vehicleRepo.findById(log.getId())
+        Vehicle vehicle = vehicleRepo.findById(log.getVehicle().getId()).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
+        vehicle.setStatus(VehicleStatus.AVAILABLE);
+        return maintenanceLogRepo.save()
     }
 
 }
