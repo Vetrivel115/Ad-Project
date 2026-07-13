@@ -35,13 +35,13 @@ public class VehicleController {
     @GetMapping
     public ResponseEntity<Page<Vehicle>> getAllVehicles(@RequestParam int page,@RequestParam int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(vehicleService.getAllVehicles(pageable));
+        return ResponseEntity.status(200).body(vehicleService.getAllVehicles(pageable));
     }
 
     @GetMapping("/available")
     public ResponseEntity<List<Vehicle>> getAvailableVehicles() {
         List<Vehicle> vehicles = vehicleService.getAvailabeVehicles();
-        return ResponseEntity.ok(vehicles);
+        return ResponseEntity.status(200).body(vehicles);
     }
 
     @GetMapping("/{id}")

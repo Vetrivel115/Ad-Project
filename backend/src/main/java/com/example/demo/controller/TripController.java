@@ -21,7 +21,7 @@ public class TripController {
 
     @GetMapping
     public ResponseEntity<List<Trip>> getAllTrips(){
-        return ResponseEntity.status(0)
+        return ResponseEntity.status(200).body(tripService.getAllTrips());
     }
 
     
