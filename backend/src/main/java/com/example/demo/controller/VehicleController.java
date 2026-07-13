@@ -47,7 +47,7 @@ public class VehicleController {
     @GetMapping("/{id}")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
-        return ResponseEntity.ok(vehicle);
+        return ResponseEntity.status(200).body(vehicle);
     }
 
     @PostMapping
@@ -58,12 +58,12 @@ public class VehicleController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v) {
         vehicleService.updateVehicle(id, v);
-        return ResponseEntity.ok("Vehicle updated successfully.");
+        return ResponseEntity.status(200).body("Vehicle updated successfully.");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
-        return ResponseEntity.ok("Vehicle deleted successfully.");
+        return ResponseEntity.status(200).body("Vehicle deleted successfully.");
     }
 }
