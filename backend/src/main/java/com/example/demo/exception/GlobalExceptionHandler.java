@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(BusinessValidationException.class)
-    public ResponseEntity<String> handleBusinessValidationException(BusinessValidationException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
+    // @ExceptionHandler(BusinessValidationException.class)
+    // public ResponseEntity<String> handleBusinessValidationException(BusinessValidationException ex) {
+    //     return ResponseEntity.badRequest().body(ex.getMessage());
+    // }
 }
