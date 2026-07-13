@@ -33,10 +33,7 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Vehicle>> getAllVehicles(
-            @RequestParam int page,
-            @RequestParam int size) {
-
+    public ResponseEntity<Page<Vehicle>> getAllVehicles(@RequestParam int page,@RequestParam int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(vehicleService.getAllVehicles(pageable));
     }
@@ -54,14 +51,12 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createVehicle(@RequestBody Vehicle v) {
-        vehicleService.createVehicle(v);
+    public ResponseEntity<?> createVehicle(@RequestBody Vehicle v) {vehicleService.createVehicle(v);
         return ResponseEntity.status(201).body("Vehicle created successfully.");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateVehicle(@PathVariable Long id,
-                                           @RequestBody Vehicle v) {
+    public ResponseEntity<?> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v) {
         vehicleService.updateVehicle(id, v);
         return ResponseEntity.ok("Vehicle updated successfully.");
     }
