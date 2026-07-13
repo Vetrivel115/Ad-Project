@@ -29,7 +29,7 @@ public class TripController {
 
     @PostMapping("/start")
     public ResponseEntity<?> startTrip(@RequestBody Trip trip){
-        
+        return ResponseEntity.status(200).body(tripService.startTrip(trip.getId(), trip.getDriver()));
     }
 
     
