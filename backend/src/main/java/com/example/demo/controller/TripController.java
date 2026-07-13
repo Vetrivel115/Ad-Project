@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Trip;
 import com.example.demo.service.TripService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @RestController
 @RequestMapping("/api/trips")
 public class TripController {
@@ -26,7 +28,9 @@ public class TripController {
     }
 
     @PostMapping("/start")
-    public ResponseEntity<?> 
+    public ResponseEntity<?> startTrip(@RequestBody Trip trip){
+        
+    }
 
     
 }
