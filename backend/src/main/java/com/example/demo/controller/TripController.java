@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,9 @@ public class TripController {
     public ResponseEntity<List<Trip>> getAllTrips(){
         return ResponseEntity.status(200).body(tripService.getAllTrips());
     }
+
+    @PostMapping("/start")
+    public ResponseEntity<?> 
 
     
 }
