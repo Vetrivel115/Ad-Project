@@ -39,31 +39,35 @@ public class VehicleController {
         return ResponseEntity.status(200).body(vehicleService.getAllVehicles(pageable));
     }
 
-    @PreAuthorize("hasRole('FLEET_MANAGER','DISPATCHER')")
     @GetMapping("/available")
+    @PreAuthorize("hasRole('FLEET_MANAGER','DISPATCHER')")
     public ResponseEntity<List<Vehicle>> getAvailableVehicles() {
         List<Vehicle> vehicles = vehicleService.getAvailabeVehicles();
         return ResponseEntity.status(200).body(vehicles);
     }
-
+    
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('FLEET_MANAGER','DISPATCHER')")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
         return ResponseEntity.status(200).body(vehicle);
     }
-
+    
     @PostMapping
+    @PreAuthorize("hasRole('FLEET_MANAGER')")
     public ResponseEntity<?> createVehicle(@RequestBody Vehicle v) {vehicleService.createVehicle(v);
         return ResponseEntity.status(201).body("Vehicle created successfully.");
     }
-
+    
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('FLEET_MANAGER')")
     public ResponseEntity<?> updateVehicle(@PathVariable Long id,@RequestBody Vehicle v) {
         vehicleService.updateVehicle(id, v);
         return ResponseEntity.status(200).body("Vehicle updated successfully.");
     }
-
+    
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('FLEET_MANAGER')")
     public ResponseEntity<String> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.status(200).body("Vehicle deleted successfully.");
