@@ -47,7 +47,7 @@ public class VehicleController {
     }
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('FLEET_MANAGER','DISPATCHER')")
+    @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
         return ResponseEntity.status(200).body(vehicle);
