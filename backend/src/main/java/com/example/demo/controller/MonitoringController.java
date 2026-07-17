@@ -20,8 +20,8 @@ public class MonitoringController {
         this.monitoringService = monitoringService;
     }
 
-    @GetMapping("/alerts")
-    public ResponseEntity<List<Alert>> getLiveFleetStatus() {
+    @GetMapping("/fleet-status")
+    public ResponseEntity<List<Map<String, Object>>> getLiveFleetStatus() {
         return ResponseEntity.ok(monitoringService.getLiveFleetStatus());
     }
 }
