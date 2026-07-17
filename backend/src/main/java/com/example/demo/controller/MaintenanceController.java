@@ -24,18 +24,9 @@ public class MaintenanceController {
     }
 
     @PostMapping
-    public ResponseEntity<MaintenanceLog> scheduleMaintenance(@RequestBody MaintenanceLog maintenanceLog) {
+    public ResponseEntity<MaintenanceLog> logMaintenance(@RequestBody MaintenanceLog maintenanceLog) {
 
-        return ResponseEntity.ok(
-                maintenanceService.scheduleMaintenance(maintenanceLog)
-        );
+        return ResponseEntity.status(200).body(maintenanceService.logMaintenance(maintenanceLog));
     }
 
-    @PutMapping("/{id}/complete")
-    public ResponseEntity<MaintenanceLog> completeMaintenance(@PathVariable Long id) {
-
-        return ResponseEntity.ok(
-                maintenanceService.completeMaintenance(id)
-        );
-    }
 }
