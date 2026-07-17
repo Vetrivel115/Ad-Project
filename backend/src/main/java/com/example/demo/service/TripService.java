@@ -66,6 +66,8 @@ public class TripService {
         }
         vehicle.setCurrentMileage(vehicle.getCurrentMileage()+distance);
         trip.setStatus(TripStatus.COMPLETED);
+        trip.setEndTime(LocalDateTime.now());   
+        trip.setDistanceCovered(distance);
         vehicleRepo.save(vehicle);
         driverRepo.save(driver);
         return tripRepo.save(trip);
