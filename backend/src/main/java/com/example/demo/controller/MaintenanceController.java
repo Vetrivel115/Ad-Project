@@ -19,13 +19,12 @@ public class MaintenanceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MaintenanceLog>> getAllMaintenanceLogs() {
-        return ResponseEntity.ok(maintenanceService.getAllMaintenanceLogs());
+    public ResponseEntity<List<MaintenanceLog>> getAllLogs() {
+        return ResponseEntity.status(200).body(maintenanceService.getAllLogs());
     }
 
     @PostMapping
-    public ResponseEntity<MaintenanceLog> scheduleMaintenance(
-            @RequestBody MaintenanceLog maintenanceLog) {
+    public ResponseEntity<MaintenanceLog> scheduleMaintenance(@RequestBody MaintenanceLog maintenanceLog) {
 
         return ResponseEntity.ok(
                 maintenanceService.scheduleMaintenance(maintenanceLog)
@@ -33,8 +32,7 @@ public class MaintenanceController {
     }
 
     @PutMapping("/{id}/complete")
-    public ResponseEntity<MaintenanceLog> completeMaintenance(
-            @PathVariable Long id) {
+    public ResponseEntity<MaintenanceLog> completeMaintenance(@PathVariable Long id) {
 
         return ResponseEntity.ok(
                 maintenanceService.completeMaintenance(id)
