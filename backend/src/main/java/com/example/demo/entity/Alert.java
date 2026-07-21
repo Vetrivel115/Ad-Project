@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "alerts")
 public class Alert {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
