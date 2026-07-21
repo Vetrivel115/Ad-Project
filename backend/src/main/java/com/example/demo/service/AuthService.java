@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.JwtUtil;
 import com.example.demo.dto.AuthRequestDto;
 import com.example.demo.dto.AuthResponseDto;
 import com.example.demo.entity.SystemUser;
@@ -16,7 +17,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final SystemUserRepository systemUserRepository;
     private final PasswordEncoder passwordEncoder;
-    private final jwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     public AuthService(AuthenticationManager authenticationManager,
                        SystemUserRepository systemUserRepository,

@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "system_users")
-public class SystemUser implements UserDetails{
+public class SystemUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
