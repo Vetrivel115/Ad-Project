@@ -21,7 +21,7 @@ public class MonitoringController {
         this.monitoringService = monitoringService;
     }
 
-    @GetMapping
+    @GetMapping("/live")
     public ResponseEntity<List<Map<String, Object>>> getLiveFleetStatus() {
         return ResponseEntity.status(200).body(monitoringService.getLiveFleetStatus());
     }
