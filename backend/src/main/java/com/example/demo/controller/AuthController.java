@@ -20,7 +20,7 @@ public class AuthController {
     // }
     @PostMapping("/login")
     public String login(@RequestBody AuthRequestDto request) {
-        return authService.authenticate(request);
+        return authService.login(request);
         // return ResponseEntity.ok(new LoginResponse(token));
     }
  
