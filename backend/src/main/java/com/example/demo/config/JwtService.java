@@ -16,7 +16,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
     private static final String SECRET_KEY = "VGhpc0lzQVNlY3JldEtleUZvckpXVFRva2VuR2VuZXJhdGlvbjEyMw==";
 
-    private static final long EXPIRATION = 1000 * 60;
+    private static final long EXPIRATION = 1000 * 60 * 60;
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
