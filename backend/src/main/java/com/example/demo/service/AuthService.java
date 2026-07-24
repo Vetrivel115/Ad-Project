@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.AuthRequestDto;
-import com.example.App.security.JwtService;
+import com.example.demo.config.JwtService;
 
 @Service
 public class AuthService {
@@ -26,7 +24,7 @@ public class AuthService {
     public String login(AuthRequestDto request) {
         Authentication authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                request.getEmail(),
+                                request.getUsername(),
                                 request.getPassword()
                         ));
         // SecurityContextHolder.getContext().setAuthentication(authentication);
