@@ -12,7 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
-
+import com.example.demo.dto.AuthRequestDto;
+import com.example.App.security.JwtService;
 
 @Service
 public class AuthService {
@@ -22,7 +23,7 @@ public class AuthService {
 
     @Autowired
     private JwtService jwtService;
-    public String login(LoginRequest request) {
+    public String login(AuthRequestDto request) {
         Authentication authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 request.getEmail(),
