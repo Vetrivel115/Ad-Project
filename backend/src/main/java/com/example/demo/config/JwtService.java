@@ -1,4 +1,4 @@
-package com.example.App.security;
+package com.example.demo.config;
 
 import java.security.Key;
 import java.util.Date;
