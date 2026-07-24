@@ -16,10 +16,10 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(SystemUser user) {
         this.user = user;
     }
-    
+
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getUsername();
     }
  
     @Override
