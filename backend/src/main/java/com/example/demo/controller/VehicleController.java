@@ -39,7 +39,7 @@ public class VehicleController {
     }
 
     @GetMapping("/available")
-    @PreAuthorize("hasRole('FLEET_MANAGER','DISPATCHER')")
+    @PreAuthorize("hasAnyRole('FLEET_MANAGER','DISPATCHER')")
     public ResponseEntity<List<Vehicle>> getAvailableVehicles() {
         List<Vehicle> vehicles = vehicleService.getAvailabeVehicles();
         return ResponseEntity.status(200).body(vehicles);
