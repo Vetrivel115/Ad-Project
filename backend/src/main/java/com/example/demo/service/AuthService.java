@@ -14,7 +14,6 @@ import com.example.demo.dto.AuthResponseDto;
 import com.example.demo.entity.SystemUser;
 import com.example.demo.entity.UserRole;
 import com.example.demo.repository.SystemUserRepository;
-import com.example.demo.config.JwtService;
 @Service
 public class AuthService {
 
