@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.AuthRequestDto;
@@ -33,4 +34,5 @@ public class AuthController {
         authService.register(username, password, email, role);
         return ResponseEntity.ok("User registered successfully");
     }
+
 }
