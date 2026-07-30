@@ -39,3 +39,4 @@ public class TripController {
         return ResponseEntity.status(200).body(tripService.endTrip(id, trip.getDistanceCovered()));
     }
 }
+
