@@ -38,7 +38,7 @@ public class TripController {
                 )
         );
     }
-
+    
     @PutMapping("/{id}/end")
     public ResponseEntity<Trip> endTrip(@PathVariable Long id,@RequestBody Trip trip) {
         return ResponseEntity.status(200).body(tripService.endTrip(id, trip.getDistanceCovered()));
