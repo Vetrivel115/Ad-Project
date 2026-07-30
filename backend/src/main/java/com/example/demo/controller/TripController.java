@@ -31,6 +31,11 @@ public class TripController {
 
     @PostMapping("/start")
     public ResponseEntity<Trip> startTrip(@RequestBody Trip trip) {
+
+        System.out.println("========== TripController reached ==========");
+        System.out.println("Vehicle ID: " + trip.getVehicle().getId());
+        System.out.println("Driver ID : " + trip.getDriver().getId());
+
         return ResponseEntity.ok(
                 tripService.startTrip(
                         trip.getVehicle().getId(),
@@ -39,6 +44,7 @@ public class TripController {
         );
     }
     
+
     @PutMapping("/{id}/end")
     public ResponseEntity<Trip> endTrip(@PathVariable Long id,@RequestBody Trip trip) {
         return ResponseEntity.status(200).body(tripService.endTrip(id, trip.getDistanceCovered()));

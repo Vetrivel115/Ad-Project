@@ -34,26 +34,40 @@ public class TripService {
         return tripRepo.findAll();
     }
 
-    public Trip startTrip(Long vehicleID,Long driverId){
-        
-        Vehicle vehicle = vehicleRepo.findById(vehicleID).orElseThrow(()-> new ResourceNotFoundException("Vehicle Not Found"));
-        Driver driver = driverRepo.findById(driverId).orElseThrow(()-> new ResourceNotFoundException("Driver Not Found"));
-        
-        if(vehicle.getStatus()!=VehicleStatus.AVAILABLE || driver.getStatus()!=DriverStatus.AVAILABLE){
-            throw new IllegalStateException("Not Available");
-        }
+    public Trip startTrip(Long vehicleID, Long driverId) {
 
-        vehicle.setStatus(VehicleStatus.ON_TRIP);
-        driver.setStatus(DriverStatus.ON_TRIP);
-        vehicleRepo.save(vehicle);
-        driverRepo.save(driver);
-        Trip trip = new Trip();
-        trip.setDriver(driver);
-        trip.setVehicle(vehicle);
-        trip.setStatus(TripStatus.ACTIVE);
-        trip.setStartTime(LocalDateTime.now());
-        return tripRepo.save(trip);
+    System.out.println("========== TripService reached ==========");
+    System.out.println("Vehicle ID = " + vehicleID);
+    System.out.println("Driver ID = " + driverId);
+
+    Vehicle vehicle = vehicleRepo.findById(vehicleID)
+            .orElseThrow(() -> new ResourceNotFoundException("Vehicle Not Found"));
+
+    Driver driver = driverRepo.findById(driverId)
+            .orElseThrow(() -> new ResourceNotFoundException("Driver Not Found"));
+
+    System.out.println("Vehicle Status = " + vehicle.getStatus());
+    System.out.println("Driver Status = " + driver.getStatus());
+
+    if (vehicle.getStatus() != VehicleStatus.AVAILABLE ||
+        driver.getStatus() != DriverStatus.AVAILABLE) {
+        throw new IllegalStateException("Not Available");
     }
+
+    vehicle.setStatus(VehicleStatus.ON_TRIP);
+    driver.setStatus(DriverStatus.ON_TRIP);
+
+    vehicleRepo.save(vehicle);
+    driverRepo.save(driver);
+
+    Trip trip = new Trip();
+    trip.setVehicle(vehicle);
+    trip.setDriver(driver);
+    trip.setStatus(TripStatus.ACTIVE);
+    trip.setStartTime(LocalDateTime.now());
+
+    return tripRepo.save(trip);
+}
 
     public Trip endTrip(Long TripId,Double distance){
         Trip trip = tripRepo.findById(TripId).orElseThrow(()-> new ResourceNotFoundException("Trip Not Found"));
