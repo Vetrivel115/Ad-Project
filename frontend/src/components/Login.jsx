@@ -9,7 +9,7 @@ return (
 <div>
     <form>
         <h1>FleetFocus Login</h1>
-        input
+        <input type="text" placeholder='Enter your username' required/>
     </form>
 </div>
 )
