@@ -9,10 +9,15 @@ return (
 <div>
     <form>
         <h1>FleetFocus Login</h1>
+
         <input type="text" placeholder='Enter your username'
          value={userName} onChange={(e)=>setPassword(e.target.value)} required/>
+
          <input type="text" placeholder='........' value={password}
           onChange={(e)=>setPassword(e.target.value)} required/>
+
+          <button type='submit' disabled={loading}>{}</button>
+
     </form>
 </div>
 )
