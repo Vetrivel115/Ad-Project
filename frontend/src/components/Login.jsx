@@ -24,7 +24,7 @@ return (
 
           <button type='submit' disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
 
-          {error && }
+          {error && <div>{error}</div>}
 
     </form>
 </div>
