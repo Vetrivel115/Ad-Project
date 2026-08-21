@@ -16,7 +16,7 @@ return (
          <input type="text" placeholder='........' value={password}
           onChange={(e)=>setPassword(e.target.value)} required/>
 
-          <button type='submit' disabled={loading}>{}</button>
+          <button type='submit' disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
 
     </form>
 </div>
