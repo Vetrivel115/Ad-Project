@@ -5,9 +5,10 @@ export default function Login() {
 const [userName,setUserName] = useState("");
 const [password,setPassword] = useState("");
 
+const {loading,error} = useSelector((state)=>state.auth);
+
 const handleSubmit = async(e) => {
     e.preventDefault();
-    
 }
 
 return (
@@ -22,6 +23,8 @@ return (
           onChange={(e)=>setPassword(e.target.value)} required/>
 
           <button type='submit' disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
+
+          {error && }
 
     </form>
 </div>
