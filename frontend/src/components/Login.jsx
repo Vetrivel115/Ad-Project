@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Login() {
 
-const 
+const [credentials,setCredentials] = useState({
+        username:"",
+        password:""
+});
 
 return (
 <div>Login</div>
