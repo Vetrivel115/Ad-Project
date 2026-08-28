@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {useSelector} from 'react-redux'
 
-export default function Login() {
+export default function login() {
 
 const [userName,setUserName] = useState("");
 const [password,setPassword] = useState("");
