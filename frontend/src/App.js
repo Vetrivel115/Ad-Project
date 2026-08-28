@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import login from './components/Login';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <login />
+        <Login />
         <a
           className="App-link"
           href="https://reactjs.org"
