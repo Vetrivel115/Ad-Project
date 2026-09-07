@@ -1,59 +1,82 @@
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import authService from '../../services/authService';
 
-// const storedUser = localStorage.getItem("user");
+let savedUser = null;
 
-// const initialState = {
-//   user: storedUser ? JSON.parse(storedUser) : null,
-//   loading: false,
-//   error: null,
-// };
+try {
+    const storedUser = localStorage.getItem('user');
 
-// export const login = createAsyncThunk(
-//   "auth/login",
-//   async ({ username, password }, { rejectWithValue }) => {
-//     try {
-//       const user = {
-//         token: "new-token",
-//         role: "DRIVER",
-//       };
-//       localStorage.setItem("user", JSON.stringify(user));
-//       return user;
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
+    if (storedUser) {
+        savedUser = JSON.parse(storedUser);
+    }
+} catch (error) {
+    savedUser = null;
+}
 
-// const authSlice = createSlice({
-//   name: "auth",
-//   initialState,
-//   reducers: {
-//     logout: (state) => {
-//       state.user = null;
-//       localStorage.removeItem("user");
-//     },
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(login.pending, (state) => {
-//         state.loading = true;
-//         state.error = null;
-//       })
-//       .addCase(login.fulfilled, (state, action) => {
-//         state.loading = false;
-//         state.user = action.payload;
-//       })
-//       .addCase(login.rejected, (state, action) => {
-//         state.loading = false;
-//         state.error = action.error.message;
-//       });
-//   },
-// });
+const initialState = {
+    user: savedUser,
+    loading: false,
+    error: null
+};
 
-// export const { logout } = authSlice.actions;
+export const login = createAsyncThunk(
+    'auth/login',
+    async (credentials, { rejectWithValue }) => {
+        try {
+            const data = await authService.login(credentials);
 
-// const authReducer = authSlice.reducer;
+            return data;
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data?.message ||
+                error.message ||
+                'Login failed'
+            );
+        }
+    }
+);
 
-// authReducer.login = login;
+const authSlice = createSlice({
+    name: 'auth',
 
-// export default authReducer;
+    initialState,
+
+    reducers: {
+        logout: (state) => {
+            state.user = null;
+            state.loading = false;
+            state.error = null;
+
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+        }
+    },
+
+    extraReducers: (builder) => {
+        builder
+
+            .addCase(login.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+
+            .addCase(login.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                state.user = action.payload;
+            })
+
+            .addCase(login.rejected, (state, action) => {
+                state.loading = false;
+                state.error =
+                    action.payload ||
+                    action.error.message ||
+                    'Login failed';
+            });
+    }
+});
+
+export const { logout } = authSlice.actions;
+
+export default authSlice.reducer;
