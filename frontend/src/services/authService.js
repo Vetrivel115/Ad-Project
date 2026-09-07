@@ -1,22 +1,41 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
+const BASE_URL = 'http://localhost:8080/api';
 
-const login = async (username, password) => {
+const login = async (credentials) => {
     const response = await axios.post(
-        `${API_URL}/auth/login`,
-        {
-            username,
-            password
-        }
+        `${BASE_URL}/auth/login`,
+        credentials
     );
 
-    return response.data;
+    const data = response.data;
+
+    if (data?.token) {
+        localStorage.setItem(
+            'user',
+            JSON.stringify(data)
+        );
+
+        localStorage.setItem(
+            'token',
+            data.token
+        );
+
+        if (data.role) {
+            localStorage.setItem(
+                'role',
+                data.role
+            );
+        }
+    }
+
+    return data;
 };
 
 const logout = () => {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
 };
 
 export default {
