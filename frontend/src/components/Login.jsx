@@ -1,34 +1,94 @@
-import React, { useState } from 'react'
-import {useSelector} from 'react-redux'
+import React, { useState } from 'react';
 
-export default function Login() {
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
-const [userName,setUserName] = useState("");
-const [password,setPassword] = useState("");
+import { useNavigate } from 'react-router-dom';
 
-const {loading,error} = useSelector((state)=>state.auth);
+import {
+    login
+} from '../store/slices/authSlice';
 
-const handleSubmit = async(e) => {
-    e.preventDefault();
+function Login() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const {
+        loading,
+        error
+    } = useSelector(
+        (state) => state.auth
+    );
+
+    const [username, setUsername] =
+        useState('');
+
+    const [password, setPassword] =
+        useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const result = await dispatch(
+            login({
+                username,
+                password
+            })
+        );
+
+        if (!login.rejected.match(result)) {
+            navigate('/');
+        }
+    };
+
+    return (
+        <div className="login-page">
+
+            <form onSubmit={handleSubmit}>
+
+                <h1>FleetFocus Login</h1>
+
+                {error && (
+                    <div className="error-msg">
+                        {error}
+                    </div>
+                )}
+
+                <input
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    required
+                    onChange={(event) =>
+                        setUsername(event.target.value)
+                    }
+                />
+
+                <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    required
+                    onChange={(event) =>
+                        setPassword(event.target.value)
+                    }
+                />
+
+                <button
+                    type="submit"
+                    disabled={loading}
+                >
+                    {loading
+                        ? 'Logging In...'
+                        : 'Login'}
+                </button>
+
+            </form>
+
+        </div>
+    );
 }
 
-return (
-<div>
-    <form onSubmit={handleSubmit}>
-        <h1>FleetFocus Login</h1>
-
-        <input type="text" placeholder='Enter your username'
-         value={userName} onChange={(e)=>setPassword(e.target.value)} required/>
-
-         <input type="text" placeholder='........' value={password}
-          onChange={(e)=>setPassword(e.target.value)} required/>
-
-          <button type='submit' disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
-
-          {error && <div>{error}</div>}
-
-    </form>
-</div>
-)
-
-}
+export default Login;
