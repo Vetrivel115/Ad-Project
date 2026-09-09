@@ -90,5 +90,4 @@ export default {
     create,
     update,
     delete: remove
-    
 };
