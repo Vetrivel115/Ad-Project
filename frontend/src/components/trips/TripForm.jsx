@@ -129,93 +129,76 @@ function TripForm({
     }, []);
 
 
-    const handleSubmit = async (
-        event
-    ) => {
+    const handleSubmit = async (event) => {
 
-        event.preventDefault();
+    event.preventDefault();
 
-        setError('');
+    if (
+        !vehicleId ||
+        !driverId
+    ) {
+        alert(
+            'Please select both a vehicle and a driver'
+        );
+
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+
+        await tripService.start({
+
+            vehicle: {
+                id: parseInt(
+                    vehicleId,
+                    10
+                )
+            },
+
+            driver: {
+                id: parseInt(
+                    driverId,
+                    10
+                )
+            }
+
+        });
 
 
-        if (!vehicleId) {
-
-            setError(
-                'Please select a vehicle'
-            );
-
-            return;
-
+        if (onRefresh) {
+            await onRefresh();
         }
 
 
-        if (!driverId) {
-
-            setError(
-                'Please select a driver'
-            );
-
-            return;
-
+        if (onClose) {
+            onClose();
         }
 
+    } catch (error) {
 
-        setLoading(true);
+        console.error(
+            'Trip start error:',
+            error
+        );
 
-
-        try {
-
-            await tripService.start({
-
-                vehicleId:
-                    Number(vehicleId),
-
-                driverId:
-                    Number(driverId)
-
-            });
-
-
-            if (onRefresh) {
-
-                await onRefresh();
-
-            }
-
-
-            if (onClose) {
-
-                onClose();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                'Error starting trip:',
-                error
-            );
-
-
-            setError(
-
+        alert(
+            'Error dispatching trip: ' +
+            (
                 error.response?.data?.message ||
-
                 error.response?.data ||
+                error.message
+            )
+        );
 
-                error.message ||
+    } finally {
 
-                'Error dispatching trip'
+        setLoading(false);
 
-            );
+    }
 
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
+};
 
 
     return (
