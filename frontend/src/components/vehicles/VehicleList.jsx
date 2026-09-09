@@ -3,70 +3,121 @@ import React, {
     useState
 } from 'react';
 
-import {
-    useDispatch,
-    useSelector
-} from 'react-redux';
+import vehicleService
+    from '../../services/vehicleService';
 
-import VehicleForm from './VehicleForm';
+import './VehicleList.css';
 
-import {
-    deleteVehicle,
-    fetchVehicles
-} from '../../store/slices/vehicleSlice';
 
 function VehicleList() {
-    const dispatch = useDispatch();
 
-    const {
-        items,
-        pagination,
-        loading,
-        error
-    } = useSelector(
-        (state) => state.vehicles
-    );
+    const [vehicles, setVehicles] =
+        useState([]);
 
-    const user = useSelector(
-        (state) => state.auth.user
-    );
+    const [loading, setLoading] =
+        useState(true);
 
-    const [showForm, setShowForm] =
-        useState(false);
-
-    const [selectedVehicle,
-        setSelectedVehicle] =
-        useState(null);
-
-    const [notification,
-        setNotification] =
+    const [error, setError] =
         useState('');
 
-    const role = user?.role;
+    const [search, setSearch] =
+        useState('');
+
+
+    const loadVehicles = async () => {
+
+        try {
+
+            setLoading(true);
+
+            const data =
+                await vehicleService.getAll(
+                    0,
+                    10
+                );
+
+            setVehicles(
+                data.content || []
+            );
+
+        } catch (err) {
+
+            console.error(err);
+
+            setError(
+                err.response?.data?.message ||
+                'Unable to load vehicles'
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
 
     useEffect(() => {
-        dispatch(
-            fetchVehicles({
-                page: 0,
-                size: 10
-            })
-        );
-    }, [dispatch, role]);
 
-    const handleAdd = () => {
-        setSelectedVehicle(null);
-        setShowForm(true);
+        loadVehicles();
+
+    }, []);
+
+
+    const getStatusClass = (status) => {
+
+        if (status === 'AVAILABLE') {
+            return 'status-available';
+        }
+
+        if (status === 'ON_TRIP') {
+            return 'status-trip';
+        }
+
+        if (status === 'MAINTENANCE') {
+            return 'status-maintenance';
+        }
+
+        return '';
+
     };
 
-    const handleEdit = (vehicle) => {
-        setSelectedVehicle(vehicle);
-        setShowForm(true);
-    };
+
+    const filteredVehicles =
+        vehicles.filter((vehicle) => {
+
+            const searchText =
+                search.toLowerCase();
+
+            return (
+
+                vehicle.vin
+                    ?.toLowerCase()
+                    .includes(searchText)
+
+                ||
+
+                vehicle.licensePlate
+                    ?.toLowerCase()
+                    .includes(searchText)
+
+                ||
+
+                vehicle.model
+                    ?.toLowerCase()
+                    .includes(searchText)
+
+            );
+
+        });
+
 
     const handleDelete = async (id) => {
+
         const confirmed =
             window.confirm(
-                'Are you sure you want to delete this Vehicle?'
+                'Are you sure you want to delete this vehicle?'
             );
 
         if (!confirmed) {
@@ -74,234 +125,524 @@ function VehicleList() {
         }
 
         try {
-            const result =
-                await dispatch(
-                    deleteVehicle(id)
-                ).unwrap();
 
-            if (
-                typeof result.message ===
-                'string'
-            ) {
-                setNotification(
-                    result.message
-                );
-            } else {
-                setNotification(
-                    'Vehicle deleted successfully'
-                );
-            }
+            await vehicleService.delete(id);
 
-        } catch (deleteError) {
-            setNotification(
-                deleteError ||
-                'Error deleting vehicle'
+            loadVehicles();
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(
+                'Failed to delete vehicle'
             );
+
         }
+
     };
 
-    const isFleetManager =
-        role === 'FLEET_MANAGER';
 
     return (
-        <div className="vehicle-list">
 
-            <h1>
-                Vehicle Inventory
-            </h1>
+        <div className="vehicle-page">
 
-            {notification && (
-                <div className="notification">
-                    {notification}
-                </div>
-            )}
 
-            {error && (
-                <div className="error">
-                    {error}
-                </div>
-            )}
+            {/* HEADER */}
 
-            {isFleetManager && (
-                <button
-                    type="button"
-                    onClick={handleAdd}
-                >
-                    + Add Vehicle
-                </button>
-            )}
+            <div className="vehicle-header">
 
-            {loading &&
-                items.length === 0 && (
-                    <p>
-                        Loading Fleet Assets...
+                <div>
+
+                    <p className="page-subtitle">
+                        Fleet Management
                     </p>
-                )}
 
-            <table>
+                    <h1>
+                        Vehicle Inventory
+                    </h1>
 
-                <thead>
+                    <p className="vehicle-description">
 
-                    <tr>
-                        <th>VIN</th>
-                        <th>License Plate</th>
-                        <th>Model</th>
-                        <th>Status</th>
-                        <th>Mileage</th>
-                        <th>Actions</th>
-                    </tr>
+                        Manage and monitor all
+                        vehicles in your fleet.
 
-                </thead>
+                    </p>
 
-                <tbody>
+                </div>
 
-                    {items.map(
-                        (vehicle) => (
-                            <tr
-                                key={
-                                    vehicle.id
-                                }
-                            >
-                                <td>
-                                    {vehicle.vin}
-                                </td>
 
-                                <td>
-                                    {
-                                        vehicle.licensePlate
-                                    }
-                                </td>
-
-                                <td>
-                                    {
-                                        vehicle.model
-                                    }
-                                </td>
-
-                                <td>
-                                    {
-                                        vehicle.status
-                                    }
-                                </td>
-
-                                <td>
-                                    {Number(
-                                        vehicle.currentMileage || 0
-                                    ).toLocaleString()}
-                                    km
-                                </td>
-
-                                <td>
-
-                                    {isFleetManager ? (
-                                        <>
-
-                                            <button
-                                                onClick={() =>
-                                                    handleEdit(
-                                                        vehicle
-                                                    )
-                                                }
-                                            >
-                                                Edit
-                                            </button>
-
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(
-                                                        vehicle.id
-                                                    )
-                                                }
-                                            >
-                                                Delete
-                                            </button>
-
-                                        </>
-                                    ) : (
-                                        'Read-only'
-                                    )}
-
-                                </td>
-
-                            </tr>
-                        )
-                    )}
-
-                </tbody>
-
-            </table>
-
-            {pagination.totalPages > 1 && (
-                <div className="pagination">
-
-                    <button
-                        disabled={
-                            pagination.currentPage === 0
-                        }
-                        onClick={() =>
-                            dispatch(
-                                fetchVehicles({
-                                    page:
-                                        pagination.currentPage - 1,
-                                    size:
-                                        pagination.pageSize
-                                })
-                            )
-                        }
-                    >
-                        Previous
-                    </button>
+                <button
+                    className="add-vehicle-btn"
+                >
 
                     <span>
-                        Page {
-                            pagination.currentPage + 1
-                        } of {
-                            pagination.totalPages
-                        }
+                        +
                     </span>
 
-                    <button
-                        disabled={
-                            pagination.currentPage >=
-                            pagination.totalPages - 1
-                        }
-                        onClick={() =>
-                            dispatch(
-                                fetchVehicles({
-                                    page:
-                                        pagination.currentPage + 1,
-                                    size:
-                                        pagination.pageSize
-                                })
-                            )
-                        }
-                    >
-                        Next
-                    </button>
+                    Add Vehicle
+
+                </button>
+
+            </div>
+
+
+
+            {/* STATISTICS */}
+
+            <div className="vehicle-stats">
+
+
+                <div className="vehicle-stat-card">
+
+                    <div className="stat-icon">
+                        🚚
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Total Vehicles
+                        </p>
+
+                        <h2>
+                            {vehicles.length}
+                        </h2>
+
+                    </div>
 
                 </div>
-            )}
 
-            {showForm && (
-                <VehicleForm
-                    vehicle={
-                        selectedVehicle
-                    }
-                    onClose={() => {
-                        setShowForm(false);
 
-                        dispatch(
-                            fetchVehicles({
-                                page: 0,
-                                size: 10
-                            })
-                        );
-                    }}
-                />
-            )}
+                <div className="vehicle-stat-card">
+
+                    <div className="stat-icon available-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Available
+                        </p>
+
+                        <h2>
+
+                            {
+                                vehicles.filter(
+                                    (vehicle) =>
+                                        vehicle.status ===
+                                        'AVAILABLE'
+                                ).length
+                            }
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div className="vehicle-stat-card">
+
+                    <div className="stat-icon trip-icon">
+                        📍
+                    </div>
+
+                    <div>
+
+                        <p>
+                            On Trip
+                        </p>
+
+                        <h2>
+
+                            {
+                                vehicles.filter(
+                                    (vehicle) =>
+                                        vehicle.status ===
+                                        'ON_TRIP'
+                                ).length
+                            }
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div className="vehicle-stat-card">
+
+                    <div className="stat-icon maintenance-icon">
+                        🔧
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Maintenance
+                        </p>
+
+                        <h2>
+
+                            {
+                                vehicles.filter(
+                                    (vehicle) =>
+                                        vehicle.status ===
+                                        'MAINTENANCE'
+                                ).length
+                            }
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            {/* TABLE CARD */}
+
+            <div className="vehicle-table-card">
+
+
+                <div className="table-toolbar">
+
+
+                    <div>
+
+                        <h2>
+                            Fleet Vehicles
+                        </h2>
+
+                        <p>
+                            View and manage your
+                            registered vehicles
+                        </p>
+
+                    </div>
+
+
+                    <div className="search-box">
+
+                        <span>
+                            🔍
+                        </span>
+
+                        <input
+
+                            type="text"
+
+                            placeholder="
+                                Search VIN, plate or model...
+                            "
+
+                            value={search}
+
+                            onChange={
+                                (event) =>
+                                    setSearch(
+                                        event.target.value
+                                    )
+                            }
+
+                        />
+
+                    </div>
+
+
+                </div>
+
+
+
+                {loading && (
+
+                    <div className="loading-state">
+
+                        Loading vehicles...
+
+                    </div>
+
+                )}
+
+
+                {error && (
+
+                    <div className="error-state">
+
+                        ⚠ {error}
+
+                    </div>
+
+                )}
+
+
+
+                {!loading &&
+                    !error && (
+
+                    <div className="table-wrapper">
+
+                        <table
+                            className="vehicle-table"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Vehicle
+                                    </th>
+
+                                    <th>
+                                        VIN
+                                    </th>
+
+                                    <th>
+                                        License Plate
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Mileage
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {
+                                    filteredVehicles
+                                        .map(
+                                            (vehicle) => (
+
+                                                <tr
+                                                    key={
+                                                        vehicle.id
+                                                    }
+                                                >
+
+                                                    <td>
+
+                                                        <div
+                                                            className="
+                                                                vehicle-info
+                                                            "
+                                                        >
+
+                                                            <div
+                                                                className="
+                                                                    vehicle-avatar
+                                                                "
+                                                            >
+                                                                🚚
+                                                            </div>
+
+
+                                                            <div>
+
+                                                                <strong>
+
+                                                                    {
+                                                                        vehicle.model
+                                                                    }
+
+                                                                </strong>
+
+                                                                <span>
+
+                                                                    Fleet
+                                                                    Vehicle
+
+                                                                </span>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </td>
+
+
+                                                    <td
+                                                        className="
+                                                            vin-text
+                                                        "
+                                                    >
+
+                                                        {
+                                                            vehicle.vin
+                                                        }
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        <span
+                                                            className="
+                                                                license-plate
+                                                            "
+                                                        >
+
+                                                            {
+                                                                vehicle.licensePlate
+                                                            }
+
+                                                        </span>
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        <span
+
+                                                            className={
+                                                                `status-badge
+                                                                ${getStatusClass(
+                                                                    vehicle.status
+                                                                )}`
+                                                            }
+
+                                                        >
+
+                                                            {
+                                                                vehicle.status
+                                                                    ?.replace(
+                                                                        '_',
+                                                                        ' '
+                                                                    )
+                                                            }
+
+                                                        </span>
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        {
+                                                            vehicle.mileage
+                                                        } km
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        <div
+                                                            className="
+                                                                action-buttons
+                                                            "
+                                                        >
+
+                                                            <button
+                                                                className="
+                                                                    edit-btn
+                                                                "
+                                                            >
+
+                                                                ✏ Edit
+
+                                                            </button>
+
+
+                                                            <button
+
+                                                                className="
+                                                                    delete-btn
+                                                                "
+
+                                                                onClick={
+                                                                    () =>
+                                                                        handleDelete(
+                                                                            vehicle.id
+                                                                        )
+                                                                }
+
+                                                            >
+
+                                                                🗑 Delete
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </td>
+
+
+                                                </tr>
+
+                                            )
+                                        )
+                                }
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                        {
+                            filteredVehicles.length ===
+                                0 && (
+
+                                <div
+                                    className="
+                                        empty-state
+                                    "
+                                >
+
+                                    <div>
+                                        🚚
+                                    </div>
+
+                                    <h3>
+                                        No vehicles found
+                                    </h3>
+
+                                    <p>
+
+                                        Try changing your
+                                        search.
+
+                                    </p>
+
+                                </div>
+
+                            )
+                        }
+
+
+                    </div>
+
+                )}
+
+
+            </div>
+
 
         </div>
+
     );
+
 }
+
 
 export default VehicleList;
