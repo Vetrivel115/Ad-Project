@@ -1,0 +1,242 @@
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.status-donut-container {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.status-donut-container h2 {
+    margin-top: 0;
+    color: #1e293b;
+}
+
+.donut-content {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    margin-top: 20px;
+}
+
+.status-donut circle {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.on-trip {
+    background: #10b981;
+}
+
+.dot.maintenance {
+    background: #f59e0b;
+}
+
+.dot.available {
+    background: #2563eb;
+}
+
+.live-fleet-container {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.live-fleet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.pulse {
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border-radius: 50%;
+    animation: pulse-animation 1.5s infinite;
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.live-fleet-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.live-fleet-table th,
+.live-fleet-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+.live-fleet-table th {
+    background: #f8fafc;
+    color: #475569;
+}
+
+.vehicle-model {
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.status-badge,
+.trip-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-badge.available {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.on-trip,
+.trip-status.active {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.status-badge.under-maintenance {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.text-emphasis {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.capacity-bar {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.capacity-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.fuel-text {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.live-loading,
+.page-loading {
+    padding: 40px;
+    text-align: center;
+    font-size: 18px;
+    color: #64748b;
+}
+
+.empty-row {
+    text-align: center !important;
+    padding: 30px !important;
+    color: #64748b;
+}
+
+@media (max-width: 900px) {
+    .stat-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .stat-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .live-fleet-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .donut-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
