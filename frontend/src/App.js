@@ -10,21 +10,15 @@ import {
 import Navbar from './components/layout/Navbar';
 import Login from './components/Login';
 
+import Dashboard from
+    './components/dashboard/Dashboard';
+
 import VehicleList from
     './components/vehicles/VehicleList';
 
 import ProtectedRoute from
     './components/ProtectedRoute';
 
-function Dashboard() {
-    return (
-        <div>
-            <h1>
-                FleetFocus Dashboard
-            </h1>
-        </div>
-    );
-}
 
 function App() {
     return (
