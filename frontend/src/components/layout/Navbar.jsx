@@ -23,19 +23,11 @@ function Navbar() {
 
     const navigate = useNavigate();
 
-
     const user = useSelector(
         (state) => state.auth.user
     );
 
-
-    if (!user) {
-        return null;
-    }
-
-
-    const role = user.role;
-
+    const role = user?.role;
 
     const showMaintenance =
         role === 'FLEET_MANAGER' ||
@@ -43,6 +35,8 @@ function Navbar() {
 
 
     const handleLogout = () => {
+
+        localStorage.clear();
 
         dispatch(
             logout()
@@ -58,15 +52,11 @@ function Navbar() {
 
         <nav className="navbar">
 
-
-            {/* ================= BRAND ================= */}
-
             <div className="navbar-brand">
 
                 <div className="navbar-logo">
                     🚚
                 </div>
-
 
                 <div className="brand-text">
 
@@ -83,149 +73,113 @@ function Navbar() {
             </div>
 
 
+            {user && (
 
-            {/* ================= NAVIGATION ================= */}
+                <>
 
-            <div className="navbar-links">
+                    <div className="navbar-links">
 
-
-                <NavLink
-                    to="/"
-                    className={({ isActive }) =>
-                        isActive
-                            ? 'nav-link active'
-                            : 'nav-link'
-                    }
-                >
-                    <span className="nav-icon">
-                        📊
-                    </span>
-
-                    Dashboard
-                </NavLink>
-
-
-
-                <NavLink
-                    to="/vehicles"
-                    className={({ isActive }) =>
-                        isActive
-                            ? 'nav-link active'
-                            : 'nav-link'
-                    }
-                >
-                    <span className="nav-icon">
-                        🚛
-                    </span>
-
-                    Vehicles
-                </NavLink>
-
-
-
-                <NavLink
-                    to="/trips"
-                    className={({ isActive }) =>
-                        isActive
-                            ? 'nav-link active'
-                            : 'nav-link'
-                    }
-                >
-                    <span className="nav-icon">
-                        🗺️
-                    </span>
-
-                    Trips
-                </NavLink>
-
-
-
-                {showMaintenance && (
-
-                    <NavLink
-                        to="/maintenance"
-                        className={({ isActive }) =>
-                            isActive
-                                ? 'nav-link active'
-                                : 'nav-link'
-                        }
-                    >
-                        <span className="nav-icon">
-                            🔧
-                        </span>
-
-                        Maintenance
-                    </NavLink>
-
-                )}
-
-
-            </div>
-
-
-
-            {/* ================= USER ================= */}
-
-            <div className="navbar-user">
-
-
-                <div className="user-profile">
-
-
-                    <div className="user-avatar">
-
-                        {user.username
-                            ?.charAt(0)
-                            ?.toUpperCase()
-                        }
-
-                    </div>
-
-
-                    <div className="user-info">
-
-                        <span className="user-name">
-
-                            {user.username}
-
-                        </span>
-
-
-                        <span className="user-role">
-
-                            {role
-                                ?.replace(
-                                    /_/g,
-                                    ' '
-                                )
+                        <NavLink
+                            to="/"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? 'nav-link active'
+                                    : 'nav-link'
                             }
+                        >
+                            Dashboard
+                        </NavLink>
 
-                        </span>
+
+                        <NavLink
+                            to="/vehicles"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? 'nav-link active'
+                                    : 'nav-link'
+                            }
+                        >
+                            Vehicles
+                        </NavLink>
+
+
+                        <NavLink
+                            to="/trips"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? 'nav-link active'
+                                    : 'nav-link'
+                            }
+                        >
+                            Trips
+                        </NavLink>
+
+
+                        {showMaintenance && (
+
+                            <NavLink
+                                to="/maintenance"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? 'nav-link active'
+                                        : 'nav-link'
+                                }
+                            >
+                                Maintenance
+                            </NavLink>
+
+                        )}
 
                     </div>
 
 
-                </div>
+                    <div className="navbar-user">
+
+                        <div className="user-profile">
+
+                            <div className="user-avatar">
+
+                                {user.username
+                                    ?.charAt(0)
+                                    ?.toUpperCase()}
+
+                            </div>
 
 
+                            <div className="user-info">
 
-                <button
-                    type="button"
-                    className="logout-button"
-                    onClick={handleLogout}
-                >
+                                <span className="user-name">
+                                    {user.username}
+                                </span>
 
-                    <span>
-                        ↪
-                    </span>
+                                <span className="user-role">
 
-                    Logout
+                                    {role
+                                        ?.replace(
+                                            /_/g,
+                                            ' '
+                                        )}
 
-                </button>
+                                </span>
+
+                            </div>
+
+                        </div>
 
 
-            </div>
+                        <button
+                            type="button"
+                            className="logout-button"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
 
+                    </div>
+
+                </>
+
+            )}
 
         </nav>
 
