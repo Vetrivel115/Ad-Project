@@ -1,8 +1,6 @@
 import api from './api';
 
-
 const getAll = async () => {
-
     const response = await api.get(
         '/trips'
     );
@@ -10,9 +8,7 @@ const getAll = async () => {
     return response.data;
 };
 
-
 const start = async (data) => {
-
     const response = await api.post(
         '/trips/start',
         data
@@ -21,17 +17,16 @@ const start = async (data) => {
     return response.data;
 };
 
-
 const end = async (id, distance) => {
-
     const response = await api.put(
         `/trips/${id}/end`,
-        { distance }
+        {
+            distanceCovered: distance
+        }
     );
 
     return response.data;
 };
-
 
 export default {
     getAll,
