@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, {
+    useState
+} from 'react';
 
 import {
     useDispatch,
@@ -13,13 +15,17 @@ import {
     login
 } from '../store/slices/authSlice';
 
+import authService from '../services/authService';
+
 import './Login.css';
 
 
 function Login() {
 
     const dispatch = useDispatch();
+
     const navigate = useNavigate();
+
 
     const {
         loading,
@@ -28,24 +34,65 @@ function Login() {
         (state) => state.auth
     );
 
+
     const [username, setUsername] =
         useState('');
 
     const [password, setPassword] =
         useState('');
 
+    const [loginError, setLoginError] =
+        useState('');
 
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
+
         event.preventDefault();
 
-        dispatch(
-            login({
-                username,
-                password
-            })
-        );
+        setLoginError('');
 
-        navigate('/');
+        try {
+
+            /*
+             Call Spring Boot API
+            */
+
+            const userData =
+                await authService.login({
+                    username,
+                    password
+                });
+
+
+            /*
+             Store authenticated user in Redux
+            */
+
+            dispatch(
+                login(userData)
+            );
+
+
+            /*
+             Go to dashboard
+            */
+
+            navigate('/');
+
+        } catch (error) {
+
+            console.error(
+                'Login failed:',
+                error
+            );
+
+            setLoginError(
+                error.response?.data?.message ||
+                'Invalid username or password'
+            );
+
+        }
+
     };
 
 
@@ -53,7 +100,8 @@ function Login() {
 
         <div className="login-page">
 
-            {/* Left branding section */}
+
+            {/* LEFT BRAND SECTION */}
 
             <div className="login-brand">
 
@@ -63,22 +111,31 @@ function Login() {
                         🚚
                     </div>
 
+
                     <h1>
                         FleetFocus
                     </h1>
 
+
                     <p className="brand-tagline">
+
                         Smart Fleet Management.
                         Better Decisions.
+
                     </p>
+
 
                     <div className="brand-features">
 
+
                         <div className="brand-feature">
 
-                            <span>📍</span>
+                            <span>
+                                📍
+                            </span>
 
                             <div>
+
                                 <h3>
                                     Live Tracking
                                 </h3>
@@ -86,6 +143,7 @@ function Login() {
                                 <p>
                                     Monitor your fleet in real time
                                 </p>
+
                             </div>
 
                         </div>
@@ -93,9 +151,12 @@ function Login() {
 
                         <div className="brand-feature">
 
-                            <span>🔧</span>
+                            <span>
+                                🔧
+                            </span>
 
                             <div>
+
                                 <h3>
                                     Maintenance Management
                                 </h3>
@@ -103,6 +164,7 @@ function Login() {
                                 <p>
                                     Keep every vehicle healthy
                                 </p>
+
                             </div>
 
                         </div>
@@ -110,9 +172,12 @@ function Login() {
 
                         <div className="brand-feature">
 
-                            <span>📊</span>
+                            <span>
+                                📊
+                            </span>
 
                             <div>
+
                                 <h3>
                                     Fleet Analytics
                                 </h3>
@@ -120,9 +185,11 @@ function Login() {
                                 <p>
                                     Make better operational decisions
                                 </p>
+
                             </div>
 
                         </div>
+
 
                     </div>
 
@@ -131,94 +198,153 @@ function Login() {
             </div>
 
 
-            {/* Right login section */}
+
+            {/* RIGHT LOGIN SECTION */}
 
             <div className="login-container">
+
 
                 <form
                     className="login-card"
                     onSubmit={handleSubmit}
                 >
 
+
                     <div className="login-header">
+
 
                         <div className="mobile-logo">
                             🚚
                         </div>
 
+
                         <h2>
                             Welcome Back
                         </h2>
+
 
                         <p>
                             Sign in to manage your fleet
                         </p>
 
+
                     </div>
 
 
-                    {error && (
+
+                    {/* ERROR */}
+
+                    {(error || loginError) && (
 
                         <div className="error-msg">
-                            ⚠ {error}
+
+                            ⚠ {
+
+                                loginError ||
+                                error
+
+                            }
+
                         </div>
 
                     )}
 
 
+
+                    {/* USERNAME */}
+
                     <div className="input-group">
+
 
                         <label>
                             Username
                         </label>
 
+
                         <input
+
                             type="text"
+
                             placeholder="Enter your username"
+
                             value={username}
+
                             required
-                            onChange={(event) =>
-                                setUsername(
-                                    event.target.value
-                                )
+
+                            onChange={
+                                (event) =>
+
+                                    setUsername(
+                                        event.target.value
+                                    )
                             }
+
                         />
+
 
                     </div>
 
 
+
+                    {/* PASSWORD */}
+
                     <div className="input-group">
+
 
                         <label>
                             Password
                         </label>
 
+
                         <input
+
                             type="password"
+
                             placeholder="••••••••"
+
                             value={password}
+
                             required
-                            onChange={(event) =>
-                                setPassword(
-                                    event.target.value
-                                )
+
+                            onChange={
+                                (event) =>
+
+                                    setPassword(
+                                        event.target.value
+                                    )
                             }
+
                         />
+
 
                     </div>
 
 
+
+                    {/* LOGIN BUTTON */}
+
                     <button
+
                         className="login-button"
+
                         type="submit"
+
                         disabled={loading}
+
                     >
 
-                        {loading
-                            ? 'Logging In...'
-                            : 'Login to FleetFocus'}
+                        {
+
+                            loading
+
+                                ? 'Logging In...'
+
+                                : 'Login to FleetFocus'
+
+                        }
 
                     </button>
+
 
 
                     <p className="login-footer">
@@ -227,9 +353,12 @@ function Login() {
 
                     </p>
 
+
                 </form>
 
+
             </div>
+
 
         </div>
 
