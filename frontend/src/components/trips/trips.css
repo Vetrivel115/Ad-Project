@@ -1,0 +1,44 @@
+.trip-container {
+    padding: 25px;
+}
+
+.trip-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.trip-table th,
+.trip-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.trip-table th {
+    background: #f8fafc;
+    color: #475569;
+}
+
+.trip-status.completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.trip-status.active {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.end-trip-button {
+    border: none;
+    background: #ef4444;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.end-trip-button:hover {
+    background: #dc2626;
+}
