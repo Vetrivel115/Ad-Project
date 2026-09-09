@@ -1,18 +1,8 @@
-import axios from 'axios';
-
-const BASE_URL = 'http://localhost:8080/api';
+import api from './api';
 
 const getLiveFleet = async () => {
-
-    const token = localStorage.getItem('token');
-
-    const response = await axios.get(
-        `${BASE_URL}/monitoring/live`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
+    const response = await api.get(
+        '/monitoring/live'
     );
 
     return response.data;
