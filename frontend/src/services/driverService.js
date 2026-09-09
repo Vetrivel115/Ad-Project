@@ -1,14 +1,16 @@
-import axios from 'axios';
+import api from './api';
 
-const BASE_URL = 'http://localhost:8080/api';
 
 const getAvailable = async () => {
-    const response = await axios.get(
-        `${BASE_URL}/drivers/available`
+
+    const response = await api.get(
+        '/drivers/available'
     );
 
     return response.data;
+
 };
+
 
 export default {
     getAvailable
