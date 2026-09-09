@@ -35,22 +35,17 @@ function Login() {
         useState('');
 
 
-    const handleSubmit = async (event) => {
-
+    const handleSubmit = (event) => {
         event.preventDefault();
 
-        const result = await dispatch(
+        dispatch(
             login({
                 username,
                 password
             })
         );
 
-        if (!login.rejected.match(result)) {
-
-            navigate('/');
-
-        }
+        navigate('/');
     };
 
 
