@@ -76,19 +76,38 @@ const authSlice =
 
             }
 
+        },
+
+        extraReducers: (builder) => {
+
+            builder.addCase(
+                'auth/login/fulfilled',
+                (
+                    state,
+                    action
+                ) => {
+
+                    state.user =
+                        action.payload;
+
+                    state.loading =
+                        false;
+
+                    state.error =
+                        null;
+
+                }
+            );
+
         }
 
     });
 
 
 export const {
-
     login,
-
     loginSuccess,
-
     logout
-
 } =
     authSlice.actions;
 
