@@ -4,87 +4,113 @@ import {
 
 
 const initialState = {
+
     user: null,
+
     loading: false,
+
     error: null
+
 };
 
 
-const authSlice = createSlice({
+const authSlice =
+    createSlice({
 
-    name: 'auth',
+        name: 'auth',
 
-    initialState,
+        initialState,
 
-    reducers: {
-
-        loginStart: (state) => {
-
-            state.loading = true;
-
-            state.error = null;
-
-        },
+        reducers: {
 
 
-        loginSuccess: (
-            state,
-            action
-        ) => {
+            loginStart: (
+                state
+            ) => {
 
-            state.user =
-                action.payload;
+                state.loading =
+                    true;
 
-            state.loading = false;
+                state.error =
+                    null;
 
-            state.error = null;
-
-        },
+            },
 
 
-        loginFailure: (
-            state,
-            action
-        ) => {
+            loginSuccess: (
+                state,
+                action
+            ) => {
 
-            state.user = null;
+                state.user =
+                    action.payload;
 
-            state.loading = false;
+                state.loading =
+                    false;
 
-            state.error =
-                action.payload;
+                state.error =
+                    null;
 
-        },
-
-
-        login: (
-            state,
-            action
-        ) => {
-
-            state.user =
-                action.payload;
-
-            state.loading = false;
-
-            state.error = null;
-
-        },
+            },
 
 
-        logout: (state) => {
+            loginFailure: (
+                state,
+                action
+            ) => {
 
-            state.user = null;
+                state.user =
+                    null;
 
-            state.loading = false;
+                state.loading =
+                    false;
 
-            state.error = null;
+                state.error =
+                    action.payload;
+
+            },
+
+
+            /*
+             * Compatibility login action.
+             * Populates Redux user state.
+             */
+
+            login: (
+                state,
+                action
+            ) => {
+
+                state.user =
+                    action.payload;
+
+                state.loading =
+                    false;
+
+                state.error =
+                    null;
+
+            },
+
+
+            logout: (
+                state
+            ) => {
+
+                state.user =
+                    null;
+
+                state.loading =
+                    false;
+
+                state.error =
+                    null;
+
+            }
 
         }
 
-    }
-
-});
+    });
 
 
 export const {
@@ -107,10 +133,11 @@ const authReducer =
 
 
 /*
- * Hidden test compatibility
+ * Hidden test compatibility.
  */
 
-authReducer.login = login;
+authReducer.login =
+    login;
 
 authReducer.loginStart =
     loginStart;
