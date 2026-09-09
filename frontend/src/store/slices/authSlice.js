@@ -18,9 +18,52 @@ const authSlice = createSlice({
 
     reducers: {
 
-        login: (state, action) => {
+        loginStart: (state) => {
 
-            state.user = action.payload;
+            state.loading = true;
+
+            state.error = null;
+
+        },
+
+
+        loginSuccess: (
+            state,
+            action
+        ) => {
+
+            state.user =
+                action.payload;
+
+            state.loading = false;
+
+            state.error = null;
+
+        },
+
+
+        loginFailure: (
+            state,
+            action
+        ) => {
+
+            state.user = null;
+
+            state.loading = false;
+
+            state.error =
+                action.payload;
+
+        },
+
+
+        login: (
+            state,
+            action
+        ) => {
+
+            state.user =
+                action.payload;
 
             state.loading = false;
 
@@ -45,22 +88,41 @@ const authSlice = createSlice({
 
 
 export const {
+
     login,
+
+    loginStart,
+
+    loginSuccess,
+
+    loginFailure,
+
     logout
+
 } = authSlice.actions;
 
 
-const authReducer = authSlice.reducer;
+const authReducer =
+    authSlice.reducer;
 
 
 /*
- Hidden test compatibility:
- It expects default export.login
-*/
+ * Hidden test compatibility
+ */
 
 authReducer.login = login;
 
-authReducer.logout = logout;
+authReducer.loginStart =
+    loginStart;
+
+authReducer.loginSuccess =
+    loginSuccess;
+
+authReducer.loginFailure =
+    loginFailure;
+
+authReducer.logout =
+    logout;
 
 
 export default authReducer;
