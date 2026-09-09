@@ -3,9 +3,14 @@ import React, {
     useState
 } from 'react';
 
-import vehicleService from '../../services/vehicleService';
-import driverService from '../../services/driverService';
-import tripService from '../../services/tripService';
+import vehicleService
+    from '../../services/vehicleService';
+
+import driverService
+    from '../../services/driverService';
+
+import tripService
+    from '../../services/tripService';
 
 import './trips.css';
 
@@ -30,130 +35,98 @@ function TripForm({
     const [loading, setLoading] =
         useState(false);
 
-    const [dataLoading, setDataLoading] =
-        useState(true);
-
     const [error, setError] =
         useState('');
 
 
     useEffect(() => {
 
-        const loadData = async () => {
+        const loadVehicles = async () => {
 
             try {
 
-                setDataLoading(true);
-
-                setError('');
-
-
-                const vehicleResponse =
+                const response =
                     await vehicleService.getAvailable();
 
-
                 console.log(
-                    'Vehicle API Response:',
-                    vehicleResponse
+                    'Available vehicles:',
+                    response
                 );
 
+                const vehicleData =
+                    response?.data ||
+                    response;
 
-                /*
-                 * Backend returns an array directly:
-                 *
-                 * [
-                 *   { id: 1, ... },
-                 *   { id: 52, ... }
-                 * ]
-                 */
-                if (
-                    Array.isArray(
-                        vehicleResponse
-                    )
-                ) {
-
-                    setVehicles(
-                        vehicleResponse
-                    );
-
-                } else {
-
-                    setVehicles(
-                        vehicleResponse?.content ||
-                        vehicleResponse?.data ||
-                        []
-                    );
-
-                }
-
-
-                const driverResponse =
-                    await driverService.getAvailable();
-
-
-                console.log(
-                    'Driver API Response:',
-                    driverResponse
+                setVehicles(
+                    Array.isArray(vehicleData)
+                        ? vehicleData
+                        : vehicleData?.content || []
                 );
-
-
-                /*
-                 * Handle driver response.
-                 */
-                if (
-                    Array.isArray(
-                        driverResponse
-                    )
-                ) {
-
-                    setDrivers(
-                        driverResponse
-                    );
-
-                } else {
-
-                    setDrivers(
-                        driverResponse?.content ||
-                        driverResponse?.data ||
-                        []
-                    );
-
-                }
-
 
             } catch (error) {
 
                 console.error(
-                    'Error loading trip form:',
+                    'Error loading vehicles:',
                     error
                 );
 
-
                 setError(
-
                     error.response?.data?.message ||
-
                     error.message ||
-
-                    'Error loading vehicles or drivers'
-
+                    'Unable to load available vehicles'
                 );
-
-
-            } finally {
-
-                setDataLoading(false);
 
             }
 
         };
 
 
-        loadData();
+        const loadDrivers = async () => {
 
+            try {
+
+                const response =
+                    await driverService.getAvailable();
+
+                console.log(
+                    'Available drivers:',
+                    response
+                );
+
+                const driverData =
+                    response?.data ||
+                    response;
+
+                setDrivers(
+                    Array.isArray(driverData)
+                        ? driverData
+                        : driverData?.content || []
+                );
+
+            } catch (error) {
+
+                console.error(
+                    'Error loading drivers:',
+                    error
+                );
+
+                setError((previousError) =>
+                    previousError ||
+                    error.response?.data?.message ||
+                    error.message ||
+                    'Unable to load available drivers'
+                );
+
+            }
+
+        };
+
+
+        loadVehicles();
+
+        loadDrivers();
 
     }, []);
-
 
 
     const handleSubmit = async (
@@ -162,14 +135,24 @@ function TripForm({
 
         event.preventDefault();
 
+        setError('');
 
-        if (
-            !vehicleId ||
-            !driverId
-        ) {
 
-            alert(
-                'Please select both a vehicle and a driver'
+        if (!vehicleId) {
+
+            setError(
+                'Please select a vehicle'
+            );
+
+            return;
+
+        }
+
+
+        if (!driverId) {
+
+            setError(
+                'Please select a driver'
             );
 
             return;
@@ -200,33 +183,31 @@ function TripForm({
             }
 
 
-            onClose();
+            if (onClose) {
 
+                onClose();
+
+            }
 
         } catch (error) {
 
             console.error(
-                'Error dispatching trip:',
+                'Error starting trip:',
                 error
             );
 
 
-            alert(
+            setError(
 
-                'Error dispatching trip: ' +
+                error.response?.data?.message ||
 
-                (
-                    error.response?.data?.message ||
+                error.response?.data ||
 
-                    error.response?.data ||
+                error.message ||
 
-                    error.message ||
-
-                    'Unknown error'
-                )
+                'Error dispatching trip'
 
             );
-
 
         } finally {
 
@@ -237,21 +218,15 @@ function TripForm({
     };
 
 
-
     return (
 
         <div
             className="modal-overlay"
-            onClick={onClose}
         >
 
             <div
                 className="modal"
-                onClick={(event) =>
-                    event.stopPropagation()
-                }
             >
-
 
                 <div
                     className="modal-header"
@@ -270,9 +245,7 @@ function TripForm({
                         ×
                     </button>
 
-
                 </div>
-
 
 
                 {error && (
@@ -280,209 +253,168 @@ function TripForm({
                     <div
                         className="error-message"
                     >
-
                         {error}
-
                     </div>
 
                 )}
 
 
+                <form
+                    onSubmit={handleSubmit}
+                >
 
-                {dataLoading ? (
+                    {/* VEHICLE */}
 
                     <div
-                        className="form-loading"
+                        className="form-group"
                     >
 
-                        Loading...
+                        <label>
+                            Available Vehicle
+                        </label>
+
+
+                        <select
+                            value={vehicleId}
+                            onChange={(event) =>
+                                setVehicleId(
+                                    event.target.value
+                                )
+                            }
+                            required
+                        >
+
+                            <option value="">
+                                Select Vehicle
+                            </option>
+
+
+                            {vehicles.map(
+                                (vehicle) => (
+
+                                    <option
+                                        key={vehicle.id}
+                                        value={vehicle.id}
+                                    >
+
+                                        {vehicle.licensePlate}
+
+                                        {' - '}
+
+                                        {vehicle.model}
+
+                                    </option>
+
+                                )
+                            )}
+
+                        </select>
+
+
+                        {vehicles.length === 0 && (
+
+                            <small>
+                                No available vehicles found
+                            </small>
+
+                        )}
 
                     </div>
 
-                ) : (
 
-                    <form
-                        onSubmit={handleSubmit}
+
+                    {/* DRIVER */}
+
+                    <div
+                        className="form-group"
                     >
 
+                        <label>
+                            Available Driver
+                        </label>
 
-                        {/* VEHICLE */}
 
-                        <div
-                            className="form-group"
+                        <select
+                            value={driverId}
+                            onChange={(event) =>
+                                setDriverId(
+                                    event.target.value
+                                )
+                            }
+                            required
                         >
 
-                            <label>
-                                Available Vehicle
-                            </label>
+                            <option value="">
+                                Select Driver
+                            </option>
 
 
-                            <select
+                            {drivers.map(
+                                (driver) => (
 
-                                value={vehicleId}
+                                    <option
+                                        key={driver.id}
+                                        value={driver.id}
+                                    >
 
-                                onChange={(event) =>
-                                    setVehicleId(
-                                        event.target.value
-                                    )
-                                }
+                                        {driver.user
+                                            ?.username ||
+                                            driver.name ||
+                                            `Driver ${driver.id}`}
 
-                                required
-                            >
+                                    </option>
 
-                                <option value="">
-                                    Select Vehicle
-                                </option>
-
-
-                                {vehicles.map(
-                                    (vehicle) => (
-
-                                        <option
-                                            key={vehicle.id}
-                                            value={vehicle.id}
-                                        >
-
-                                            {vehicle.licensePlate}
-                                            {' - '}
-                                            {vehicle.model}
-
-                                        </option>
-
-                                    )
-                                )}
-
-                            </select>
-
-
-                            {vehicles.length === 0 && (
-
-                                <small
-                                    style={{
-                                        color: 'red'
-                                    }}
-                                >
-
-                                    No available vehicles found.
-
-                                </small>
-
+                                )
                             )}
 
-                        </div>
+                        </select>
+
+
+                        {drivers.length === 0 && (
+
+                            <small>
+                                No available drivers found
+                            </small>
+
+                        )}
+
+                    </div>
 
 
 
-                        {/* DRIVER */}
+                    {/* ACTIONS */}
 
-                        <div
-                            className="form-group"
+                    <div
+                        className="modal-actions"
+                    >
+
+                        <button
+                            type="button"
+                            className="secondary-button"
+                            onClick={onClose}
+                            disabled={loading}
                         >
 
-                            <label>
-                                Available Driver
-                            </label>
+                            Cancel
+
+                        </button>
 
 
-                            <select
-
-                                value={driverId}
-
-                                onChange={(event) =>
-                                    setDriverId(
-                                        event.target.value
-                                    )
-                                }
-
-                                required
-                            >
-
-                                <option value="">
-                                    Select Driver
-                                </option>
-
-
-                                {drivers.map(
-                                    (driver) => (
-
-                                        <option
-                                            key={driver.id}
-                                            value={driver.id}
-                                        >
-
-                                            {driver.user?.username ||
-                                                driver.username ||
-                                                `Driver ${driver.id}`}
-
-                                        </option>
-
-                                    )
-                                )}
-
-                            </select>
-
-
-                            {drivers.length === 0 && (
-
-                                <small
-                                    style={{
-                                        color: 'red'
-                                    }}
-                                >
-
-                                    No available drivers found.
-
-                                </small>
-
-                            )}
-
-                        </div>
-
-
-
-                        {/* BUTTONS */}
-
-                        <div
-                            className="modal-actions"
+                        <button
+                            type="submit"
+                            className="primary-button"
+                            disabled={loading}
                         >
 
-                            <button
-                                type="button"
-                                className="secondary-button"
-                                onClick={onClose}
-                                disabled={loading}
-                            >
+                            {loading
+                                ? 'Starting...'
+                                : 'Start Trip'}
 
-                                Cancel
+                        </button>
 
-                            </button>
+                    </div>
 
-
-                            <button
-                                type="submit"
-                                className="primary-button"
-
-                                disabled={
-                                    loading ||
-                                    vehicles.length === 0 ||
-                                    drivers.length === 0
-                                }
-                            >
-
-                                {loading
-                                    ? 'Starting...'
-                                    : 'Start Trip'}
-
-                            </button>
-
-
-                        </div>
-
-
-                    </form>
-
-                )}
-
+                </form>
 
             </div>
 
