@@ -6,6 +6,9 @@ import React, {
 import vehicleService
     from '../../services/vehicleService';
 
+import VehicleForm
+    from './VehicleForm';
+
 import './VehicleList.css';
 
 
