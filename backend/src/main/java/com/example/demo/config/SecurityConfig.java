@@ -8,16 +8,19 @@ import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.cors.CorsConfiguration;
@@ -38,7 +41,9 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
+
     }
 
 
@@ -57,6 +62,7 @@ public class SecurityConfig {
         );
 
         return provider;
+
     }
 
 
@@ -67,6 +73,7 @@ public class SecurityConfig {
 
         return configuration
                 .getAuthenticationManager();
+
     }
 
 
@@ -76,60 +83,98 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
 
-            // ENABLE CORS
-            .cors(Customizer.withDefaults())
+            .csrf(csrf ->
+                    csrf.disable()
+            )
+
+            .cors(
+                    Customizer.withDefaults()
+            )
 
             .sessionManagement(session ->
-                session.sessionCreationPolicy(
-                    SessionCreationPolicy.STATELESS
-                )
+                    session.sessionCreationPolicy(
+                            SessionCreationPolicy.STATELESS
+                    )
             )
 
             .authorizeHttpRequests(auth -> auth
 
-                .requestMatchers(
-                    "/post",
-                    "/api/auth/**",
-                    "/swagger-ui/**",
-                    "/swagger-ui.html",
-                    "/v3/api-docs/**"
-                ).permitAll()
+                /*
+                 * Public endpoints
+                 */
 
                 .requestMatchers(
-                    "/delete/**"
-                ).hasRole("FLEET_MANAGER")
+                        "/api/auth/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**"
+                )
+                .permitAll()
 
-                .anyRequest().authenticated()
+
+                /*
+                 * Monitoring
+                 *
+                 * Requires authentication only.
+                 * Any logged-in user can access.
+                 */
+
+                .requestMatchers(
+                        "/api/monitoring/**"
+                )
+                .authenticated()
+
+
+                /*
+                 * Vehicle deletion
+                 */
+
+                .requestMatchers(
+                        "/delete/**"
+                )
+                .hasRole(
+                        "FLEET_MANAGER"
+                )
+
+
+                /*
+                 * Everything else requires login
+                 */
+
+                .anyRequest()
+                .authenticated()
             )
+
 
             .authenticationProvider(
-                authenticationProvider()
+                    authenticationProvider()
             )
 
+
             .addFilterBefore(
-                jwtFilter,
-                UsernamePasswordAuthenticationFilter.class
+                    jwtFilter,
+                    UsernamePasswordAuthenticationFilter.class
             );
 
         return http.build();
+
     }
 
 
-    // CORS CONFIGURATION
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        // Allow React frontend
         configuration.setAllowedOrigins(
-                List.of("http://localhost:3000")
+                List.of(
+                        "http://localhost:3000"
+                )
         );
 
-        // Allow HTTP methods
+
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -140,14 +185,23 @@ public class SecurityConfig {
                 )
         );
 
-        // Allow headers
+
         configuration.setAllowedHeaders(
-                List.of("*")
+                List.of(
+                        "*"
+                )
         );
 
-        // Allow Authorization header to be read
+
         configuration.setExposedHeaders(
-                List.of("Authorization")
+                List.of(
+                        "Authorization"
+                )
+        );
+
+
+        configuration.setAllowCredentials(
+                true
         );
 
 
@@ -160,5 +214,6 @@ public class SecurityConfig {
         );
 
         return source;
+
     }
 }
