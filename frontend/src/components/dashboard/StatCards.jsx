@@ -1,5 +1,6 @@
 import React from 'react';
-import './dashboard.css';
+
+import '../components/dashboard/dashboard.css';
 
 function StatCard({ vehicles = [] }) {
     const stats = [

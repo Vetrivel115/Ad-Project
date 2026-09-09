@@ -5,7 +5,7 @@ import React, {
 
 import monitoringService from '../../services/monitoringService';
 
-import './dashboard.css';
+import '../components/dashboard/dashboard.css';
 
 function LiveFleet() {
     const [fleet, setFleet] = useState([]);
