@@ -1,25 +1,28 @@
-import axios from 'axios';
+import api from './api';
 
-const BASE_URL = 'http://localhost:8080/api';
 
 const getAll = async () => {
-    const response = await axios.get(
-        `${BASE_URL}/maintenance`
+
+    const response = await api.get(
+        '/maintenance'
     );
 
     return response.data;
 };
 
-const log = async (data) => {
-    const response = await axios.post(
-        `${BASE_URL}/maintenance/log`,
+
+const create = async (data) => {
+
+    const response = await api.post(
+        '/maintenance',
         data
     );
 
     return response.data;
 };
 
+
 export default {
     getAll,
-    log
+    create
 };

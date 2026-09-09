@@ -1,32 +1,37 @@
-import axios from 'axios';
+import api from './api';
 
-const BASE_URL = 'http://localhost:8080/api';
 
 const getAll = async () => {
-    const response = await axios.get(
-        `${BASE_URL}/trips`
+
+    const response = await api.get(
+        '/trips'
     );
 
     return response.data;
 };
 
+
 const start = async (data) => {
-    const response = await axios.post(
-        `${BASE_URL}/trips/start`,
+
+    const response = await api.post(
+        '/trips/start',
         data
     );
 
     return response.data;
 };
 
+
 const end = async (id, distance) => {
-    const response = await axios.put(
-        `${BASE_URL}/trips/${id}/end`,
+
+    const response = await api.put(
+        `/trips/${id}/end`,
         { distance }
     );
 
     return response.data;
 };
+
 
 export default {
     getAll,
