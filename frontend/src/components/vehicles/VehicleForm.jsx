@@ -3,23 +3,14 @@ import React, {
     useState
 } from 'react';
 
-import {
-    useDispatch
-} from 'react-redux';
+import vehicleService
+    from '../../services/vehicleService';
 
-import vehicleService from '../../services/vehicleService';
-
-import {
-    fetchVehicles
-} from '../../store/slices/vehicleSlice';
 
 function VehicleForm({
     vehicle = null,
-    onClose = () => {},
-    editMode = false,
-    vehicleId = null
+    onClose = () => {}
 }) {
-    const dispatch = useDispatch();
 
     const [formData, setFormData] =
         useState({
@@ -30,250 +21,435 @@ function VehicleForm({
             currentMileage: ''
         });
 
-    const [message, setMessage] =
-        useState('');
 
     const [error, setError] =
         useState('');
 
+    const [loading, setLoading] =
+        useState(false);
+
+
+    /*
+     * When editing an existing vehicle,
+     * populate the form with its data.
+     */
     useEffect(() => {
+
         if (vehicle) {
+
             setFormData({
-                vin: vehicle.vin || '',
+                vin:
+                    vehicle.vin || '',
+
                 licensePlate:
                     vehicle.licensePlate || '',
+
                 model:
                     vehicle.model || '',
+
                 status:
-                    vehicle.status || 'AVAILABLE',
+                    vehicle.status ||
+                    'AVAILABLE',
+
                 currentMileage:
-                    vehicle.currentMileage || ''
+                    vehicle.currentMileage ??
+                    ''
             });
 
-            return;
         }
 
-        if (vehicleId) {
-            vehicleService
-                .getById(vehicleId)
-                .then((data) => {
-                    setFormData({
-                        vin: data.vin || '',
-                        licensePlate:
-                            data.licensePlate || '',
-                        model:
-                            data.model || '',
-                        status:
-                            data.status ||
-                            'AVAILABLE',
-                        currentMileage:
-                            data.currentMileage || ''
-                    });
-                })
-                .catch(() => {
-                    setError(
-                        'Error loading vehicle'
-                    );
-                });
-        }
-    }, [vehicle, vehicleId]);
+    }, [vehicle]);
 
+
+    /*
+     * Handle input changes.
+     */
     const handleChange = (event) => {
+
         const {
             name,
             value
         } = event.target;
 
+
         setFormData((previous) => ({
             ...previous,
+
             [name]: value
         }));
+
     };
 
+
+    /*
+     * Submit the vehicle form.
+     */
     const handleSubmit = async (event) => {
+
         event.preventDefault();
 
-        setMessage('');
         setError('');
 
+        setLoading(true);
+
+
         try {
-            let response;
 
-            const shouldUpdate =
-                Boolean(vehicle) ||
-                Boolean(editMode && vehicleId);
+            /*
+             * Convert mileage to a number.
+             */
+            const vehicleData = {
 
-            if (shouldUpdate) {
-                const id =
-                    vehicle?.id || vehicleId;
+                ...formData,
 
-                response =
-                    await vehicleService.update(
-                        id,
-                        formData
-                    );
-            } else {
-                response =
-                    await vehicleService.create(
-                        formData
-                    );
+                currentMileage:
+                    Number(
+                        formData.currentMileage
+                    )
+
+            };
+
+
+            /*
+             * EDIT VEHICLE
+             */
+            if (vehicle?.id) {
+
+                await vehicleService.update(
+                    vehicle.id,
+                    vehicleData
+                );
+
             }
 
-            if (
-                typeof response === 'string'
-            ) {
-                setMessage(response);
-            } else if (
-                response?.message
-            ) {
-                setMessage(
-                    response.message
+            /*
+             * CREATE VEHICLE
+             */
+            else {
+
+                await vehicleService.create(
+                    vehicleData
                 );
-            } else {
-                setMessage(
-                    shouldUpdate
-                        ? 'Vehicle updated successfully'
-                        : 'Vehicle created successfully'
-                );
+
             }
 
-            dispatch(
-                fetchVehicles({
-                    page: 0,
-                    size: 10
-                })
-            );
 
+            /*
+             * Close the modal.
+             * VehicleList will reload vehicles.
+             */
             onClose();
 
-        } catch (requestError) {
+        }
 
-            if (
-                requestError.response?.status === 409
-            ) {
-                setError(
-                    requestError.response?.data
-                        ?.message ||
-                    'VIN already exists'
-                );
+        catch (requestError) {
 
-                return;
-            }
+            console.error(
+                'Vehicle save error:',
+                requestError
+            );
+
 
             setError(
-                requestError.response?.data
-                    ?.message ||
+
+                requestError.response?.data?.message ||
+
+                requestError.response?.data ||
+
                 requestError.message ||
+
                 'Error saving vehicle'
+
             );
+
         }
+
+        finally {
+
+            setLoading(false);
+
+        }
+
     };
 
-    const isVehiclePropEdit =
-        Boolean(vehicle);
 
     return (
-        <div className="vehicle-form-modal">
 
-            <form onSubmit={handleSubmit}>
+        <div
+            className="vehicle-form-modal"
+        >
 
-                <h2>
-                    {isVehiclePropEdit
-                        ? 'Edit Vehicle'
-                        : 'Register New Vehicle'}
-                </h2>
+            <div
+                className="vehicle-form-overlay"
+                onClick={onClose}
+            ></div>
 
-                {message && (
-                    <div className="success-message">
-                        {message}
+
+            <form
+                className="vehicle-form-card"
+                onSubmit={handleSubmit}
+            >
+
+
+                {/* HEADER */}
+
+                <div
+                    className="vehicle-form-header"
+                >
+
+                    <div>
+
+                        <h2>
+
+                            {vehicle
+                                ? 'Edit Vehicle'
+                                : 'Register New Vehicle'}
+
+                        </h2>
+
+
+                        <p>
+
+                            {vehicle
+                                ? 'Update vehicle information'
+                                : 'Add a new vehicle to your fleet'}
+
+                        </p>
+
                     </div>
-                )}
+
+
+                    <button
+                        type="button"
+                        className="form-close-button"
+                        onClick={onClose}
+                    >
+
+                        ✕
+
+                    </button>
+
+                </div>
+
+
+
+                {/* ERROR */}
 
                 {error && (
+
                     <div
                         className="error-message"
-                        style={{
-                            color: 'red'
-                        }}
                     >
-                        {error}
+
+                        ⚠ {error}
+
                     </div>
+
                 )}
 
-                <input
-                    name="vin"
-                    placeholder="17-character VIN"
-                    maxLength="17"
-                    required
-                    value={formData.vin}
-                    onChange={handleChange}
-                />
 
-                <input
-                    name="licensePlate"
-                    type="text"
-                    placeholder="ABC-1234"
-                    required
-                    value={
-                        formData.licensePlate
-                    }
-                    onChange={handleChange}
-                />
 
-                <input
-                    name="model"
-                    placeholder="e.g. Volvo FH 16"
-                    required
-                    value={formData.model}
-                    onChange={handleChange}
-                />
+                {/* VIN */}
 
-                <select
-                    name="status"
-                    value={formData.status}
-                    onChange={handleChange}
+                <div
+                    className="form-group"
                 >
-                    <option value="AVAILABLE">
-                        AVAILABLE
-                    </option>
 
-                    <option value="ON_TRIP">
-                        ON_TRIP
-                    </option>
+                    <label>
 
-                    <option value="UNDER_MAINTENANCE">
-                        UNDER_MAINTENANCE
-                    </option>
-                </select>
+                        VIN
 
-                <input
-                    name="currentMileage"
-                    type="number"
-                    value={
-                        formData.currentMileage
-                    }
-                    onChange={handleChange}
-                />
+                    </label>
 
-                <button type="submit">
 
-                    {isVehiclePropEdit
-                        ? 'Update Vehicle'
-                        : 'Register Vehicle'}
+                    <input
+                        type="text"
+                        name="vin"
+                        placeholder="17-character VIN"
+                        maxLength="17"
+                        required
+                        value={formData.vin}
+                        onChange={handleChange}
+                    />
 
-                </button>
+                </div>
 
-                <button
-                    type="button"
-                    onClick={onClose}
+
+
+                {/* LICENSE PLATE */}
+
+                <div
+                    className="form-group"
                 >
-                    Cancel
-                </button>
+
+                    <label>
+
+                        License Plate
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        name="licensePlate"
+                        placeholder="TN-01-AB-1234"
+                        required
+                        value={
+                            formData.licensePlate
+                        }
+                        onChange={handleChange}
+                    />
+
+                </div>
+
+
+
+                {/* MODEL */}
+
+                <div
+                    className="form-group"
+                >
+
+                    <label>
+
+                        Vehicle Model
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        name="model"
+                        placeholder="e.g. Volvo FH 16"
+                        required
+                        value={
+                            formData.model
+                        }
+                        onChange={handleChange}
+                    />
+
+                </div>
+
+
+
+                {/* STATUS */}
+
+                <div
+                    className="form-group"
+                >
+
+                    <label>
+
+                        Status
+
+                    </label>
+
+
+                    <select
+                        name="status"
+                        value={
+                            formData.status
+                        }
+                        onChange={handleChange}
+                    >
+
+                        <option
+                            value="AVAILABLE"
+                        >
+                            AVAILABLE
+                        </option>
+
+
+                        <option
+                            value="ON_TRIP"
+                        >
+                            ON TRIP
+                        </option>
+
+
+                        <option
+                            value="UNDER_MAINTENANCE"
+                        >
+                            UNDER MAINTENANCE
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                {/* MILEAGE */}
+
+                <div
+                    className="form-group"
+                >
+
+                    <label>
+
+                        Current Mileage (km)
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        name="currentMileage"
+                        placeholder="e.g. 25000"
+                        min="0"
+                        required
+                        value={
+                            formData.currentMileage
+                        }
+                        onChange={handleChange}
+                    />
+
+                </div>
+
+
+
+                {/* ACTIONS */}
+
+                <div
+                    className="vehicle-form-actions"
+                >
+
+                    <button
+                        type="button"
+                        className="cancel-button"
+                        onClick={onClose}
+                        disabled={loading}
+                    >
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        className="submit-button"
+                        disabled={loading}
+                    >
+
+                        {loading
+                            ? 'Saving...'
+                            : vehicle
+                                ? 'Update Vehicle'
+                                : 'Register Vehicle'}
+
+                    </button>
+
+                </div>
+
 
             </form>
 
         </div>
+
     );
+
 }
+
 
 export default VehicleForm;
