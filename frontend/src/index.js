@@ -18,6 +18,10 @@ import {
     NotificationProvider
 } from './components/common/NotificationStack';
 
+// CSS IMPORTS
+import './index.css';
+import './App.css';
+
 const root =
     createRoot(
         document.getElementById('root')
