@@ -295,7 +295,7 @@ function VehicleForm({
                     <input
                         type="text"
                         name="licensePlate"
-                        placeholder="TN-01-AB-1234"
+                        placeholder="ABC-1234"
                         required
                         value={
                             formData.licensePlate
