@@ -1,10 +1,9 @@
-import axios from 'axios';
-
-const BASE_URL = 'http://localhost:8080/api';
+import api from './api';
 
 const getTechnicians = async () => {
-    const response = await axios.get(
-        `${BASE_URL}/users/technicians`
+
+    const response = await api.get(
+        '/users/technicians'
     );
 
     return response.data;
