@@ -2,55 +2,85 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/api';
 
-const getAll = async (page = 0, size = 10) => {
+const getHeaders = () => {
+    const token =
+        localStorage.getItem('token');
+
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+};
+
+
+const getAll = async (
+    page = 0,
+    size = 10
+) => {
     const response = await axios.get(
-        `${BASE_URL}/vehicles?page=${page}&size=${size}`
+        `${BASE_URL}/vehicles?page=${page}&size=${size}`,
+        getHeaders()
     );
 
     return response.data;
 };
+
 
 const getAvailable = async () => {
     const response = await axios.get(
-        `${BASE_URL}/vehicles/available`
+        `${BASE_URL}/vehicles/available`,
+        getHeaders()
     );
 
     return response.data;
 };
+
 
 const getById = async (id) => {
     const response = await axios.get(
-        `${BASE_URL}/vehicles/${id}`
+        `${BASE_URL}/vehicles/${id}`,
+        getHeaders()
     );
 
     return response.data;
 };
+
 
 const create = async (data) => {
     const response = await axios.post(
         `${BASE_URL}/vehicles`,
-        data
+        data,
+        getHeaders()
     );
 
     return response.data;
 };
 
-const update = async (id, data) => {
+
+const update = async (
+    id,
+    data
+) => {
     const response = await axios.put(
         `${BASE_URL}/vehicles/${id}`,
-        data
+        data,
+        getHeaders()
     );
 
     return response.data;
 };
+
 
 const remove = async (id) => {
     const response = await axios.delete(
-        `${BASE_URL}/vehicles/${id}`
+        `${BASE_URL}/vehicles/${id}`,
+        getHeaders()
     );
 
     return response.data;
 };
+
 
 export default {
     getAll,
