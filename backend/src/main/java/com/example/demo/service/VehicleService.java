@@ -19,8 +19,6 @@ import com.example.demo.exception.ResourceNotFoundException;
 public class VehicleService {
     private VehicleRepository vehicleRepo;
 
-    
-
     public VehicleService(VehicleRepository vehicleRepo) {
         this.vehicleRepo = vehicleRepo;
     }
