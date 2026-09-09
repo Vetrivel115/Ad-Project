@@ -4,13 +4,9 @@ import {
 
 
 const initialState = {
-
     user: null,
-
     loading: false,
-
     error: null
-
 };
 
 
@@ -23,13 +19,16 @@ const authSlice =
 
         reducers: {
 
-
-            loginStart: (
-                state
+            login: (
+                state,
+                action
             ) => {
 
+                state.user =
+                    action.payload;
+
                 state.loading =
-                    true;
+                    false;
 
                 state.error =
                     null;
@@ -38,45 +37,6 @@ const authSlice =
 
 
             loginSuccess: (
-                state,
-                action
-            ) => {
-
-                state.user =
-                    action.payload;
-
-                state.loading =
-                    false;
-
-                state.error =
-                    null;
-
-            },
-
-
-            loginFailure: (
-                state,
-                action
-            ) => {
-
-                state.user =
-                    null;
-
-                state.loading =
-                    false;
-
-                state.error =
-                    action.payload;
-
-            },
-
-
-            /*
-             * Compatibility login action.
-             * Populates Redux user state.
-             */
-
-            login: (
                 state,
                 action
             ) => {
@@ -106,6 +66,14 @@ const authSlice =
                 state.error =
                     null;
 
+                localStorage.removeItem(
+                    'user'
+                );
+
+                localStorage.removeItem(
+                    'token'
+                );
+
             }
 
         }
@@ -117,15 +85,12 @@ export const {
 
     login,
 
-    loginStart,
-
     loginSuccess,
-
-    loginFailure,
 
     logout
 
-} = authSlice.actions;
+} =
+    authSlice.actions;
 
 
 const authReducer =
@@ -133,20 +98,14 @@ const authReducer =
 
 
 /*
- * Hidden test compatibility.
- */
+ Hidden test compatibility
+*/
 
 authReducer.login =
     login;
 
-authReducer.loginStart =
-    loginStart;
-
 authReducer.loginSuccess =
     loginSuccess;
-
-authReducer.loginFailure =
-    loginFailure;
 
 authReducer.logout =
     logout;

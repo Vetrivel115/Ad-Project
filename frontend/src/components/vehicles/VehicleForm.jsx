@@ -29,10 +29,6 @@ function VehicleForm({
         useState('');
 
 
-    const [success, setSuccess] =
-        useState('');
-
-
     const [loading, setLoading] =
         useState(false);
 
@@ -42,7 +38,6 @@ function VehicleForm({
         if (vehicle) {
 
             setFormData({
-
                 vin:
                     vehicle.vin || '',
 
@@ -53,34 +48,27 @@ function VehicleForm({
                     vehicle.model || '',
 
                 status:
-                    vehicle.status || 'AVAILABLE',
+                    vehicle.status ||
+                    'AVAILABLE',
 
                 currentMileage:
-                    vehicle.currentMileage ?? ''
-
-            });
-
-        } else {
-
-            setFormData({
-
-                vin: '',
-
-                licensePlate: '',
-
-                model: '',
-
-                status: 'AVAILABLE',
-
-                currentMileage: ''
-
+                    vehicle.currentMileage ??
+                    ''
             });
 
         }
 
-        setError('');
+        else {
 
-        setSuccess('');
+            setFormData({
+                vin: '',
+                licensePlate: '',
+                model: '',
+                status: 'AVAILABLE',
+                currentMileage: ''
+            });
+
+        }
 
     }, [vehicle]);
 
@@ -116,8 +104,6 @@ function VehicleForm({
 
         setError('');
 
-        setSuccess('');
-
         setLoading(true);
 
 
@@ -146,7 +132,9 @@ function VehicleForm({
                         vehicleData
                     );
 
-            } else {
+            }
+
+            else {
 
                 response =
                     await vehicleService.create(
@@ -157,42 +145,21 @@ function VehicleForm({
 
 
             /*
-             * Display exact backend
-             * confirmation response.
+             * Pass exact backend
+             * success response.
              */
-
-            const successMessage =
-
-                typeof response === 'string'
-
-                    ? response
-
-                    : response?.message ||
-                      (
-                          vehicle
-                              ? 'Vehicle updated successfully.'
-                              : 'Vehicle created successfully.'
-                      );
-
-
-            setSuccess(
-                successMessage
-            );
-
-
             onSuccess(
-                successMessage
+                response
             );
+
+
+            onClose();
 
         }
 
-        catch (requestError) {
-
-            console.error(
-                'Vehicle save error:',
-                requestError
-            );
-
+        catch (
+            requestError
+        ) {
 
             const errorData =
                 requestError.response?.data;
@@ -207,7 +174,9 @@ function VehicleForm({
                     errorData
                 );
 
-            } else {
+            }
+
+            else {
 
                 setError(
 
@@ -235,38 +204,24 @@ function VehicleForm({
     return (
 
         <div
-            className="
-                vehicle-form-modal
-            "
+            className="vehicle-form-modal"
         >
 
 
             <div
-                className="
-                    vehicle-form-overlay
-                "
-                onClick={
-                    loading
-                        ? undefined
-                        : onClose
-                }
-            ></div>
+                className="vehicle-form-overlay"
+                onClick={onClose}
+            />
 
 
             <form
-                className="
-                    vehicle-form-card
-                "
-                onSubmit={
-                    handleSubmit
-                }
+                className="vehicle-form-card"
+                onSubmit={handleSubmit}
             >
 
 
                 <div
-                    className="
-                        vehicle-form-header
-                    "
+                    className="vehicle-form-header"
                 >
 
                     <div>
@@ -281,31 +236,12 @@ function VehicleForm({
 
                         </h2>
 
-
-                        <p>
-
-                            {
-                                vehicle
-                                    ? 'Update vehicle information'
-                                    : 'Add a new vehicle to your fleet'
-                            }
-
-                        </p>
-
                     </div>
 
 
                     <button
                         type="button"
-                        className="
-                            form-close-button
-                        "
-                        onClick={
-                            onClose
-                        }
-                        disabled={
-                            loading
-                        }
+                        onClick={onClose}
                     >
                         ✕
                     </button>
@@ -316,29 +252,10 @@ function VehicleForm({
                 {error && (
 
                     <div
-                        className="
-                            error-message
-                        "
-                        role="alert"
+                        className="error-message"
                     >
 
-                        ⚠ {error}
-
-                    </div>
-
-                )}
-
-
-                {success && (
-
-                    <div
-                        className="
-                            success-message
-                        "
-                        role="alert"
-                    >
-
-                        {success}
+                        {error}
 
                     </div>
 
@@ -346,65 +263,39 @@ function VehicleForm({
 
 
                 <div
-                    className="
-                        form-group
-                    "
+                    className="form-group"
                 >
 
-                    <label
-                        htmlFor="vin"
-                    >
+                    <label>
                         VIN
                     </label>
 
 
                     <input
-                        id="vin"
                         type="text"
                         name="vin"
-                        placeholder="
-                            17-character VIN
-                        "
-                        maxLength="17"
+                        placeholder="17-character VIN"
                         required
-                        value={
-                            formData.vin
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        disabled={
-                            loading
-                        }
+                        value={formData.vin}
+                        onChange={handleChange}
                     />
 
                 </div>
 
 
                 <div
-                    className="
-                        form-group
-                    "
+                    className="form-group"
                 >
 
-                    <label
-                        htmlFor="
-                            licensePlate
-                        "
-                    >
+                    <label>
                         License Plate
                     </label>
 
 
                     <input
-                        id="licensePlate"
                         type="text"
-                        name="
-                            licensePlate
-                        "
-                        placeholder="
-                            TN-01-AB-1234
-                        "
+                        name="licensePlate"
+                        placeholder="TN-01-AB-1234"
                         required
                         value={
                             formData.licensePlate
@@ -412,34 +303,23 @@ function VehicleForm({
                         onChange={
                             handleChange
                         }
-                        disabled={
-                            loading
-                        }
                     />
 
                 </div>
 
 
                 <div
-                    className="
-                        form-group
-                    "
+                    className="form-group"
                 >
 
-                    <label
-                        htmlFor="model"
-                    >
+                    <label>
                         Vehicle Model
                     </label>
 
 
                     <input
-                        id="model"
                         type="text"
                         name="model"
-                        placeholder="
-                            e.g. Volvo FH 16
-                        "
                         required
                         value={
                             formData.model
@@ -447,38 +327,27 @@ function VehicleForm({
                         onChange={
                             handleChange
                         }
-                        disabled={
-                            loading
-                        }
                     />
 
                 </div>
 
 
                 <div
-                    className="
-                        form-group
-                    "
+                    className="form-group"
                 >
 
-                    <label
-                        htmlFor="status"
-                    >
+                    <label>
                         Status
                     </label>
 
 
                     <select
-                        id="status"
                         name="status"
                         value={
                             formData.status
                         }
                         onChange={
                             handleChange
-                        }
-                        disabled={
-                            loading
                         }
                     >
 
@@ -497,9 +366,7 @@ function VehicleForm({
 
 
                         <option
-                            value="
-                                UNDER_MAINTENANCE
-                            "
+                            value="UNDER_MAINTENANCE"
                         >
                             UNDER MAINTENANCE
                         </option>
@@ -510,31 +377,17 @@ function VehicleForm({
 
 
                 <div
-                    className="
-                        form-group
-                    "
+                    className="form-group"
                 >
 
-                    <label
-                        htmlFor="
-                            currentMileage
-                        "
-                    >
+                    <label>
                         Current Mileage (km)
                     </label>
 
 
                     <input
-                        id="
-                            currentMileage
-                        "
                         type="number"
-                        name="
-                            currentMileage
-                        "
-                        placeholder="
-                            e.g. 25000
-                        "
+                        name="currentMileage"
                         min="0"
                         required
                         value={
@@ -543,31 +396,18 @@ function VehicleForm({
                         onChange={
                             handleChange
                         }
-                        disabled={
-                            loading
-                        }
                     />
 
                 </div>
 
 
                 <div
-                    className="
-                        vehicle-form-actions
-                    "
+                    className="vehicle-form-actions"
                 >
 
                     <button
                         type="button"
-                        className="
-                            cancel-button
-                        "
-                        onClick={
-                            onClose
-                        }
-                        disabled={
-                            loading
-                        }
+                        onClick={onClose}
                     >
                         Cancel
                     </button>
@@ -575,12 +415,7 @@ function VehicleForm({
 
                     <button
                         type="submit"
-                        className="
-                            submit-button
-                        "
-                        disabled={
-                            loading
-                        }
+                        disabled={loading}
                     >
 
                         {
