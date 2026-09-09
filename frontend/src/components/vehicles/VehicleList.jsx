@@ -18,6 +18,11 @@ import './VehicleList.css';
 
 function VehicleList() {
 
+    const user = useSelector(
+        (state) => state.auth?.user
+    );
+
+
     const [vehicles, setVehicles] =
         useState([]);
 
@@ -36,15 +41,13 @@ function VehicleList() {
     const [selectedVehicle, setSelectedVehicle] =
         useState(null);
 
-
-    const user = useSelector(
-        (state) => state.auth.user
-    );
+    const [successMessage, setSuccessMessage] =
+        useState('');
 
 
     /*
-     * Only Fleet Manager can add,
-     * edit or delete vehicles.
+     * Only Fleet Manager can
+     * add new vehicles.
      */
     const canManageVehicles =
         user?.role === 'FLEET_MANAGER';
@@ -65,23 +68,28 @@ function VehicleList() {
                 );
 
             setVehicles(
-                data?.content || []
+                data?.content ||
+                data ||
+                []
             );
 
-        } catch (err) {
+        }
 
-            console.error(
-                'Error loading vehicles:',
-                err
-            );
+        catch (err) {
 
             setError(
+
                 err.response?.data?.message ||
+
                 err.message ||
+
                 'Unable to load vehicles'
+
             );
 
-        } finally {
+        }
+
+        finally {
 
             setLoading(false);
 
@@ -94,7 +102,7 @@ function VehicleList() {
 
         loadVehicles();
 
-    }, []);
+    }, [user?.role]);
 
 
     const handleAddVehicle = () => {
@@ -102,6 +110,8 @@ function VehicleList() {
         setSelectedVehicle(null);
 
         setShowForm(true);
+
+        setSuccessMessage('');
 
     };
 
@@ -116,6 +126,8 @@ function VehicleList() {
 
         setShowForm(true);
 
+        setSuccessMessage('');
+
     };
 
 
@@ -128,30 +140,48 @@ function VehicleList() {
                 'Are you sure you want to delete this vehicle?'
             );
 
+
         if (!confirmed) {
 
             return;
 
         }
 
+
         try {
 
-            await vehicleService.delete(
-                id
-            );
+            const response =
+                await vehicleService.delete(
+                    id
+                );
+
+
+            if (
+                typeof response ===
+                'string'
+            ) {
+
+                setSuccessMessage(
+                    response
+                );
+
+            }
+
 
             loadVehicles();
 
-        } catch (err) {
+        }
 
-            console.error(
-                'Delete error:',
-                err
-            );
+        catch (err) {
 
-            alert(
+            setError(
+
                 err.response?.data?.message ||
+
+                err.message ||
+
                 'Failed to delete vehicle'
+
             );
 
         }
@@ -160,6 +190,25 @@ function VehicleList() {
 
 
     const handleCloseForm = () => {
+
+        setShowForm(false);
+
+        setSelectedVehicle(null);
+
+    };
+
+
+    const handleSuccess = (
+        message
+    ) => {
+
+        if (message) {
+
+            setSuccessMessage(
+                message
+            );
+
+        }
 
         setShowForm(false);
 
@@ -182,6 +231,7 @@ function VehicleList() {
 
         }
 
+
         if (
             status === 'ON_TRIP'
         ) {
@@ -189,6 +239,7 @@ function VehicleList() {
             return 'status-trip';
 
         }
+
 
         if (
             status ===
@@ -198,6 +249,7 @@ function VehicleList() {
             return 'status-maintenance';
 
         }
+
 
         return '';
 
@@ -210,6 +262,7 @@ function VehicleList() {
 
                 const searchText =
                     search.toLowerCase();
+
 
                 return (
 
@@ -243,9 +296,7 @@ function VehicleList() {
 
     return (
 
-        <div
-            className="vehicle-page"
-        >
+        <div className="vehicle-page">
 
 
             <div
@@ -260,14 +311,14 @@ function VehicleList() {
                         Fleet Management
                     </p>
 
+
                     <h1>
                         Vehicle Inventory
                     </h1>
 
+
                     <p
-                        className="
-                            vehicle-description
-                        "
+                        className="vehicle-description"
                     >
                         Manage and monitor all
                         vehicles in your fleet.
@@ -279,9 +330,8 @@ function VehicleList() {
                 {canManageVehicles && (
 
                     <button
-                        className="
-                            add-vehicle-btn
-                        "
+                        type="button"
+                        className="add-vehicle-btn"
                         onClick={
                             handleAddVehicle
                         }
@@ -300,14 +350,26 @@ function VehicleList() {
             </div>
 
 
+            {successMessage && (
+
+                <div
+                    className="success-message"
+                >
+
+                    {successMessage}
+
+                </div>
+
+            )}
+
+
             <div
                 className="vehicle-stats"
             >
 
+
                 <div
-                    className="
-                        vehicle-stat-card
-                    "
+                    className="vehicle-stat-card"
                 >
 
                     <div
@@ -316,16 +378,20 @@ function VehicleList() {
                         🚚
                     </div>
 
+
                     <div>
 
                         <p>
                             Total Vehicles
                         </p>
 
+
                         <h2>
+
                             {
                                 vehicles.length
                             }
+
                         </h2>
 
                     </div>
@@ -334,9 +400,7 @@ function VehicleList() {
 
 
                 <div
-                    className="
-                        vehicle-stat-card
-                    "
+                    className="vehicle-stat-card"
                 >
 
                     <div
@@ -348,11 +412,13 @@ function VehicleList() {
                         ✓
                     </div>
 
+
                     <div>
 
                         <p>
                             Available
                         </p>
+
 
                         <h2>
 
@@ -372,9 +438,7 @@ function VehicleList() {
 
 
                 <div
-                    className="
-                        vehicle-stat-card
-                    "
+                    className="vehicle-stat-card"
                 >
 
                     <div
@@ -386,11 +450,13 @@ function VehicleList() {
                         📍
                     </div>
 
+
                     <div>
 
                         <p>
                             On Trip
                         </p>
+
 
                         <h2>
 
@@ -410,9 +476,7 @@ function VehicleList() {
 
 
                 <div
-                    className="
-                        vehicle-stat-card
-                    "
+                    className="vehicle-stat-card"
                 >
 
                     <div
@@ -424,11 +488,13 @@ function VehicleList() {
                         🔧
                     </div>
 
+
                     <div>
 
                         <p>
                             Maintenance
                         </p>
+
 
                         <h2>
 
@@ -450,15 +516,12 @@ function VehicleList() {
 
 
             <div
-                className="
-                    vehicle-table-card
-                "
+                className="vehicle-table-card"
             >
 
+
                 <div
-                    className="
-                        table-toolbar
-                    "
+                    className="table-toolbar"
                 >
 
                     <div>
@@ -466,6 +529,7 @@ function VehicleList() {
                         <h2>
                             Fleet Vehicles
                         </h2>
+
 
                         <p>
                             View and manage your
@@ -483,12 +547,10 @@ function VehicleList() {
                             🔍
                         </span>
 
+
                         <input
                             type="text"
-                            placeholder="
-                                Search VIN,
-                                plate or model...
-                            "
+                            placeholder="Search VIN, plate or model..."
                             value={search}
                             onChange={
                                 (event) =>
@@ -503,34 +565,26 @@ function VehicleList() {
                 </div>
 
 
-                {
-                    loading && (
+                {loading && (
 
-                        <div
-                            className="
-                                loading-state
-                            "
-                        >
-                            Loading vehicles...
-                        </div>
+                    <div
+                        className="loading-state"
+                    >
+                        Loading vehicles...
+                    </div>
 
-                    )
-                }
+                )}
 
 
-                {
-                    error && (
+                {error && (
 
-                        <div
-                            className="
-                                error-state
-                            "
-                        >
-                            ⚠ {error}
-                        </div>
+                    <div
+                        className="error-state"
+                    >
+                        ⚠ {error}
+                    </div>
 
-                    )
-                }
+                )}
 
 
                 {
@@ -538,15 +592,11 @@ function VehicleList() {
                     !error && (
 
                         <div
-                            className="
-                                table-wrapper
-                            "
+                            className="table-wrapper"
                         >
 
                             <table
-                                className="
-                                    vehicle-table
-                                "
+                                className="vehicle-table"
                             >
 
                                 <thead>
@@ -585,176 +635,120 @@ function VehicleList() {
                                 <tbody>
 
                                     {
-                                        filteredVehicles
-                                            .map(
-                                                (
-                                                    vehicle
-                                                ) => (
+                                        filteredVehicles.map(
+                                            (
+                                                vehicle
+                                            ) => (
 
-                                                    <tr
-                                                        key={
-                                                            vehicle.id
+                                                <tr
+                                                    key={
+                                                        vehicle.id
+                                                    }
+                                                >
+
+                                                    <td>
+
+                                                        {
+                                                            vehicle.model
                                                         }
-                                                    >
 
-                                                        <td>
-
-                                                            <div
-                                                                className="
-                                                                    vehicle-info
-                                                                "
-                                                            >
-
-                                                                <div
-                                                                    className="
-                                                                        vehicle-avatar
-                                                                    "
-                                                                >
-                                                                    🚚
-                                                                </div>
-
-                                                                <div>
-
-                                                                    <strong>
-
-                                                                        {
-                                                                            vehicle.model
-                                                                        }
-
-                                                                    </strong>
-
-                                                                    <span>
-
-                                                                        Fleet
-                                                                        Vehicle
-
-                                                                    </span>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </td>
+                                                    </td>
 
 
-                                                        <td
-                                                            className="
-                                                                vin-text
-                                                            "
+                                                    <td>
+
+                                                        {
+                                                            vehicle.vin
+                                                        }
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        {
+                                                            vehicle.licensePlate
+                                                        }
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        <span
+                                                            className={
+                                                                `status-badge ${getStatusClass(
+                                                                    vehicle.status
+                                                                )}`
+                                                            }
                                                         >
 
                                                             {
-                                                                vehicle.vin
+                                                                vehicle.status
                                                             }
 
-                                                        </td>
+                                                        </span>
+
+                                                    </td>
 
 
-                                                        <td>
+                                                    <td>
 
-                                                            <span
-                                                                className="
-                                                                    license-plate
-                                                                "
+                                                        {
+                                                            vehicle.currentMileage ??
+                                                            0
+                                                        }
+
+                                                        {' '}km
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        {canManageVehicles && (
+
+                                                            <div
+                                                                className="action-buttons"
                                                             >
 
-                                                                {
-                                                                    vehicle.licensePlate
-                                                                }
-
-                                                            </span>
-
-                                                        </td>
-
-
-                                                        <td>
-
-                                                            <span
-                                                                className={
-
-                                                                    `status-badge
-                                                                    ${getStatusClass(
-                                                                        vehicle.status
-                                                                    )}`
-
-                                                                }
-                                                            >
-
-                                                                {
-                                                                    vehicle.status
-                                                                        ?.replace(
-                                                                            /_/g,
-                                                                            ' '
-                                                                        )
-                                                                }
-
-                                                            </span>
-
-                                                        </td>
-
-
-                                                        <td>
-
-                                                            {
-                                                                vehicle.currentMileage
-                                                                ?? 0
-                                                            }
-
-                                                            {' '}
-                                                            km
-
-                                                        </td>
-
-
-                                                        <td>
-
-                                                            {canManageVehicles && (
-
-                                                                <div
-                                                                    className="
-                                                                        action-buttons
-                                                                    "
+                                                                <button
+                                                                    type="button"
+                                                                    className="edit-btn"
+                                                                    onClick={
+                                                                        () =>
+                                                                            handleEditVehicle(
+                                                                                vehicle
+                                                                            )
+                                                                    }
                                                                 >
-
-                                                                    <button
-                                                                        className="
-                                                                            edit-btn
-                                                                        "
-                                                                        onClick={
-                                                                            () =>
-                                                                                handleEditVehicle(
-                                                                                    vehicle
-                                                                                )
-                                                                        }
-                                                                    >
-                                                                        ✏ Edit
-                                                                    </button>
+                                                                    Edit
+                                                                </button>
 
 
-                                                                    <button
-                                                                        className="
-                                                                            delete-btn
-                                                                        "
-                                                                        onClick={
-                                                                            () =>
-                                                                                handleDelete(
-                                                                                    vehicle.id
-                                                                                )
-                                                                        }
-                                                                    >
-                                                                        🗑 Delete
-                                                                    </button>
+                                                                <button
+                                                                    type="button"
+                                                                    className="delete-btn"
+                                                                    onClick={
+                                                                        () =>
+                                                                            handleDelete(
+                                                                                vehicle.id
+                                                                            )
+                                                                    }
+                                                                >
+                                                                    Delete
+                                                                </button>
 
-                                                                </div>
+                                                            </div>
 
-                                                            )}
+                                                        )}
 
-                                                        </td>
+                                                    </td>
 
-                                                    </tr>
+                                                </tr>
 
-                                                )
                                             )
+                                        )
                                     }
 
                                 </tbody>
@@ -764,27 +758,15 @@ function VehicleList() {
 
                             {
                                 filteredVehicles.length ===
-                                    0 && (
+                                0 && (
 
                                     <div
-                                        className="
-                                            empty-state
-                                        "
+                                        className="empty-state"
                                     >
-
-                                        <div>
-                                            🚚
-                                        </div>
 
                                         <h3>
                                             No vehicles found
                                         </h3>
-
-                                        <p>
-                                            Try changing your
-                                            search or add a new
-                                            vehicle.
-                                        </p>
 
                                     </div>
 
@@ -799,27 +781,25 @@ function VehicleList() {
             </div>
 
 
-            {
-                showForm && (
+            {showForm && (
 
-                    <VehicleForm
+                <VehicleForm
 
-                        vehicle={
-                            selectedVehicle
-                        }
+                    vehicle={
+                        selectedVehicle
+                    }
 
-                        onClose={
-                            handleCloseForm
-                        }
+                    onClose={
+                        handleCloseForm
+                    }
 
-                        onSuccess={
-                            loadVehicles
-                        }
+                    onSuccess={
+                        handleSuccess
+                    }
 
-                    />
+                />
 
-                )
-            }
+            )}
 
         </div>
 
