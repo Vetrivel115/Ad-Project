@@ -34,7 +34,7 @@ function Navbar() {
         role === 'MAINTENANCE_TECH';
 
     const showDrivers =
-        role === 'FLEET_MANAGER';
+        role === 'FLEET_MANAGER' || role === 'DISPATCHER';
 
 
     const handleLogout = () => {
