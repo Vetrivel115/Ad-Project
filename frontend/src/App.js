@@ -8,8 +8,8 @@ import {
     useLocation
 } from 'react-router-dom';
 
-import DriverList from './components/drivers/DriverList';
-
+import DriverList from
+    './components/drivers/DriverList';
 
 import Navbar from
     './components/layout/Navbar';
@@ -46,9 +46,7 @@ function AppContent() {
                 <Navbar />
             )}
 
-
             <Routes>
-
 
                 {/* ================= LOGIN ================= */}
 
@@ -66,9 +64,7 @@ function AppContent() {
                     path="/"
                     element={
                         <ProtectedRoute>
-
                             <Dashboard />
-
                         </ProtectedRoute>
                     }
                 />
@@ -80,9 +76,7 @@ function AppContent() {
                     path="/vehicles"
                     element={
                         <ProtectedRoute>
-
                             <VehicleList />
-
                         </ProtectedRoute>
                     }
                 />
@@ -94,9 +88,7 @@ function AppContent() {
                     path="/trips"
                     element={
                         <ProtectedRoute>
-
                             <TripList />
-
                         </ProtectedRoute>
                     }
                 />
@@ -108,9 +100,19 @@ function AppContent() {
                     path="/maintenance"
                     element={
                         <ProtectedRoute>
-
                             <MaintenanceList />
+                        </ProtectedRoute>
+                    }
+                />
 
+
+                {/* ================= DRIVERS ================= */}
+
+                <Route
+                    path="/drivers"
+                    element={
+                        <ProtectedRoute>
+                            <DriverList />
                         </ProtectedRoute>
                     }
                 />
@@ -126,16 +128,6 @@ function AppContent() {
                         />
                     }
                 />
-
-                <Route
-                    path="/drivers"
-                    element={
-                        <ProtectedRoute>
-                            <DriverList />
-                        </ProtectedRoute>
-                    }
-                />
-
 
             </Routes>
 
