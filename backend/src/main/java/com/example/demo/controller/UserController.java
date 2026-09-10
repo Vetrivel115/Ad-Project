@@ -22,11 +22,19 @@ public class UserController {
     }
 
     @GetMapping("/technicians")
-    @PreAuthorize("hasRole('FLEET_MANAGER')")
     public ResponseEntity<List<SystemUser>> getTechnicians() {
 
         return ResponseEntity.ok(
             userService.getTechnicians()
         );
     }
+
+    @GetMapping("/drivers")
+    public ResponseEntity<List<SystemUser>> getDrivers() {
+
+        return ResponseEntity.ok(
+            userService.getDrivers()
+        );
+    }
+
 }
