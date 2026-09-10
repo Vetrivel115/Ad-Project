@@ -1,34 +1,141 @@
-.drivers-container {
+.drivers-page {
     padding: 25px;
 }
 
-.page-header {
+/* ================= PAGE HEADER ================= */
+
+.drivers-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
 
-.page-header h1 {
+.drivers-header h1 {
     color: #1e293b;
 }
 
-.drivers-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+.drivers-header p {
+    color: #64748b;
+    margin-top: 5px;
 }
 
-.drivers-table th,
-.drivers-table td {
-    padding: 14px;
-    text-align: left;
+.drivers-label {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+}
+
+/* ================= DRIVER COUNT ================= */
+
+.driver-count {
+    min-width: 130px;
+    padding: 18px 22px;
+    border-radius: 7px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+.driver-count strong {
+    display: block;
+    font-size: 28px;
+    color: #2563eb;
+}
+
+.driver-count span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* ================= CARD ================= */
+
+.drivers-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+/* ================= CARD HEADER ================= */
+
+.drivers-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 14px;
     border-bottom: 1px solid #e5e7eb;
 }
 
-.drivers-table th {
-    background: #f8fafc;
+.drivers-card-header h2 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 18px;
 }
+
+.drivers-card-header span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* ================= TABLE ================= */
+
+.drivers-table {
+    width: 100%;
+}
+
+/* Table header */
+
+.drivers-table-head {
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1.5fr
+        1fr
+        1fr;
+
+    align-items: center;
+
+    background: #f8fafc;
+
+    color: #1e293b;
+
+    font-weight: 600;
+
+    padding: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Table rows */
+
+.driver-row {
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1.5fr
+        1fr
+        1fr;
+
+    align-items: center;
+
+    padding: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    color: #334155;
+}
+
+/* Hover */
+
+.driver-row:hover {
+    background: #fafafa;
+}
+
+/* ================= DRIVER ================= */
 
 .driver-name {
     display: flex;
@@ -37,6 +144,7 @@
 }
 
 .driver-name strong {
+    display: block;
     color: #1e293b;
 }
 
@@ -47,69 +155,118 @@
     font-size: 12px;
 }
 
+/* Avatar */
+
 .driver-avatar {
     width: 32px;
     height: 32px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     border-radius: 7px;
+
     background: #eef2ff;
     color: #4f46e5;
+
     font-weight: 700;
 }
+
+/* Email */
 
 .driver-email {
     color: #64748b;
 }
 
-.role-badge,
-.status-badge {
+/* ================= ROLE ================= */
+
+.role-badge {
     display: inline-block;
+
     padding: 5px 9px;
+
     border-radius: 20px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
     font-size: 9px;
     font-weight: 800;
 }
 
-.role-badge {
-    background: #eff6ff;
-    color: #2563eb;
-}
+/* ================= STATUS ================= */
 
-.status-available {
+.active-badge {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
     background: #ecfdf5;
     color: #16a34a;
+
+    font-size: 9px;
+    font-weight: 800;
 }
 
-.status-on_trip {
-    background: #fff7ed;
-    color: #ea580c;
-}
+/* ================= LOADING ================= */
 
-.status-off_duty {
-    background: #f1f5f9;
+.drivers-loading {
+    padding: 80px 20px;
+
+    text-align: center;
+
+    background: white;
+
     color: #64748b;
 }
 
-.status-unknown {
-    background: #f1f5f9;
-    color: #64748b;
-}
+/* ================= NO DRIVERS ================= */
 
-.drivers-loading,
 .no-drivers {
     padding: 80px 20px;
+
     text-align: center;
+
+    background: white;
+
     color: #64748b;
 }
 
+.no-drivers div {
+    font-size: 35px;
+}
+
+.no-drivers h3 {
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.no-drivers p {
+    font-size: 13px;
+}
+
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 800px) {
-    .drivers-container {
+
+    .drivers-page {
         padding: 20px;
     }
 
+    .drivers-header {
+        align-items: flex-start;
+        gap: 20px;
+    }
+
     .drivers-table {
+        overflow-x: auto;
+    }
+
+    .drivers-table-head,
+    .driver-row {
         min-width: 700px;
     }
 }
