@@ -33,6 +33,9 @@ function Navbar() {
         role === 'FLEET_MANAGER' ||
         role === 'MAINTENANCE_TECH';
 
+    const showDrivers =
+        role === 'FLEET_MANAGER';
+
 
     const handleLogout = () => {
 
@@ -126,6 +129,22 @@ function Navbar() {
                                 }
                             >
                                 Maintenance
+                            </NavLink>
+
+                        )}
+
+
+                        {showDrivers && (
+
+                            <NavLink
+                                to="/drivers"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? 'nav-link active'
+                                        : 'nav-link'
+                                }
+                            >
+                                Drivers
                             </NavLink>
 
                         )}
