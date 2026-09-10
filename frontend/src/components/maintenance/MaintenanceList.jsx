@@ -131,7 +131,7 @@ function MaintenanceList() {
 
                                     <td>
                                         {
-                                            log.technician
+                                            log.systemUser
                                                 ?.username
                                         }
                                     </td>
