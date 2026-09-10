@@ -3,7 +3,6 @@ import api from '../../services/api';
 import './DriverList.css';
 
 function DriverList() {
-
     const [drivers, setDrivers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -13,7 +12,6 @@ function DriverList() {
 
     const loadDrivers = async () => {
         try {
-
             const response = await api.get('/users/drivers');
 
             const data =
@@ -24,33 +22,20 @@ function DriverList() {
             setDrivers(
                 Array.isArray(data) ? data : []
             );
-
         } catch (error) {
-
             console.error(
                 'Failed to load drivers:',
                 error
             );
-
             setDrivers([]);
-
         } finally {
             setLoading(false);
         }
     };
 
-    const formatStatus = (status) => {
-
-        if (!status) {
-            return 'UNKNOWN';
-        }
-
-        return status.replace('_', ' ');
-    };
-
     if (loading) {
         return (
-            <div className="drivers-container">
+            <div className="drivers-page">
                 <div className="drivers-loading">
                     Loading Drivers...
                 </div>
@@ -59,116 +44,127 @@ function DriverList() {
     }
 
     return (
-        <div className="drivers-container">
+        <div className="drivers-page">
 
-            {/* PAGE HEADER */}
-            <div className="page-header">
+            <div className="drivers-header">
+                <div>
+                    <span className="drivers-label">
+                        FLEET MANAGEMENT
+                    </span>
 
-                <h1>Driver Management</h1>
-
-            </div>
-
-            {/* DRIVER TABLE */}
-            {drivers.length === 0 ? (
-
-                <div className="no-drivers">
-                    <div>👨‍✈️</div>
-
-                    <h3>
-                        No Drivers Found
-                    </h3>
+                    <h1>Driver Management</h1>
 
                     <p>
-                        No drivers are currently
-                        registered in the system.
+                        View and monitor registered
+                        fleet drivers.
                     </p>
                 </div>
 
-            ) : (
+                <div className="driver-count">
+                    <strong>
+                        {drivers.length}
+                    </strong>
 
-                <table className="drivers-table">
+                    <span>
+                        Total Drivers
+                    </span>
+                </div>
+            </div>
 
-                    <thead>
-                        <tr>
-                            <th>Driver</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
+            <div className="drivers-card">
+
+                <div className="drivers-card-header">
+                    <h2>Drivers</h2>
+
+                    <span>
+                        {drivers.length} registered
+                    </span>
+                </div>
+
+
+                {drivers.length === 0 ? (
+
+                    <div className="no-drivers">
+                        <div>👨‍✈️</div>
+                        <h3>No Drivers Found</h3>
+                        <p>
+                            No drivers are currently
+                            registered in the system.
+                        </p>
+                    </div>
+
+                ) : (
+
+                    <div className="drivers-table">
+
+                        <div className="drivers-table-head">
+                            <span>DRIVER</span>
+                            <span>EMAIL</span>
+                            <span>ROLE</span>
+                            <span>STATUS</span>
+                        </div>
 
                         {drivers.map((driver) => (
 
-                            <tr key={driver.id}>
+                            <div
+                                className="driver-row"
+                                key={driver.id}
+                            >
 
-                                <td>
-                                    <div className="driver-name">
+                                <div className="driver-name">
 
-                                        <div className="driver-avatar">
-                                            {(
-                                                driver.username ||
-                                                'D'
-                                            )
-                                                .charAt(0)
-                                                .toUpperCase()}
-                                        </div>
-
-                                        <div>
-
-                                            <strong>
-                                                {
-                                                    driver.username ||
-                                                    'Unknown'
-                                                }
-                                            </strong>
-
-                                            <small>
-                                                ID #{driver.id}
-                                            </small>
-
-                                        </div>
-
+                                    <div className="driver-avatar">
+                                        {(
+                                            driver.username ||
+                                            'D'
+                                        )
+                                            .charAt(0)
+                                            .toUpperCase()}
                                     </div>
-                                </td>
 
-                                <td>
-                                    <span className="driver-email">
-                                        {driver.email || '--'}
-                                    </span>
-                                </td>
+                                    <div>
+                                        <strong>
+                                            {
+                                                driver.username ||
+                                                'Unknown'
+                                            }
+                                        </strong>
 
-                                <td>
+                                        <small>
+                                            ID #
+                                            {driver.id}
+                                        </small>
+                                    </div>
 
+                                </div>
+
+                                <span className="driver-email">
+                                    {driver.email || '--'}
+                                </span>
+
+                                <span>
                                     <span className="role-badge">
-                                        {driver.role || 'DRIVER'}
+                                        {driver.role ||
+                                            'DRIVER'}
                                     </span>
+                                </span>
 
-                                </td>
-
-                                <td>
-
-                                    <span
-                                        className={`status-badge status-${(
-                                            driver.status ||
-                                            'UNKNOWN'
-                                        ).toLowerCase()}`}
-                                    >
-                                        {formatStatus(driver.status)}
+                                <span>
+                                    <span className="active-badge">
+                                        ACTIVE
                                     </span>
+                                </span>
 
-                                </td>
-
-                            </tr>
+                            </div>
 
                         ))}
 
-                    </tbody>
+                    </div>
 
-                </table>
+                )}
 
-            )}
+            </div>
 
         </div>
     );
