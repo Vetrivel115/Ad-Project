@@ -4,7 +4,8 @@ import {
     BrowserRouter,
     Navigate,
     Route,
-    Routes
+    Routes,
+    useLocation
 } from 'react-router-dom';
 
 
@@ -13,7 +14,6 @@ import Navbar from
 
 import Login from
     './components/Login';
-
 
 import Dashboard from
     './components/dashboard/Dashboard';
@@ -27,18 +27,22 @@ import TripList from
 import MaintenanceList from
     './components/maintenance/MaintenanceList';
 
-
 import ProtectedRoute from
     './components/ProtectedRoute';
 
 
-function App() {
+function AppContent() {
+
+    const location = useLocation();
 
     return (
 
-        <BrowserRouter>
+        <>
 
-            <Navbar />
+            {/* Show Navbar on all pages except Login */}
+            {location.pathname !== '/login' && (
+                <Navbar />
+            )}
 
 
             <Routes>
@@ -124,6 +128,19 @@ function App() {
 
             </Routes>
 
+        </>
+
+    );
+}
+
+
+function App() {
+
+    return (
+
+        <BrowserRouter>
+
+            <AppContent />
 
         </BrowserRouter>
 
