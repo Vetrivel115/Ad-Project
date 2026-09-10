@@ -8,6 +8,8 @@ import {
     useLocation
 } from 'react-router-dom';
 
+import DriverList from './components/drivers/DriverList';
+
 
 import Navbar from
     './components/layout/Navbar';
@@ -122,6 +124,15 @@ function AppContent() {
                         <Navigate
                             to="/"
                         />
+                    }
+                />
+
+                <Route
+                    path="/drivers"
+                    element={
+                        <ProtectedRoute>
+                            <DriverList />
+                        </ProtectedRoute>
                     }
                 />
 
