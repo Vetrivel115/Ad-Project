@@ -91,8 +91,8 @@ function MaintenanceForm({
                     id: Number(vehicleId)
                 },
 
-                technician: {
-                    id: Number(technicianId)
+                systemUser: {
+                    id: parseInt(technicianId)
                 },
 
                 serviceDate,
