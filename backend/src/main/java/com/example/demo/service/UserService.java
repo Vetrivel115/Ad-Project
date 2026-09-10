@@ -23,4 +23,11 @@ public class UserService {
             UserRole.MAINTENANCE_TECH
         );
     }
+
+    public List<SystemUser> getDrivers() {
+
+        return systemUserRepository.findByRole(
+            UserRole.DRIVER
+        );
+    }
 }
