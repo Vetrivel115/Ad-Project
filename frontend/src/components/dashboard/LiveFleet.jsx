@@ -86,7 +86,6 @@ function LiveFleet() {
                             <th>Speed</th>
                             <th>Location</th>
                             <th>Fuel</th>
-                            <th>Last Update</th>
                         </tr>
                     </thead>
 
@@ -207,14 +206,6 @@ function LiveFleet() {
                                                     }}
                                                 ></div>
                                             </div>
-                                        </td>
-
-                                        <td>
-                                            {lastUpdate
-                                                ? new Date(
-                                                      lastUpdate
-                                                  ).toLocaleTimeString()
-                                                : 'Never'}
                                         </td>
                                     </tr>
                                 );
