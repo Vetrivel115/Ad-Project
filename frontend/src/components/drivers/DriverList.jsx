@@ -151,10 +151,10 @@ function DriverList() {
                                 </span>
 
                                 <span>
-                                    <span className={`status-badge status-${driver.status?.toLowerCase()}`}>
-                                        {driver.status || 'UNKNOWN'}
+                                        <span className={`status-badge status-${driver.status?.toLowerCase()}`}>
+                                            {driver.status || 'UNKNOWN'}
+                                        </span>
                                     </span>
-                                </span>
 
                             </div>
 
