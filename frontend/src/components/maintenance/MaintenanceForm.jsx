@@ -7,7 +7,7 @@ import vehicleService from '../../services/vehicleService';
 import userService from '../../services/userService';
 import maintenanceService from '../../services/maintenanceService';
 
-import './maintenance.css';
+import './MaintenanceForm.css';
 
 function MaintenanceForm({
     onClose,
