@@ -1,264 +1,194 @@
 .drivers-page {
-    padding: 25px;
+    min-height: calc(100vh - 78px);
+    padding: 34px;
 }
-
-/* ================= PAGE HEADER ================= */
 
 .drivers-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-}
-
-.drivers-header h1 {
-    color: #1e293b;
-}
-
-.drivers-header p {
-    color: #64748b;
-    margin-top: 5px;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
 }
 
 .drivers-label {
     display: block;
-    color: #64748b;
+    margin-bottom: 7px;
+
+    color: var(--primary);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 850;
     letter-spacing: 1.5px;
-    margin-bottom: 5px;
+    text-transform: uppercase;
 }
 
-/* ================= DRIVER COUNT ================= */
+.drivers-header h1 {
+    margin: 0;
+    color: var(--text-main);
+    font-size: 32px;
+    font-weight: 850;
+}
+
+.drivers-header p {
+    margin: 9px 0 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
 
 .driver-count {
-    min-width: 130px;
-    padding: 18px 22px;
-    border-radius: 7px;
+    min-width: 145px;
+    padding: 18px 24px;
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
     background: white;
-    border: 1px solid #e5e7eb;
     text-align: center;
+    box-shadow: var(--shadow-sm);
 }
 
 .driver-count strong {
     display: block;
-    font-size: 28px;
-    color: #2563eb;
+    color: var(--primary);
+    font-size: 31px;
+    font-weight: 850;
 }
 
 .driver-count span {
-    color: #64748b;
-    font-size: 12px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
 }
-
-/* ================= CARD ================= */
 
 .drivers-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-}
+    overflow: hidden;
 
-/* ================= CARD HEADER ================= */
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow-sm);
+}
 
 .drivers-card-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 16px 14px;
-    border-bottom: 1px solid #e5e7eb;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
 }
 
 .drivers-card-header h2 {
     margin: 0;
-    color: #1e293b;
-    font-size: 18px;
+    color: var(--text-main);
+    font-size: 19px;
+    font-weight: 850;
 }
 
 .drivers-card-header span {
-    color: #64748b;
+    color: var(--text-secondary);
     font-size: 12px;
 }
 
-/* ================= TABLE ================= */
-
-.drivers-table {
-    width: 100%;
-}
-
-/* Table header */
-
-.drivers-table-head {
-    display: grid;
-
-    grid-template-columns:
-        1.5fr
-        1.5fr
-        1fr
-        1fr;
-
-    align-items: center;
-
-    background: #f8fafc;
-
-    color: #1e293b;
-
-    font-weight: 600;
-
-    padding: 14px;
-
-    border-bottom: 1px solid #e5e7eb;
-}
-
-/* Table rows */
-
+.drivers-table-head,
 .driver-row {
     display: grid;
-
-    grid-template-columns:
-        1.5fr
-        1.5fr
-        1fr
-        1fr;
-
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
     align-items: center;
+}
 
-    padding: 14px;
+.drivers-table-head {
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--border);
 
-    border-bottom: 1px solid #e5e7eb;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 850;
+    text-transform: uppercase;
+}
+
+.driver-row {
+    padding: 17px 20px;
+    border-bottom: 1px solid #f1f5f9;
 
     color: #334155;
+    font-size: 13px;
 }
-
-/* Hover */
 
 .driver-row:hover {
-    background: #fafafa;
+    background: #f8fbff;
 }
-
-/* ================= DRIVER ================= */
 
 .driver-name {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .driver-name strong {
     display: block;
-    color: #1e293b;
+    color: var(--text-main);
+    font-weight: 800;
 }
 
 .driver-name small {
     display: block;
-    margin-top: 2px;
-    color: #94a3b8;
-    font-size: 12px;
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 11px;
 }
 
-/* Avatar */
-
 .driver-avatar {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 7px;
-
-    background: #eef2ff;
-    color: #4f46e5;
-
-    font-weight: 700;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 850;
 }
-
-/* Email */
 
 .driver-email {
-    color: #64748b;
+    color: var(--text-secondary);
+    font-size: 12px;
 }
 
-/* ================= ROLE ================= */
+.role-badge,
+.active-badge {
+    display: inline-flex;
+    padding: 6px 11px;
+    border-radius: 30px;
+
+    font-size: 10px;
+    font-weight: 850;
+}
 
 .role-badge {
-    display: inline-block;
-
-    padding: 5px 9px;
-
-    border-radius: 20px;
-
     background: #eff6ff;
-    color: #2563eb;
-
-    font-size: 9px;
-    font-weight: 800;
+    color: var(--primary);
 }
-
-/* ================= STATUS ================= */
 
 .active-badge {
-    display: inline-block;
-
-    padding: 5px 9px;
-
-    border-radius: 20px;
-
-    background: #ecfdf5;
-    color: #16a34a;
-
-    font-size: 9px;
-    font-weight: 800;
+    background: #dcfce7;
+    color: #15803d;
 }
-
-/* ================= LOADING ================= */
-
-.drivers-loading {
-    padding: 80px 20px;
-
-    text-align: center;
-
-    background: white;
-
-    color: #64748b;
-}
-
-/* ================= NO DRIVERS ================= */
-
-.no-drivers {
-    padding: 80px 20px;
-
-    text-align: center;
-
-    background: white;
-
-    color: #64748b;
-}
-
-.no-drivers div {
-    font-size: 35px;
-}
-
-.no-drivers h3 {
-    color: #1e293b;
-    margin-bottom: 5px;
-}
-
-.no-drivers p {
-    font-size: 13px;
-}
-
-/* ================= RESPONSIVE ================= */
 
 @media (max-width: 800px) {
-
     .drivers-page {
-        padding: 20px;
+        padding: 24px 18px;
     }
 
-    .drivers-header {
+    .drivers-header,
+    .drivers-card-header {
         align-items: flex-start;
-        gap: 20px;
+        flex-direction: column;
     }
 
     .drivers-table {
@@ -269,33 +199,4 @@
     .driver-row {
         min-width: 700px;
     }
-}
-
-.status-badge {
-    display: inline-block;
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-}
-
-.status-available {
-    background: #ecfdf5;
-    color: #16a34a;
-}
-
-.status-on_trip {
-    background: #fff7ed;
-    color: #ea580c;
-}
-
-.status-off_duty {
-    background: #f1f5f9;
-    color: #64748b;
-}
-
-.status-unknown {
-    background: #f1f5f9;
-    color: #64748b;
 }
