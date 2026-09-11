@@ -20,13 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
-
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 
 @Configuration
 @EnableMethodSecurity
@@ -38,14 +36,10 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtFilter;
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
-
     }
-
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -53,29 +47,19 @@ public class SecurityConfig {
         DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider();
 
-        provider.setUserDetailsService(
-                customUserDetailsService
-        );
-
-        provider.setPasswordEncoder(
-                passwordEncoder()
-        );
+        provider.setUserDetailsService(customUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
 
         return provider;
-
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
     ) throws Exception {
 
-        return configuration
-                .getAuthenticationManager();
-
+        return configuration.getAuthenticationManager();
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -83,15 +67,13 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
+            // Disable CSRF because the application uses JWT authentication
+            .csrf(csrf -> csrf.disable())
 
-            .csrf(csrf ->
-                    csrf.disable()
-            )
+            // Enable CORS
+            .cors(Customizer.withDefaults())
 
-            .cors(
-                    Customizer.withDefaults()
-            )
-
+            // Use stateless JWT authentication
             .sessionManagement(session ->
                     session.sessionCreationPolicy(
                             SessionCreationPolicy.STATELESS
@@ -100,10 +82,7 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                /*
-                 * Public endpoints
-                 */
-
+                // Public endpoints
                 .requestMatchers(
                         "/api/auth/**",
                         "/swagger-ui/**",
@@ -112,55 +91,38 @@ public class SecurityConfig {
                 )
                 .permitAll()
 
-
-                /*
-                 * Monitoring
-                 *
-                 * Requires authentication only.
-                 * Any logged-in user can access.
-                 */
-
+                // Monitoring endpoints require login
                 .requestMatchers(
                         "/api/monitoring/**"
                 )
                 .authenticated()
 
-
-                /*
-                 * Vehicle deletion
-                 */
-
+                // Vehicle endpoints require login.
+                // The controller's @PreAuthorize annotations
+                // handle the FLEET_MANAGER authorization.
                 .requestMatchers(
-                        "/delete/**"
+                        "/api/vehicles/**"
                 )
-                .hasRole(
-                        "FLEET_MANAGER"
-                )
+                .authenticated()
 
-
-                /*
-                 * Everything else requires login
-                 */
-
+                // All other endpoints require authentication
                 .anyRequest()
                 .authenticated()
             )
 
-
+            // Authentication provider
             .authenticationProvider(
                     authenticationProvider()
             )
 
-
+            // JWT filter must run before username/password authentication
             .addFilterBefore(
                     jwtFilter,
                     UsernamePasswordAuthenticationFilter.class
             );
 
         return http.build();
-
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -174,7 +136,6 @@ public class SecurityConfig {
                 )
         );
 
-
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -185,25 +146,15 @@ public class SecurityConfig {
                 )
         );
 
-
         configuration.setAllowedHeaders(
-                List.of(
-                        "*"
-                )
+                List.of("*")
         );
-
 
         configuration.setExposedHeaders(
-                List.of(
-                        "Authorization"
-                )
+                List.of("Authorization")
         );
 
-
-        configuration.setAllowCredentials(
-                true
-        );
-
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
@@ -214,6 +165,5 @@ public class SecurityConfig {
         );
 
         return source;
-
     }
 }
