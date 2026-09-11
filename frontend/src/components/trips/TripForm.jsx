@@ -12,7 +12,7 @@ import driverService
 import tripService
     from '../../services/tripService';
 
-import './trips.css';
+import './TripForm.css';
 
 
 function TripForm({

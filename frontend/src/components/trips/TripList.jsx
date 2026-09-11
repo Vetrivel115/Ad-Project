@@ -10,7 +10,7 @@ import tripService from '../../services/tripService';
 
 import TripForm from './TripForm';
 
-import './TripForm.css';
+import './trips.css';
 
 
 function TripList() {
