@@ -22,6 +22,8 @@ import {
 import './index.css';
 import './App.css';
 
+import './fleetfocus-dark.css';
+
 const root =
     createRoot(
         document.getElementById('root')
