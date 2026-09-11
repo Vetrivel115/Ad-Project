@@ -10,7 +10,7 @@ import maintenanceService from '../../services/maintenanceService';
 
 import MaintenanceForm from './MaintenanceForm';
 
-import './maintenance.css';
+import './MaintenanceLis.css';
 
 function MaintenanceList() {
     const [logs, setLogs] = useState([]);
