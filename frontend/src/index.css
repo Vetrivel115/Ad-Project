@@ -31,6 +31,7 @@ html {
 body {
     margin: 0;
     min-width: 320px;
+    overflow-x: hidden;
 
     background:
         radial-gradient(
@@ -84,6 +85,24 @@ button:disabled {
     opacity: 0.6;
 }
 
+/* =========================
+   APPLICATION CONTENT
+========================= */
+
+.app-main {
+    min-height: 100vh;
+    width: calc(100% - 258px);
+    margin-left: 258px;
+    padding: 100px 28px 32px;
+    overflow-x: hidden;
+}
+
+.app-main-login {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+}
+
 .loading-state,
 .error-state,
 .empty-state,
@@ -117,6 +136,22 @@ button:disabled {
     margin: 0;
     color: var(--text-secondary);
     font-size: 13px;
+}
+
+@media (max-width: 900px) {
+    .app-main {
+        width: calc(100% - 82px);
+        margin-left: 82px;
+        padding: 100px 22px 28px;
+    }
+}
+
+@media (max-width: 700px) {
+    .app-main {
+        width: 100%;
+        margin-left: 0;
+        padding: 86px 16px 24px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
