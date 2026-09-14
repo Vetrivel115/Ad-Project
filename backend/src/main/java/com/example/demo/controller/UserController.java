@@ -3,11 +3,11 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.DriverSummaryDto;
 import com.example.demo.entity.SystemUser;
 import com.example.demo.service.UserService;
 
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/drivers")
-    public ResponseEntity<List<SystemUser>> getDrivers() {
+    public ResponseEntity<List<DriverSummaryDto>> getDrivers() {
 
         return ResponseEntity.ok(
             userService.getDrivers()
