@@ -64,7 +64,7 @@ function VehicleList() {
             const data =
                 await vehicleService.getAll(
                     0,
-                    10
+                    100
                 );
 
             setVehicles(
