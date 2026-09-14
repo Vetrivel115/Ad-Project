@@ -7,6 +7,7 @@ import {
 
 import {
     NavLink,
+    useLocation,
     useNavigate
 } from 'react-router-dom';
 
@@ -20,8 +21,8 @@ import './Navbar.css';
 function Navbar() {
 
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
+    const location = useLocation();
 
     const user = useSelector(
         (state) => state.auth.user
@@ -34,8 +35,19 @@ function Navbar() {
         role === 'MAINTENANCE_TECH';
 
     const showDrivers =
-        role === 'FLEET_MANAGER' || role === 'DISPATCHER';
+        role === 'FLEET_MANAGER' ||
+        role === 'DISPATCHER';
 
+    const pageNames = {
+        '/': 'Dashboard',
+        '/vehicles': 'Vehicles',
+        '/trips': 'Trips',
+        '/maintenance': 'Maintenance',
+        '/drivers': 'Drivers'
+    };
+
+    const pageName =
+        pageNames[location.pathname] || 'Dashboard';
 
     const handleLogout = () => {
 
@@ -45,42 +57,40 @@ function Navbar() {
             logout()
         );
 
-        navigate(
-            '/login'
-        );
+        navigate('/login');
     };
-
 
     return (
 
         <nav className="navbar">
 
-            <div className="navbar-brand">
+            <aside className="navbar-sidebar">
 
-                <div className="navbar-logo">
-                    🚚
+                <div className="navbar-brand">
+
+                    <div className="navbar-logo">
+                        🚚
+                    </div>
+
+                    <div className="brand-text">
+                        <span className="brand-name">
+                            FleetFocus
+                        </span>
+
+                        <span className="brand-subtitle">
+                            Fleet Management
+                        </span>
+                    </div>
+
                 </div>
 
-                <div className="brand-text">
+                {user && (
 
-                    <span className="brand-name">
-                        FleetFocus
-                    </span>
+                    <div className="navbar-navigation">
 
-                    <span className="brand-subtitle">
-                        Fleet Management
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            {user && (
-
-                <>
-
-                    <div className="navbar-links">
+                        <div className="nav-section-label">
+                            MAIN
+                        </div>
 
                         <NavLink
                             to="/"
@@ -89,10 +99,17 @@ function Navbar() {
                                     ? 'nav-link active'
                                     : 'nav-link'
                             }
+                            end
                         >
-                            Dashboard
+                            <span className="nav-icon">▦</span>
+                            <span className="nav-label">
+                                Dashboard
+                            </span>
                         </NavLink>
 
+                        <div className="nav-section-label">
+                            FLEET
+                        </div>
 
                         <NavLink
                             to="/vehicles"
@@ -102,9 +119,11 @@ function Navbar() {
                                     : 'nav-link'
                             }
                         >
-                            Vehicles
+                            <span className="nav-icon">▣</span>
+                            <span className="nav-label">
+                                Vehicles
+                            </span>
                         </NavLink>
-
 
                         <NavLink
                             to="/trips"
@@ -114,28 +133,13 @@ function Navbar() {
                                     : 'nav-link'
                             }
                         >
-                            Trips
+                            <span className="nav-icon">↗</span>
+                            <span className="nav-label">
+                                Trips
+                            </span>
                         </NavLink>
 
-
-                        {showMaintenance && (
-
-                            <NavLink
-                                to="/maintenance"
-                                className={({ isActive }) =>
-                                    isActive
-                                        ? 'nav-link active'
-                                        : 'nav-link'
-                                }
-                            >
-                                Maintenance
-                            </NavLink>
-
-                        )}
-
-
                         {showDrivers && (
-
                             <NavLink
                                 to="/drivers"
                                 className={({ isActive }) =>
@@ -144,67 +148,125 @@ function Navbar() {
                                         : 'nav-link'
                                 }
                             >
-                                Drivers
+                                <span className="nav-icon">◉</span>
+                                <span className="nav-label">
+                                    Drivers
+                                </span>
                             </NavLink>
+                        )}
 
+                        {showMaintenance && (
+                            <>
+                                <div className="nav-section-label">
+                                    OPERATIONS
+                                </div>
+
+                                <NavLink
+                                    to="/maintenance"
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? 'nav-link active'
+                                            : 'nav-link'
+                                    }
+                                >
+                                    <span className="nav-icon">⚙</span>
+                                    <span className="nav-label">
+                                        Maintenance
+                                    </span>
+                                </NavLink>
+                            </>
                         )}
 
                     </div>
 
+                )}
 
-                    <div className="navbar-user">
+                {user && (
+                    <div className="navbar-bottom">
 
-                        <div className="user-profile">
+                        <div className="sidebar-status">
+                            <span className="sidebar-status-dot" />
+                            <div>
+                                <strong>System Online</strong>
+                                <span>All services operational</span>
+                            </div>
+                        </div>
 
+                        <div className="sidebar-user">
                             <div className="user-avatar">
-
                                 {user.username
                                     ?.charAt(0)
                                     ?.toUpperCase()}
-
                             </div>
 
-
                             <div className="user-info">
-
                                 <span className="user-name">
                                     {user.username}
                                 </span>
-
                                 <span className="user-role">
-
-                                    {role
-                                        ?.replace(
-                                            /_/g,
-                                            ' '
-                                        )}
-
+                                    {role?.replace(/_/g, ' ')}
                                 </span>
-
                             </div>
-
                         </div>
 
+                    </div>
+                )}
+
+            </aside>
+
+            {user && (
+
+                <header className="navbar-topbar">
+
+                    <div className="topbar-page">
+                        <span className="topbar-overline">
+                            FLEET OPERATIONS
+                        </span>
+                        <strong>{pageName}</strong>
+                    </div>
+
+                    <div className="topbar-actions">
+
+                        <span className="topbar-status">
+                            <span className="sidebar-status-dot" />
+                            Live
+                        </span>
+
+                        <div className="sidebar-user topbar-user">
+                            <div className="user-avatar">
+                                {user.username
+                                    ?.charAt(0)
+                                    ?.toUpperCase()}
+                            </div>
+
+                            <div className="user-info">
+                                <span className="user-name">
+                                    {user.username}
+                                </span>
+                                <span className="user-role">
+                                    {role?.replace(/_/g, ' ')}
+                                </span>
+                            </div>
+                        </div>
 
                         <button
                             type="button"
                             className="logout-button"
                             onClick={handleLogout}
                         >
+                            ↪
                             Logout
                         </button>
 
                     </div>
 
-                </>
+                </header>
 
             )}
 
         </nav>
 
     );
-
 }
-
 
 export default Navbar;
