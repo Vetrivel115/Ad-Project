@@ -36,100 +36,82 @@ import ProtectedRoute from
 function AppContent() {
 
     const location = useLocation();
+    const isLogin = location.pathname === '/login';
 
     return (
 
         <>
 
-            {/* Show Navbar on all pages except Login */}
-            {location.pathname !== '/login' && (
-                <Navbar />
-            )}
+            {!isLogin && <Navbar />}
 
-            <Routes>
+            <main
+                className={
+                    isLogin
+                        ? 'app-main app-main-login'
+                        : 'app-main'
+                }
+            >
 
-                {/* ================= LOGIN ================= */}
+                <Routes>
 
-                <Route
-                    path="/login"
-                    element={
-                        <Login />
-                    }
-                />
+                    <Route
+                        path="/login"
+                        element={<Login />}
+                    />
 
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                {/* ================= DASHBOARD ================= */}
+                    <Route
+                        path="/vehicles"
+                        element={
+                            <ProtectedRoute>
+                                <VehicleList />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/trips"
+                        element={
+                            <ProtectedRoute>
+                                <TripList />
+                            </ProtectedRoute>
+                        }
+                    />
 
+                    <Route
+                        path="/maintenance"
+                        element={
+                            <ProtectedRoute>
+                                <MaintenanceList />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                {/* ================= VEHICLES ================= */}
+                    <Route
+                        path="/drivers"
+                        element={
+                            <ProtectedRoute>
+                                <DriverList />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/vehicles"
-                    element={
-                        <ProtectedRoute>
-                            <VehicleList />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/" />}
+                    />
 
+                </Routes>
 
-                {/* ================= TRIPS ================= */}
-
-                <Route
-                    path="/trips"
-                    element={
-                        <ProtectedRoute>
-                            <TripList />
-                        </ProtectedRoute>
-                    }
-                />
-
-
-                {/* ================= MAINTENANCE ================= */}
-
-                <Route
-                    path="/maintenance"
-                    element={
-                        <ProtectedRoute>
-                            <MaintenanceList />
-                        </ProtectedRoute>
-                    }
-                />
-
-
-                {/* ================= DRIVERS ================= */}
-
-                <Route
-                    path="/drivers"
-                    element={
-                        <ProtectedRoute>
-                            <DriverList />
-                        </ProtectedRoute>
-                    }
-                />
-
-
-                {/* ================= UNKNOWN ROUTE ================= */}
-
-                <Route
-                    path="*"
-                    element={
-                        <Navigate
-                            to="/"
-                        />
-                    }
-                />
-
-            </Routes>
+            </main>
 
         </>
 
@@ -140,15 +122,10 @@ function AppContent() {
 function App() {
 
     return (
-
         <BrowserRouter>
-
             <AppContent />
-
         </BrowserRouter>
-
     );
-
 }
 
 
