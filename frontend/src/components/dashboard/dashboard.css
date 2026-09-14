@@ -1,5 +1,7 @@
 .dashboard-header {
-    margin-bottom: 28px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 24px;
 }
 
 .dashboard-eyebrow {
@@ -15,6 +17,7 @@
     margin: 0 0 8px;
     color: var(--text-main);
     font-size: 34px;
+    line-height: 1.15;
     font-weight: 850;
     letter-spacing: -1px;
 }
@@ -23,29 +26,38 @@
     margin: 0;
     color: var(--text-secondary);
     font-size: 14px;
+    line-height: 1.5;
 }
 
+/* ============================= */
+/* TOP STATISTICS */
+/* ============================= */
+
 .stat-cards {
+    width: 100%;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
 }
 
 .stat-card {
     position: relative;
     overflow: hidden;
-    min-height: 145px;
+    min-width: 0;
+    min-height: 140px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
-    padding: 24px;
+    gap: 10px;
+    padding: 22px;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 18px;
     box-shadow: var(--shadow-sm);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-card::after {
@@ -57,10 +69,11 @@
     height: 110px;
     border-radius: 50%;
     background: rgba(37, 99, 235, 0.08);
+    pointer-events: none;
 }
 
 .stat-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
 
@@ -83,7 +96,7 @@
     position: relative;
     z-index: 1;
     color: var(--text-secondary);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.6px;
@@ -93,24 +106,40 @@
     position: relative;
     z-index: 1;
     color: var(--text-main);
-    font-size: 38px;
+    font-size: 36px;
+    line-height: 1;
     font-weight: 850;
     letter-spacing: -1px;
 }
 
+/* ============================= */
+/* SHARED GRID */
+/* ============================= */
+
 .dashboard-grid {
+    width: 100%;
+    box-sizing: border-box;
     display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 20px;
     margin-bottom: 20px;
+    align-items: stretch;
 }
 
-.top-grid {
-    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr);
+.dashboard-grid > * {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
+.top-grid,
 .lower-grid {
-    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
+
+/* ============================= */
+/* SHARED CARDS */
+/* ============================= */
 
 .status-donut-container,
 .driver-status-card,
@@ -118,51 +147,75 @@
 .fleet-health-card,
 .live-fleet-container {
     min-width: 0;
-    padding: 28px;
+    box-sizing: border-box;
+    padding: 24px;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 18px;
     box-shadow: var(--shadow-sm);
 }
 
+.status-donut-container,
+.driver-status-card,
+.alerts-card,
+.fleet-health-card {
+    min-height: 300px;
+}
+
 .section-heading {
+    min-width: 0;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 18px;
 }
 
+.section-heading > div {
+    min-width: 0;
+}
+
 .section-heading h2 {
     margin: 0;
     color: var(--text-main);
-    font-size: 19px;
+    font-size: 18px;
+    line-height: 1.3;
     font-weight: 800;
 }
 
 .section-heading p {
-    margin: 6px 0 0;
+    margin: 5px 0 0;
     color: var(--text-secondary);
     font-size: 12px;
+    line-height: 1.4;
 }
 
 .section-count,
 .alert-count {
+    flex-shrink: 0;
     color: var(--text-secondary);
     font-size: 12px;
     white-space: nowrap;
 }
 
+/* ============================= */
+/* FLEET DONUT */
+/* ============================= */
+
 .donut-content {
-    display: flex;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(200px, 0.9fr) minmax(150px, 1fr);
     align-items: center;
-    justify-content: center;
-    gap: 35px;
+    justify-items: center;
+    gap: 22px;
     margin-top: 22px;
 }
 
 .status-donut {
     display: block;
-    flex-shrink: 0;
+    width: 210px;
+    height: 210px;
+    max-width: 100%;
     overflow: visible;
 }
 
@@ -173,9 +226,10 @@
 }
 
 .donut-legend {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 15px;
 }
 
 .legend-item {
@@ -187,9 +241,13 @@
     font-weight: 700;
 }
 
+.legend-item strong {
+    color: var(--text-main);
+}
+
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     flex-shrink: 0;
     border-radius: 50%;
 }
@@ -209,19 +267,24 @@
     background: #f59e0b;
 }
 
+/* ============================= */
+/* DRIVER STATUS */
+/* ============================= */
+
 .driver-status-list {
     display: flex;
     flex-direction: column;
-    gap: 13px;
-    margin-top: 24px;
+    gap: 0;
+    margin-top: 18px;
 }
 
 .driver-status-item {
+    min-height: 42px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 13px 0;
+    padding: 8px 0;
     border-bottom: 1px solid var(--border);
     color: var(--text-secondary);
     font-size: 13px;
@@ -239,7 +302,7 @@
 
 .driver-status-item strong {
     color: var(--text-main);
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .status-dot {
@@ -263,7 +326,7 @@
     justify-content: space-between;
     gap: 15px;
     margin-top: 18px;
-    padding: 14px 16px;
+    padding: 13px 15px;
     border-radius: 12px;
     background: rgba(16, 185, 129, 0.1);
     color: #6ee7b7;
@@ -272,14 +335,18 @@
 }
 
 .driver-status-summary strong {
-    font-size: 20px;
+    font-size: 19px;
 }
+
+/* ============================= */
+/* ALERTS */
+/* ============================= */
 
 .alerts-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 24px;
+    gap: 0;
+    margin-top: 18px;
 }
 
 .alert-item,
@@ -287,13 +354,12 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    padding-bottom: 15px;
+    padding: 12px 0;
     border-bottom: 1px solid var(--border);
 }
 
 .alert-item:last-child,
 .empty-dashboard-state:last-child {
-    padding-bottom: 0;
     border-bottom: none;
 }
 
@@ -333,18 +399,22 @@
 
 .alert-item p,
 .empty-dashboard-state p {
-    margin: 5px 0 0;
+    margin: 4px 0 0;
     color: var(--text-secondary);
     font-size: 12px;
 }
 
 .empty-dashboard-state > span {
     color: #4ade80;
-    font-size: 20px;
+    font-size: 19px;
 }
 
+/* ============================= */
+/* FLEET HEALTH */
+/* ============================= */
+
 .health-item {
-    margin-top: 24px;
+    margin-top: 18px;
 }
 
 .health-item > div:first-child {
@@ -362,7 +432,7 @@
 
 .health-bar {
     height: 8px;
-    margin-top: 10px;
+    margin-top: 9px;
     overflow: hidden;
     border-radius: 20px;
     background: var(--border);
@@ -385,6 +455,10 @@
     background: #f59e0b;
 }
 
+/* ============================= */
+/* LIVE FLEET */
+/* ============================= */
+
 .live-fleet-container {
     margin-top: 0;
 }
@@ -394,13 +468,13 @@
     align-items: center;
     justify-content: space-between;
     gap: 18px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .live-fleet-header h1 {
     margin: 0;
     color: var(--text-main);
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 850;
 }
 
@@ -445,7 +519,7 @@
 }
 
 .live-fleet-table th {
-    padding: 16px 18px;
+    padding: 14px 16px;
     background: var(--background);
     border-bottom: 1px solid var(--border);
     color: var(--text-secondary);
@@ -457,11 +531,15 @@
 }
 
 .live-fleet-table td {
-    padding: 17px 18px;
+    padding: 15px 16px;
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
     color: var(--text-secondary);
     font-size: 13px;
+}
+
+.live-fleet-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .live-fleet-table tbody tr:hover td {
@@ -530,6 +608,7 @@
 }
 
 @media (max-width: 1100px) {
+
     .stat-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -538,15 +617,21 @@
     .lower-grid {
         grid-template-columns: 1fr;
     }
+
+    .donut-content {
+        grid-template-columns: 210px minmax(150px, 1fr);
+    }
+
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+
     .stat-cards {
         grid-template-columns: 1fr;
     }
 
     .dashboard-header h1 {
-        font-size: 27px;
+        font-size: 28px;
     }
 
     .status-donut-container,
@@ -557,14 +642,18 @@
         padding: 20px;
     }
 
+    .donut-content {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .donut-legend {
+        width: min(260px, 100%);
+    }
+
     .live-fleet-header {
         align-items: flex-start;
         flex-direction: column;
     }
 
-    .donut-content {
-        align-items: center;
-        flex-direction: column;
-        gap: 25px;
-    }
 }
